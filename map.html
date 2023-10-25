@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    #tes{
+        margin-left: 45px;
+    }
+  </style>
+</head>
+<body>
+    <div id="tes">
+  <div id="map" style="height:300px; width: 600px; border-radius: 10px;"></div>
+  <button id=brefresh onclick="refreshMap()">Refresh</button>
+  <button id=breset onclick="resetMap()">Reset</button>
+    </div>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+
+  <script>
+    var OSM_URL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    var OSM_ATTRIB = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+    var osmLayer = L.tileLayer(OSM_URL, {attribution: OSM_ATTRIB});
+
+    var WAQI_URL = "https://tiles.waqi.info/tiles/usepa-aqi/{z}/{x}/{y}.png?token=3f5ba5c57e7bbe5460dda6475203d0e5e91fb9b8";
+    var WAQI_ATTR = 'Air Quality Tiles &copy; <a href="http://waqi.info">waqi.info</a>';
+    var waqiLayer = L.tileLayer(WAQI_URL, {attribution: WAQI_ATTR});
+
+    var initialView = [-6.2088, 106.8456];
+    var map = L.map('map').setView(initialView, 11);
+    map.addLayer(osmLayer).addLayer(waqiLayer);
+
+    function refreshMap() {
+      // Logika untuk memuat ulang peta
+      console.log("Map refreshed");
+    }
+
+    function resetMap() {
+      map.setView(initialView, 11);
+    }
+  </script>
+</body>
+</html>
