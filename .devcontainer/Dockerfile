@@ -13,6 +13,6 @@ RUN apt update && apt install -y \
 
 RUN git clone https://github.com/panjayaseptian16/dashboard-pollution-tool-v1 .
 
-RUN python3 -m pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
 EXPOSE 8501
