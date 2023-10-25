@@ -4,7 +4,7 @@ FROM python:3.10-slim
 
 WORKDIR /usr/src/app
 
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt install -y \
     build-essential \
     curl \
     software-properties-common \
@@ -13,6 +13,6 @@ RUN apt-get update && apt-get install -y \
 
 RUN git clone https://github.com/panjayaseptian16/dashboard-pollution-tool-v1 .
 
-RUN pip install -r requirements.txt
+RUN python3 -m pip install -r requirements.txt
 
 EXPOSE 8501

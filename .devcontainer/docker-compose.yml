@@ -5,10 +5,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: streamlit
     container_name: streamlit
-    command: streamlit run overview.py server.port=8501 --server.address=0.0.0.0
+    command: streamlit run overview.py --server.port 8501 --server.address 0.0.0.0
     volumes:
-      - ..:/usr/src
+      - .:/usr/src/app
     ports:
       - "8501:8501"
