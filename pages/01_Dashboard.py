@@ -4,8 +4,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import datetime
-import warnings
-warnings.filterwarnings("ignore", category=FutureWarning)
+import sqlite3
 
 
 #@st.cache_resource
@@ -43,7 +42,23 @@ st.markdown("""
             """, unsafe_allow_html=True)
 
 # Perform query
-df = pd.read_csv("daily-aqi.csv", sep=',', names=["date","country","city","indicator","count","min","max","median","variance"])
+#df = pd.read_csv("daily-aqi.csv", sep=',', names=["date","country","city","indicator","count","min","max","median","variance"])
+
+conn = sqlite3.connect('pollution.db')
+cursor = conn.cursor()
+cursor.execute(
+    '''
+    SELECT * FROM daily_aqi WHERE indicator LIKE '%pm25%';
+    '''
+)
+rows = cursor.fetchall()
+# Menutup koneksi
+conn.close()
+# Mengonversi data ke dalam DataFrame
+df = pd.DataFrame(rows,  columns=['date', 'country_code', 'city', 'indicator', 'count', 'min', 'max', 'median', 'variance'])
+
+# Menampilkan DataFrame
+st.dataframe(df)
 
 # Ubah format data tanggal
 df['date'] = pd.to_datetime(df['date'])
