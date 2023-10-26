@@ -1,4 +1,6 @@
 streamlit
+streamlit_folium
+folium
 pandas
 plotly
 plotly-express

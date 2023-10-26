@@ -4,6 +4,9 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import datetime
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
+
 
 #@st.cache_resource
 def read_file(file_path):

@@ -17,12 +17,6 @@
             margin-left: 35px;
             margin-top : 8px;
         }
-        #map {
-            height: 300px;
-            width: 800px;
-            border-radius: 10px;
-            margin-right: 20px;
-        }
         .widget {
             display: inline-block;
             width: 300px;
@@ -121,46 +115,8 @@
                 <div class="date-forecast" id="pm25DateForecast">Loading...</div>
                 <button onclick="refreshPM25()">Refresh</button>
             </div>
-        </div>
-        <div id="tes">
-            <h3 style="text-align:center; color:#1F4172; font-family: monospace; margin-top: 20px;">Mapping AQI Jakarta</h3>
-            <div id="map"></div>
-            <button id="brefresh" onclick="refreshMap()">Refresh</button>
-            <button id="breset" onclick="resetMap()">Reset</button>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script>
-    var OSM_URL = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-    var OSM_ATTRIB = '&copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-    var osmLayer = L.tileLayer(OSM_URL, { attribution: OSM_ATTRIB });
-
-    var WAQI_URL = "https://tiles.waqi.info/tiles/usepa-aqi/{z}/{x}/{y}.png?token=3f5ba5c57e7bbe5460dda6475203d0e5e91fb9b8";
-    var WAQI_ATTR = 'Air Quality Tiles &copy; <a href="http://waqi.info">waqi.info</a>';
-    var waqiLayer = L.tileLayer(WAQI_URL, { attribution: WAQI_ATTR });
-
-    var initialView = [-6.2088, 106.8456];
-    var map = L.map('map', {
-        center: initialView,
-        zoom: 11,
-        layers: [osmLayer, waqiLayer]
-    });
-
-    map.scrollWheelZoom.disable(); // menonaktifkan zoom dengan mouse wheel
-
-    function refreshMap() {
-        // Refresh logic for the map
-        waqiLayer.setUrl(WAQI_URL); // Refresh the WAQI layer
-        console.log("Map refreshed");
-    }
-
-    function resetMap() {
-        map.setView(initialView, 11);
-    }
-
         function setWidgetColor(aqi) {
             if (aqi >= 0 && aqi <= 50) {
                 return 'green';
