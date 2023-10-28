@@ -1,108 +1,91 @@
 import streamlit as st
-import random
 import sqlite3
+import datetime
 
-# Koneksi ke database
+# Membuat koneksi dengan database
 conn = sqlite3.connect('pollution.db')
-cursor = conn.cursor()
+c = conn.cursor()
 
-# Mendefinisikan pertanyaan
-pertanyaan = [
-    "Apakah polusi udara dapat menyebabkan gangguan pernapasan?",
-    "Apakah polusi udara dapat menyebabkan penyakit jantung?",
-    "Apakah polusi udara dapat menyebabkan kanker?",
-    "Apakah polusi udara dapat menyebabkan penuaan dini?",
-    "Apakah polusi udara dapat menyebabkan asma?",
-    "Apakah polusi udara dapat menyebabkan iritasi mata?",
-    "Apakah polusi udara dapat menyebabkan iritasi kulit?",
-    "Apakah polusi udara dapat menyebabkan sakit kepala?",
-    "Apakah polusi udara dapat menyebabkan kelelahan?",
+# List of questions, options, and correct answers
+questions = [
+    "Polutan udara utama di Jakarta adalah...",
+    "Dampak polusi udara di Jakarta terhadap kesehatan manusia adalah...",
+    "Apa langkah konkret yang dapat diambil warga untuk mengurangi polusi udara dalam ruangan di lingkungan rumah?",
+    "Selain regulasi kendaraan, langkah apa yang diambil pemerintah untuk mengurangi polusi udara di Jakarta?",
+    "Dampak polusi udara di Jakarta terhadap ekonomi adalah...",
+    "Apa jenis vegetasi yang paling efektif dalam menyerap polutan udara di perkotaan Jakarta?",
+    "Apa langkah-langkah yang bisa diambil pemerintah untuk mempromosikan pola transportasi berkelanjutan di Jakarta?",
+    "Bagaimana peningkatan jumlah industri tekstil di sekitar Jakarta berkontribusi terhadap polusi air di daerah sekitarnya?",
+    "Program pemerintah apa yang bertujuan untuk mengurangi polusi udara di Jakarta?",
+    "Salah satu cara untuk mengurangi polusi udara di Jakarta adalah dengan mengurangi penggunaan kendaraan pribadi. Aktivitas apa yang bisa dilakukan untuk mengurangi penggunaan kendaraan pribadi, tetapi membutuhkan dukungan dari masyarakat?"
 ]
 
-# Mendefinisikan pilihan jawaban
-jawaban = [
-    ["Ya", "Tidak"],
-    ["Ya", "Tidak"],
-    ["Ya", "Tidak"],
-    ["Ya", "Tidak"],
-    ["Ya", "Tidak"],
-    ["Ya", "Tidak"],
-    ["Ya", "Tidak"],
-    ["Ya", "Tidak"],
-    ["Ya", "Tidak"],
+options = [
+    ['a. Nitrogen dioksida (NO2)', 'b. Sulfur dioksida (SO2)', 'c. Partikel halus (PM2.5)', 'd. Metana (CH4)'],
+    ['a. Iritasi mata dan hidung', 'b. Penyakit jantung dan paru-paru', 'c. Kanker', 'd. Semua jawaban benar'],
+    ['a. Menggunakan pembersih udara HEPA', 'b. Meningkatkan penggunaan parfum', 'c. Menambah jumlah hewan peliharaan', 'd. Menutup ventilasi'],
+    ['a. Penghijauan trotoar', 'b. Penggunaan lebih banyak plastik ramah lingkungan', 'c. Peningkatan pembakaran sampah', 'd. Perluasan jalan raya'],
+    ['a. Menurunkan produktivitas kerja', 'b. Meningkatkan biaya kesehatan', 'c. Menurunkan daya saing', 'd. Semua jawaban benar'],
+    ['a. Rumput', 'b. Pohon berdaun lebar', 'c. Semak belukar', 'd. Alga'],
+    ['a. Meningkatkan harga bahan bakar', 'b. Membangun lebih banyak jalan tol', 'c. Meningkatkan tarif parkir', 'd. Memberikan insentif bagi pengguna transportasi umum'],
+    ['a. Peningkatan kualitas air', 'b. Peningkatan kesejahteraan masyarakat', 'c. Peningkatan konsumsi energi', 'd. Peningkatan produksi limbah cair'],
+    ['a. Program Langit Biru', 'b. Program Jakarta Hijau', 'c. Program Kendaraan Bermotor Listrik', 'd. Program Pengendalian Sampah'],
+    ['a. Menggunakan kendaraan umum', 'b. Berjalan kaki', 'c. Bersepeda', 'd. Melakukan carpooling']
 ]
 
-# Mendefinisikan skor
-skor = {
-    "low": 0,
-    "medium": 4,
-    "high": 8,
-}
+correct_answers = ['c. Partikel halus (PM2.5)', 
+                   'd. Semua jawaban benar', 
+                   'a. Menggunakan pembersih udara HEPA', 
+                   'a. Penghijauan trotoar', 
+                   'd. Semua jawaban benar', 
+                   'b. Pohon berdaun lebar', 
+                   'd. Memberikan insentif bagi pengguna transportasi umum', 
+                   'd. Peningkatan produksi limbah cair', 
+                   'a. Program Langit Biru', 
+                   'd. Melakukan carpooling']
 
-# Fungsi untuk mendapatkan pertanyaan random
-def get_random_pertanyaan():
-    return pertanyaan[random.randint(0, len(pertanyaan) - 1)]
+# Function to calculate points
+def calculate_points(answers):
+    point = 0
+    for i in range(len(answers)):
+        if answers[i].lower() == correct_answers[i].lower():
+            point += 1
+    return point
 
-# Fungsi untuk mendapatkan jawaban random
-def get_random_jawaban():
-    return jawaban[random.randint(0, len(jawaban) - 1)]
+# Tampilkan form untuk pengguna
+st.title('Knowledge Check on Pollution')
+name = st.text_input('Nama:')
+age = st.number_input('Umur:',  min_value=17, max_value=50, step=1)
+location = st.selectbox('Domisili:', ('Jakarta Pusat', 'Jakarta Timur', 'Jakarta Barat', 'Jakarta Utara', 'Jakarta Selatan', 'Bogor', 'Depok', 'Tangerang', 'Bekasi'))
 
-# Fungsi untuk menghitung skor
-def get_skor(jawaban_user):
-    jawaban_benar = []
-    for i in range(len(pertanyaan)):
-        if jawaban_user[i] == jawaban[i][0]:
-            jawaban_benar.append(1)
-        else:
-            jawaban_benar.append(0)
-    return sum(jawaban_benar)
+with st.form("knowledge_check_form"):
+    st.write("Jawablah pertanyaan berikut (pilih salah satu opsi jawaban)")
+    user_answers = []
+    for i in range(10):
+        if i < len(questions):
+            user_answers.append(st.radio(questions[i], options[i]))
 
-# Fungsi untuk menyimpan data ke database
-def simpan_data(nama, umur, domisili, tgl_submit, jawaban_user, skor):
-    cursor.execute(
-        """
-        INSERT INTO knowledge (nama, umur, domisili, tgl_submit, jawaban, skor)
-        VALUES (?, ?, ?, ?, ?, ?)
-        """,
-        (nama, umur, domisili, tgl_submit, jawaban_user, skor),
-    )
-    conn.commit()
+    submitted = st.form_submit_button(label='Submit')
 
-# Tab pertama
-st.title("Knowledge Check")
+    if submitted and all(user_answers):
+        submit_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        points = calculate_points(user_answers)
 
-# Form
-nama = st.text_input("Nama")
-umur = st.number_input("Umur")
-domisili = st.selectbox("Domisili", ("Jakarta Pusat", "Jakarta Timur", "Jakarta Barat", "Jakarta Utara", "Jakarta Selatan", "Bogor", "Depok", "Tangerang", "Bekasi"))
+        # Memasukkan data ke database
+        c.execute('''
+            INSERT INTO knowledge (name, age, location, submit_date, answers, points) 
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (name, age, location, submit_date, ','.join(user_answers), points))
 
-# Menampilkan 10 pertanyaan random
-pertanyaan_random = []
-for i in range(10):
-    pertanyaan_random.append(get_random_pertanyaan())
+        conn.commit()
 
-jawaban_user = []
-for i in range(10):
-    jawaban_user.append(st.selectbox("Jawaban", ("A", "B", "C", "D")))
+        # Menampilkan hasil
+        st.write('Terima kasih telah mengisi Knowledge Check!')
+        st.write('Nama:', name)
+        st.write('Umur:', age)
+        st.write('Domisili:', location)
+        st.write('Tanggal Submit:', submit_date)
+        st.write('Jawaban:', ','.join(user_answers))
+        st.write('Poin:', points)
 
-# Menghitung skor
-skor = get_skor(jawaban_user)
-
-# Hasil
-if st.button("Submit"):
-    # Menyimpan data ke database
-    simpan_data(nama, umur, domisili, datetime.datetime.now(), jawaban_user, skor)
-
-    # Menampilkan hasil
-    if skor <= skor["low"]:
-        st.write("Pengetahuan Anda rendah")
-    elif skor <= skor["medium"]:
-        st.write("Pengetahuan Anda sedang")
-    else:
-        st.write("Pengetahuan Anda tinggi")
-
-    st.write("Anda menjawab {} pertanyaan dengan benar".format(sum(jawaban_user)))
-    st.write("Skor Anda adalah {}".format(skor))
-
-# Menutup koneksi ke database
 conn.close()
