@@ -30,7 +30,7 @@ contact_form = """
      <textarea name="message" minlength=5 placeholder="Your feedback or suggestions (please be as specific as possible)" required></textarea>
      <input type="hidden" name="_captcha" value="false">
      <input type="hidden" name="_template" value="table">
-     <input type="hidden" name="_next" value="https://dashboard-pollution-tool-v1.streamlit.app/Feedback">
+     <input type="hidden" name="_next" value="">
      <p>Rate Our Project:</p>
     <fieldset class="rating">
         <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
@@ -43,6 +43,9 @@ contact_form = """
 </form> 
 """
 st.markdown(contact_form, unsafe_allow_html=True)
+
+def on_submit():
+    st.success('Terima kasih atas masukannya', icon="✅")
 
 def local_css(file_name):
     with open(file_name) as f:
