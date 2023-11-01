@@ -1,10 +1,9 @@
 import streamlit as st
-import sqlite3
 import datetime
 
 # Membuat koneksi dengan database
-conn = sqlite3.connect('pollution.db')
-c = conn.cursor()
+conn = conn = st.experimental_connection('pollution_db', type='sql', autocommit=True)
+c = conn.session
 
 questions = [
     "Polutan udara utama di Jakarta adalah...",
@@ -61,8 +60,7 @@ with st.form("knowledge_check_form"):
     st.write("Jawablah pertanyaan berikut (pilih salah satu opsi jawaban)")
     user_answers = []
     for i in range(10):
-        if i < len(questions):
-            user_answers.append(st.radio(questions[i], options[i]))
+        user_answers.append(st.radio(questions[i], options[i]))
 
     submitted = st.form_submit_button(label='Submit')
 
@@ -73,14 +71,31 @@ with st.form("knowledge_check_form"):
         # Masukkan data ke dalam database
         c.execute('''
             INSERT INTO knowledge (name, age, location, submit_date, answers, points, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (name, age, location, submit_date, ','.join(user_answers), points, user_answers[0], user_answers[1], user_answers[2], user_answers[3], user_answers[4], user_answers[5], user_answers[6], user_answers[7], user_answers[8], user_answers[9]))
+            VALUES (:name, :age, :location, :submit_date, :answers, :points, :q1, :q2, :q3, :q4, :q5, :q6, :q7, :q8, :q9, :q10)
+        ''', {
+            'name': name,
+            'age': age,
+            'location': location,
+            'submit_date': submit_date,
+            'answers': ','.join(user_answers),
+            'points': points,
+            'q1': user_answers[0],
+            'q2': user_answers[1],
+            'q3': user_answers[2],
+            'q4': user_answers[3],
+            'q5': user_answers[4],
+            'q6': user_answers[5],
+            'q7': user_answers[6],
+            'q8': user_answers[7],
+            'q9': user_answers[8],
+            'q10': user_answers[9]
+        })
 
-        conn.commit()
+        c.commit()
 
         # Menampilkan hasil
         st.write('Terima kasih telah mengisi Knowledge Check!')
         st.write('Tanggal Submit:', submit_date)
         st.write('Total Poin:', points)
 
-conn.close()
+conn.reset()
