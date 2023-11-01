@@ -6,29 +6,6 @@ import datetime
 conn = sqlite3.connect('pollution.db')
 c = conn.cursor()
 
-# Membuat tabel jika belum ada
-c.execute('''
-    CREATE TABLE IF NOT EXISTS knowledge (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        age INTEGER,
-        location TEXT,
-        submit_date TEXT,
-        answers TEXT,
-        points INTEGER,
-        q1 TEXT,
-        q2 TEXT,
-        q3 TEXT,
-        q4 TEXT,
-        q5 TEXT,
-        q6 TEXT,
-        q7 TEXT,
-        q8 TEXT,
-        q9 TEXT,
-        q10 TEXT
-    )
-''')
-
 questions = [
     "Polutan udara utama di Jakarta adalah...",
     "Dampak polusi udara di Jakarta terhadap kesehatan manusia adalah...",
