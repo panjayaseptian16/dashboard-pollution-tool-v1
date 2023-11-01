@@ -6,5 +6,4 @@ pandas
 plotly
 plotly-express
 datetime
-sqlite3
 requests
