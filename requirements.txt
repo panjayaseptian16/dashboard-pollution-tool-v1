@@ -1,6 +1,5 @@
 streamlit
 streamlit-lottie
-streamlit_lottie
 folium
 pandas
 plotly
