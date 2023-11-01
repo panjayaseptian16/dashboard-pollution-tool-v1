@@ -59,10 +59,10 @@ fieldset.rating:not(:checked) > label:before {
 }
 
 fieldset.rating > input:checked ~ label {
-  color: #ffc700;
+  color: #deb217;
 }
 
 fieldset.rating:not(:checked) > label:hover,
 fieldset.rating:not(:checked) > label:hover ~ label {
-  color: #deb217;
+  color: #ffc700;
 }
