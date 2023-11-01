@@ -29,6 +29,7 @@ contact_form = """
      <input type="text" name="organization" placeholder="Your organization (optional, but it would be helpful to know)">
      <textarea name="message" minlength=5 placeholder="Your feedback or suggestions (please be as specific as possible)" required></textarea>
      <input type="hidden" name="_captcha" value="false">
+     <input type="hidden" name="_next">
      <button type="submit">Send</button>
 </form> 
 """
