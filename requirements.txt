@@ -1,8 +1,10 @@
-streamlit
+streamlit==1.27.0
 streamlit-lottie
+streamlit_lottie
 folium
 pandas
 plotly
 plotly-express
 datetime
 sqlite3
+requests
