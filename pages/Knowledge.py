@@ -88,7 +88,7 @@ def validate_input(name, age, location):
 # Variables for user information
 name = st.text_input('Nama:')
 age = st.number_input('Umur:',  min_value=17, max_value=45, step=1)
-location = st.selectbox('Domisili:', ('Jakarta Pusat', 'Jakarta Timur', 'Jakarta Barat', 'Jakarta Utara', 'Jakarta Selatan', 'Bogor', 'Depok', 'Tangerang', 'Bekasi'))
+location = st.selectbox('Domisili:', ('Jakarta Pusat', 'Jakarta Timur', 'Jakarta Barat', 'Jakarta Utara', 'Jakarta Selatan', 'Bogor', 'Depok', 'Tangerang', 'Bekasi'), key='domisili')
 
 # Display start button
 start_check = st.button('Mulai Knowledge Check')
