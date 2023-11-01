@@ -51,48 +51,56 @@ def calculate_points(answers):
 
 # Tampilkan form untuk pengguna
 st.title('Knowledge Check on Pollution')
-name = st.text_input('Nama:')
-age = st.number_input('Umur:',  min_value=17, max_value=50, step=1)
-location = st.selectbox('Domisili:', ('Jakarta Pusat', 'Jakarta Timur', 'Jakarta Barat', 'Jakarta Utara', 'Jakarta Selatan', 'Bogor', 'Depok', 'Tangerang', 'Bekasi'))
 
-with st.form("knowledge_check_form"):
-    st.write("Jawablah pertanyaan berikut (pilih salah satu opsi jawaban)")
-    user_answers = []
-    for i in range(10):
-        if i < len(questions):
-            user_answers.append(st.radio(questions[i], options[i]))
+tab1, tab2= st.tabs(["Knowledge Quiz", "Statistics"])
 
-    submitted = st.form_submit_button(label='Submit')
+with tab1:
+        name = st.text_input('Nama:', placeholder='Masukkan nama Anda', help='Nama tidak boleh kosong')
+        age = st.number_input('Umur:',  min_value=17, max_value=50, step=1, help='Umur minimal 17 tahun dan maksimal 50 tahun', value=None, placeholder="Masukkan umur Anda")
+        location = st.selectbox('Domisili:', ('Jakarta Pusat', 'Jakarta Timur', 'Jakarta Barat', 'Jakarta Utara', 'Jakarta Selatan', 'Bogor', 'Depok', 'Tangerang', 'Bekasi'), help='Pilih domisili Anda', index=None)
 
-    if submitted and all(user_answers):
-        submit_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        points = calculate_points(user_answers) 
+        with st.form("knowledge_check_form", clear_on_submit=True):
+            st.write("Jawablah pertanyaan berikut (pilih salah satu opsi jawaban)")
+            user_answers = []
+            for i in range(10):
+                if i < len(questions):
+                    user_answers.append(st.radio(questions[i], options[i], index=None))
 
-        # Connect to Deta Base with your Project Key
-        deta = Deta(st.secrets["data_key"])
-
-        # If the user clicked the submit button,
-        # write the data from the form to the database.
-        db = deta.Base("db_test")
+            submitted = st.form_submit_button(label='Submit')
 
         if submitted and all(user_answers):
-            db.put({
-                "name": name,
-                "age": age,
-                "location": location,
-                "submit_date": submit_date,
-                "points": points,
-                "q1": user_answers[0],
-                "q2": user_answers[1],
-                "q3": user_answers[2],
-                "q4": user_answers[3],
-                "q5": user_answers[4],
-                "q6": user_answers[5],
-                "q7": user_answers[6],
-                "q8": user_answers[7],
-                "q9": user_answers[8],
-                "q10": user_answers[9]
-            })
-            st.success('Terima kasih telah mengisi Knowledge Check!')
-            st.write('Tanggal Submit:', submit_date)
-            st.write('Total Poin:', points)
+            submit_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            points = calculate_points(user_answers) 
+
+            # Connect to Deta Base with your Project Key
+            deta = Deta(st.secrets["data_key"])
+
+            # If the user clicked the submit button,
+            # write the data from the form to the database.
+            db = deta.Base("db_test")
+
+            if submitted and all(user_answers):
+                db.put({
+                    "name": name,
+                    "age": age,
+                    "location": location,
+                    "submit_date": submit_date,
+                    "points": points,
+                    "q1": user_answers[0],
+                    "q2": user_answers[1],
+                    "q3": user_answers[2],
+                    "q4": user_answers[3],
+                    "q5": user_answers[4],
+                    "q6": user_answers[5],
+                    "q7": user_answers[6],
+                    "q8": user_answers[7],
+                    "q9": user_answers[8],
+                    "q10": user_answers[9]
+                })
+                st.success('Terima kasih telah mengisi Knowledge Check!')
+                st.write('Tanggal Submit:', submit_date)
+                st.write('Total Poin:', points)
+        else: 
+                st.error('Kamu belum mengisi semua form', icon="🚨")
+with tab2: 
+    st.subheader("Statistics of Pollution Knowledge Quiz")
