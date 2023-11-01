@@ -81,11 +81,7 @@ with st.form("knowledge_check_form"):
 
         # Menampilkan hasil
         st.write('Terima kasih telah mengisi Knowledge Check!')
-        st.write('Nama:', name)
-        st.write('Umur:', age)
-        st.write('Domisili:', location)
         st.write('Tanggal Submit:', submit_date)
-        st.write('Jawaban:', ','.join(user_answers))
-        st.write('Poin:', points)
+        st.write('Total Poin:', points)
 
 conn.close()

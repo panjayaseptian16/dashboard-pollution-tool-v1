@@ -1,26 +1,34 @@
 import streamlit as st
 import sqlite3
 import datetime
-import time
 
-# Create a connection to the database
+# Membuat koneksi dengan database
 conn = sqlite3.connect('pollution.db')
 c = conn.cursor()
 
-# Create a table if it doesn't exist
+# Membuat tabel jika belum ada
 c.execute('''
     CREATE TABLE IF NOT EXISTS knowledge (
-        id INTEGER PRIMARY KEY,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT,
         age INTEGER,
         location TEXT,
         submit_date TEXT,
         answers TEXT,
-        points INTEGER
+        points INTEGER,
+        q1 TEXT,
+        q2 TEXT,
+        q3 TEXT,
+        q4 TEXT,
+        q5 TEXT,
+        q6 TEXT,
+        q7 TEXT,
+        q8 TEXT,
+        q9 TEXT,
+        q10 TEXT
     )
 ''')
 
-# List of questions, options, and correct answers
 questions = [
     "Polutan udara utama di Jakarta adalah...",
     "Dampak polusi udara di Jakarta terhadap kesehatan manusia adalah...",
@@ -66,76 +74,36 @@ def calculate_points(answers):
             point += 1
     return point
 
-# Display form for the user
+# Tampilkan form untuk pengguna
 st.title('Knowledge Check on Pollution')
-
-# Function to validate input
-def validate_input(name, age, location):
-    if name.strip() == '':
-        st.error('Nama tidak boleh kosong.')
-        return False
-
-    if age < 17 or age > 45:
-        st.error('Umur harus antara 17 dan 45 tahun.')
-        return False
-
-    if location.strip() == '':
-        st.error('Domisili tidak boleh kosong.')
-        return False
-
-    return True
-
-# Variables for user information
 name = st.text_input('Nama:')
-age = st.number_input('Umur:',  min_value=17, max_value=45, step=1)
-location = st.selectbox('Domisili:', ('Jakarta Pusat', 'Jakarta Timur', 'Jakarta Barat', 'Jakarta Utara', 'Jakarta Selatan', 'Bogor', 'Depok', 'Tangerang', 'Bekasi'), key='location')
+age = st.number_input('Umur:',  min_value=17, max_value=50, step=1)
+location = st.selectbox('Domisili:', ('Jakarta Pusat', 'Jakarta Timur', 'Jakarta Barat', 'Jakarta Utara', 'Jakarta Selatan', 'Bogor', 'Depok', 'Tangerang', 'Bekasi'))
 
-# Display start button
-start_check = st.button('Mulai Knowledge Check')
-submitted = False  # Initialize the submitted variable
-
-if start_check:
-    start_time = time.time()
+with st.form("knowledge_check_form"):
+    st.write("Jawablah pertanyaan berikut (pilih salah satu opsi jawaban)")
     user_answers = []
-    form_submitted = False
+    for i in range(10):
+        if i < len(questions):
+            user_answers.append(st.radio(questions[i], options[i]))
 
-    # Display questions and options within the form
-    with st.form("knowledge_check_form"):
-        st.write("Jawablah pertanyaan berikut (pilih salah satu opsi jawaban)")
-        for i in range(len(questions)):
-            user_answer = st.radio(questions[i], options[i])
-            user_answers.append(user_answer)
+    submitted = st.form_submit_button(label='Submit')
 
-        # Validate input within the form
-        if st.form_submit_button(label='Selesai'):
-            form_submitted = True
+    if submitted and all(user_answers):
+        submit_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        points = calculate_points(user_answers)
 
-    # Handle the form submission
-    if form_submitted:
-        if time.time() - start_time <= 300:  # 5-minute time limit
-            if validate_input(name, age, location):
-                submit_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                points = calculate_points(user_answers)
+        # Masukkan data ke dalam database
+        c.execute('''
+            INSERT INTO knowledge (name, age, location, submit_date, answers, points, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (name, age, location, submit_date, ','.join(user_answers), points, user_answers[0], user_answers[1], user_answers[2], user_answers[3], user_answers[4], user_answers[5], user_answers[6], user_answers[7], user_answers[8], user_answers[9]))
 
-                # Insert data into the database
-                c.execute('''
-                    INSERT INTO knowledge (name, age, location, submit_date, answers, points) 
-                    VALUES (?, ?, ?, ?, ?, ?)
-                ''', (name, age, location, submit_date, ','.join(user_answers), points))
+        conn.commit()
 
-                conn.commit()
+        # Menampilkan hasil
+        st.write('Terima kasih telah mengisi Knowledge Check!')
+        st.write('Tanggal Submit:', submit_date)
+        st.write('Total Poin:', points)
 
-                # Display results
-                st.write('Terima kasih telah mengisi Knowledge Check!')
-                st.write('Nama:', name)
-                st.write('Umur:', age)
-                st.write('Domisili:', location)
-                st.write('Tanggal Submit:', submit_date)
-                st.write('Jawaban:', ','.join(user_answers))
-                st.write('Poin:', points)
-                st.stop()
-        else:
-            st.write("Waktu telah habis. Silakan submit jawaban Anda.")
-
-# Close the database connection
 conn.close()
