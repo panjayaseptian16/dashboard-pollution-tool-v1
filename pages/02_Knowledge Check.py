@@ -73,6 +73,8 @@ with st.form("knowledge_check_form"):
 
         # If the user clicked the submit button,
         # write the data from the form to the database.
+        db = deta.Base("db_test")
+
         if submitted and all(user_answers):
             db.put({
                 "name": name,
