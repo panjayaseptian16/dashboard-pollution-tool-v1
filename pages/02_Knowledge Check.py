@@ -81,7 +81,6 @@ with st.form("knowledge_check_form"):
                 "age": age,
                 "location": location,
                 "submit_date": submit_date,
-                "answers": ','.join(user_answers),
                 "points": points,
                 "q1": user_answers[0],
                 "q2": user_answers[1],
@@ -94,10 +93,6 @@ with st.form("knowledge_check_form"):
                 "q9": user_answers[8],
                 "q10": user_answers[9]
             })
-
-        "---"
-        "Here's everything stored in the database:"
-        # This reads all items from the database and displays them to your app.
-        # db_content is a list of dictionaries. You can do everything you want with it.
-        db_content = db.fetch().items
-        st.write(db_content)
+            st.success('Terima kasih telah mengisi Knowledge Check!')
+            st.write('Tanggal Submit:', submit_date)
+            st.write('Total Poin:', points)
