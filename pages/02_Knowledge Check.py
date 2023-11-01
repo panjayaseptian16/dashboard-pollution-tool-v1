@@ -1,7 +1,20 @@
 import streamlit as st
 from deta import Deta
 import datetime
+import pandas as pd
+import matplotlib.pyplot as plt
+from collections import Counter
 
+st.set_page_config(
+    page_title="Dashboard and Realtime Monitoring",
+    page_icon="🧊",
+    layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        'Get Help': 'https://www.extremelycoolapp.com/help',
+        'Report a bug': "https://www.extremelycoolapp.com/bug",
+        'About': "# This is a header. This is an *extremely* cool app!"
+    })
 
 # List of questions, options, and correct answers
 questions = [
@@ -104,3 +117,44 @@ with tab1:
                 st.error('Kamu belum mengisi semua form', icon="🚨")
 with tab2: 
     st.subheader("Statistics of Pollution Knowledge Quiz")
+    deta = Deta(st.secrets["data_key"])
+    db = deta.Base("db_test")
+    db_content = db.fetch().items
+    st.write(db_content)
+    df = pd.DataFrame(db_content)
+    submit_counts = df.shape[0]
+    avg_age = df["age"].mean()
+    avg_points = df["points"].mean()
+
+    q1_counts = df["q1"].value_counts()
+    q2_counts = df["q2"].value_counts()
+    q3_counts = df["q3"].value_counts()
+    q4_counts = df["q4"].value_counts()
+    q5_counts = df["q5"].value_counts()
+    q6_counts = df["q6"].value_counts()
+    q7_counts = df["q7"].value_counts()
+    q8_counts = df["q8"].value_counts()
+    q9_counts = df["q9"].value_counts()
+    q10_counts = df["q10"].value_counts()
+
+    st.write("Number of Submissions:", submit_counts)
+    st.write("Average Age:", avg_age)
+    st.write("Average Points:", avg_points)
+
+    st.text("Line Chart: Submission Frequency over Time")
+    df["submit_date"] = pd.to_datetime(df["submit_date"])
+    df["submit_date"] = df["submit_date"].dt.date
+    submission_counts_per_date = df["submit_date"].value_counts().sort_index()
+    st.line_chart(submission_counts_per_date)
+
+    st.subheader("Bar Chart: Age Distribution")
+    fig, ax = plt.subplots()
+    ax.bar(df["name"], df["age"])
+    st.pyplot(fig)
+
+    for i, (question, counts) in enumerate(zip(questions, [q1_counts, q2_counts, q3_counts, q4_counts, q5_counts, q6_counts, q7_counts, q8_counts, q9_counts, q10_counts])):
+        st.subheader(f"Bar Chart: Answers for {question}")
+        fig, ax = plt.subplots()
+        colors = ['skyblue' if answer.lower() == correct_answers[i].lower() else 'lightcoral' for answer in counts.index]
+        counts.plot(kind="bar", color=colors, ax=ax)
+        st.pyplot(fig)

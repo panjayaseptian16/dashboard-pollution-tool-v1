@@ -9,3 +9,4 @@ datetime
 requests
 SQLAlchemy==1.4
 deta
+matplotlib
