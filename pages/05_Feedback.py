@@ -25,10 +25,10 @@ def on_submit():
 
 contact_form = """
 <form action="https://formsubmit.co/panjayaseptian@gmail.com" method="POST">
-     <input type="hidden" name="_captcha" value="false">
      <input type="text" minlength=5 name="name" placeholder="Your name" required>
      <input type="text" name="organization" placeholder="Your organization (optional, but it would be helpful to know)">
      <textarea name="message" minlength=5 placeholder="Your feedback or suggestions (please be as specific as possible)" required></textarea>
+     <input type="hidden" name="_captcha" value="false">
      <button type="submit">Send</button>
 </form> 
 """
