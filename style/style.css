@@ -23,9 +23,46 @@ button[type=submit] {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  margin-left: 15px;
 }
 
 /* When moving the mouse over the submit button, add a darker green color */
 button[type=submit]:hover {
   background-color: #45a049;
+}
+
+/* CSS for the star ratings */
+fieldset.rating {
+  border: none;
+  float: left;
+}
+
+fieldset.rating:not(:checked) > input {
+  position: absolute;
+  top: -9999px;
+  clip: rect(0, 0, 0, 0);
+}
+
+fieldset.rating:not(:checked) > label {
+  float: right;
+  width: 1em;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: pointer;
+  font-size: 200%;
+  color: #ccc;
+}
+
+fieldset.rating:not(:checked) > label:before {
+  content: '★';
+}
+
+fieldset.rating > input:checked ~ label {
+  color: #ffc700;
+}
+
+fieldset.rating:not(:checked) > label:hover,
+fieldset.rating:not(:checked) > label:hover ~ label {
+  color: #deb217;
 }
