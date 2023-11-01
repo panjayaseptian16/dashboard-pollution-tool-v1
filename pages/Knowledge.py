@@ -2,7 +2,7 @@ import streamlit as st
 import datetime
 
 # Membuat koneksi dengan database
-conn = conn = st.experimental_connection('pollution_db', type='sql', autocommit=True)
+conn = conn = st.experimental_connection('pollution_db', type='sql')
 c = conn.session
 
 questions = [
