@@ -1,10 +1,7 @@
 import streamlit as st
-import sqlite3
+from deta import Deta
 import datetime
 
-# Membuat koneksi dengan database
-conn = sqlite3.connect('pollution.db')
-c = conn.cursor()
 
 # List of questions, options, and correct answers
 questions = [
@@ -69,19 +66,36 @@ with st.form("knowledge_check_form"):
 
     if submitted and all(user_answers):
         submit_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        points = calculate_points(user_answers)
+        points = calculate_points(user_answers) 
 
-        # Memasukkan data ke database
-        c.execute('''
-            INSERT INTO knowledge (name, age, location, submit_date, answers, points) 
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''', (name, age, location, submit_date, ','.join(user_answers), points))
+        # Connect to Deta Base with your Project Key
+        deta = Deta(st.secrets["data_key"])
 
-        conn.commit()
+        # If the user clicked the submit button,
+        # write the data from the form to the database.
+        if submitted and all(user_answers):
+            db.put({
+                "name": name,
+                "age": age,
+                "location": location,
+                "submit_date": submit_date,
+                "answers": ','.join(user_answers),
+                "points": points,
+                "q1": user_answers[0],
+                "q2": user_answers[1],
+                "q3": user_answers[2],
+                "q4": user_answers[3],
+                "q5": user_answers[4],
+                "q6": user_answers[5],
+                "q7": user_answers[6],
+                "q8": user_answers[7],
+                "q9": user_answers[8],
+                "q10": user_answers[9]
+            })
 
-        # Menampilkan hasil
-        st.write('Terima kasih telah mengisi Knowledge Check!')
-        st.write('Tanggal Submit:', submit_date)
-        st.write('Total Poin:', points)
-
-conn.close()
+        "---"
+        "Here's everything stored in the database:"
+        # This reads all items from the database and displays them to your app.
+        # db_content is a list of dictionaries. You can do everything you want with it.
+        db_content = db.fetch().items
+        st.write(db_content)
