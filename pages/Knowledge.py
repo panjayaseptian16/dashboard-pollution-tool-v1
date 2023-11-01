@@ -2,7 +2,7 @@ import streamlit as st
 import datetime
 
 # Membuat koneksi dengan database
-conn = st.experimental_connection('pollution_db', type='sql')
+conn = st.experimental_connection('pollution_db', type='sql', autocommit=True)
 c = conn.session
 
 questions = [
@@ -97,3 +97,5 @@ with st.form("knowledge_check_form"):
         st.write('Terima kasih telah mengisi Knowledge Check!')
         st.write('Tanggal Submit:', submit_date)
         st.write('Total Poin:', points)
+
+conn.reset()
