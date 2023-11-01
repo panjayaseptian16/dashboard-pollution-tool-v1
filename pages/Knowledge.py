@@ -97,5 +97,3 @@ with st.form("knowledge_check_form"):
         st.write('Terima kasih telah mengisi Knowledge Check!')
         st.write('Tanggal Submit:', submit_date)
         st.write('Total Poin:', points)
-
-conn.reset()
