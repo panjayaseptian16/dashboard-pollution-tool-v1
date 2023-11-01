@@ -3,7 +3,6 @@ import requests  # pip install requests
 import streamlit as st  # pip install streamlit
 from streamlit_lottie import st_lottie
 
-
 def load_lottieurl(url: str):
     r = requests.get(url)
     if r.status_code != 200:
