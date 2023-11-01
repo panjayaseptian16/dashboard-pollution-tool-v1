@@ -32,7 +32,7 @@ contact_form = """
      <input type="hidden" name="_template" value="table">
      <input type="hidden" name="_next">
      <p>Rate Our Project:</p>
-    <fieldset class="rating">
+    <fieldset class="rating" required>
         <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
         <input type="radio" id="star4" name="rating" value="4" /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
         <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
