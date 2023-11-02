@@ -17,6 +17,7 @@ st.set_page_config(
         'About': "# This is a header. This is an *extremely* cool app!"
     })
 
+
 # List of questions, options, and correct answers
 questions = [
     "Polutan udara utama di Jakarta adalah...",
@@ -116,126 +117,142 @@ with tab1:
                 st.write('Total Poin:', points)
         else: 
                 st.error('Kamu belum mengisi semua form', icon="🚨")
-with tab2:
-    deta = Deta(st.secrets["data_key"])
-    db = deta.Base("db_test")
-    db_content = db.fetch().items
 
-    df = pd.DataFrame(db_content)
-    submit_counts = df.shape[0]
-    avg_age = df["age"].mean() 
-    avg_age = math.ceil(avg_age)
-    avg_points = df["points"].mean()
-    avg_points = math.ceil(avg_points)
+expected_password = st.secrets["tab2_password"]
+tab2_access_granted = False
 
-    q1_counts = df["q1"].value_counts()
-    q2_counts = df["q2"].value_counts()
-    q3_counts = df["q3"].value_counts()
-    q4_counts = df["q4"].value_counts()
-    q5_counts = df["q5"].value_counts()
-    q6_counts = df["q6"].value_counts()
-    q7_counts = df["q7"].value_counts()
-    q8_counts = df["q8"].value_counts()
-    q9_counts = df["q9"].value_counts()
-    q10_counts = df["q10"].value_counts()
+if st.sidebar.checkbox("Open Tab 2"):
+    password = st.text_input("Enter Password", type="password")
+    if password == expected_password:
+        st.success("Correct Password! You can access Tab 2.")
+        tab2_access_granted = True
+    else:
+        st.warning("Incorrect Password! Please try again.")
+        tab2_access_granted = False
 
-    with st.container():
-        col1,col2,col3 = st.columns(3)
-        with col1:
-            st.markdown(f"<h3 style='text-align: center;'>Total Submissions</h3>", unsafe_allow_html=True)
-            st.markdown(f"<h2 style='text-align: center;color:blue;'>{submit_counts}</h2>", unsafe_allow_html=True)
-        with col2:
-            st.markdown(f"<h3 style='text-align: center;'>Average Age</h3>", unsafe_allow_html=True)
-            st.markdown(f"<h2 style='text-align: center;color:blue;'>{avg_age} Years Old</h2>", unsafe_allow_html=True)
-        with col3:
-            st.markdown(f"<h3 style='text-align: center;'>Average Points</h3>", unsafe_allow_html=True)
-            st.markdown(f"<h2 style='text-align: center;color:blue;'>{avg_points} Points</h2>", unsafe_allow_html=True)
-    
-        col4,col5 = st.columns(2)
-        with col4:
-            st.markdown(f"<h3 style='text-align: center;'>Submissions Frequency over Time</h3>", unsafe_allow_html=True)
-            st.empty()
-            df["submit_date"] = pd.to_datetime(df["submit_date"])
-            df["submit_date"] = df["submit_date"].dt.date
-            submission_counts_per_date = df["submit_date"].value_counts().sort_index()
-            st.line_chart(submission_counts_per_date, height=408)
-        with col5:
-            st.markdown(f"<h3 style='text-align: center;'>Age Distribution</h3>", unsafe_allow_html=True)
-            fig, ax = plt.subplots()
-            ax.hist(df["age"])
-            st.pyplot(fig)  
-        col6,col7 = st.columns(2)
-        with col6:
-            correct_answer = correct_answers[0]
-            st.subheader("Bar Chart: Answers for Question 1")
-            fig, ax = plt.subplots()
-            colors = ['red' if ans != correct_answer else 'green' for ans in q1_counts.index]
-            q1_counts.plot(kind="barh", color=colors, ax=ax)
-            st.pyplot(fig)
-        with col7: 
-            st.subheader("Bar Chart: Answers for Question 2")
-            fig, ax = plt.subplots()
-            correct_answer = correct_answers[1]
-            colors = ['red' if ans != correct_answer else 'green' for ans in q2_counts.index]
-            q2_counts.plot(kind="barh", color=colors, ax=ax)
-            st.pyplot(fig)
-        col8,col9 = st.columns(2)
-        with col8:
-            st.subheader("Bar Chart: Answers for Question 3")
-            fig, ax = plt.subplots()
-            correct_answer = correct_answers[2]
-            colors = ['red' if ans != correct_answer else 'green' for ans in q3_counts.index]
-            q3_counts.plot(kind="barh", color=colors, ax=ax)
-            st.pyplot(fig)
-        with col9:
-            st.subheader("Bar Chart: Answers for Question 4")
-            fig, ax = plt.subplots()
-            correct_answer = correct_answers[3]
-            colors = ['red' if ans != correct_answer else 'green' for ans in q4_counts.index]
-            q4_counts.plot(kind="barh", color=colors, ax=ax)
-            st.pyplot(fig)
-        col10,col11 = st.columns(2)
-        with col10:
-            st.subheader("Bar Chart: Answers for Question 5")
-            fig, ax = plt.subplots()
-            correct_answer = correct_answers[4]
-            colors = ['red' if ans != correct_answer else 'green' for ans in q5_counts.index]
-            q5_counts.plot(kind="barh", color=colors, ax=ax)
-            st.pyplot(fig)
-        with col11:
-            st.subheader("Bar Chart: Answers for Question 6")
-            fig, ax = plt.subplots()
-            correct_answer = correct_answers[5]
-            colors = ['red' if ans != correct_answer else 'green' for ans in q6_counts.index]
-            q6_counts.plot(kind="barh", color=colors, ax=ax)
-            st.pyplot(fig)
-        col12,col13 = st.columns(2)
-        with col12:
-            st.subheader("Bar Chart: Answers for Question 7")
-            fig, ax = plt.subplots()
-            correct_answer = correct_answers[6]
-            colors = ['red' if ans != correct_answer else 'green' for ans in q7_counts.index]
-            q7_counts.plot(kind="barh", color=colors, ax=ax)
-            st.pyplot(fig)
-        with col13:
-            st.subheader("Bar Chart: Answers for Question 8")
-            fig, ax = plt.subplots()
-            correct_answer = correct_answers[7]
-            colors = ['red' if ans != correct_answer else 'green' for ans in q8_counts.index]
-            q8_counts.plot(kind="barh", color=colors, ax=ax)
-            st.pyplot(fig)
-        col14,col15 = st.columns(2)
-        with col14:
-            st.subheader("Bar Chart: Answers for Question 9")
-            fig, ax = plt.subplots()
-            correct_answer = correct_answers[8]
-            colors = ['red' if ans != correct_answer else 'green' for ans in q9_counts.index]
-            q9_counts.plot(kind="barh", color=colors, ax=ax)
-            st.pyplot(fig)
-        with col15:
-            st.subheader("Bar Chart: Answers for Question 10")
-            fig, ax = plt.subplots()
-            correct_answer = correct_answers[9]
-            colors = ['red' if ans != correct_answer else 'green' for ans in q10_counts.index]
-            q10_counts.plot(kind="barh", color=colors, ax=ax)
-            st.pyplot(fig)
+if tab2_access_granted:
+    tab2 = st.tabs(["Statistics"])
+    if tab2[0]:
+
+        deta = Deta(st.secrets["data_key"])
+        db = deta.Base("db_test")
+        db_content = db.fetch().items
+
+        df = pd.DataFrame(db_content)
+        submit_counts = df.shape[0]
+        avg_age = df["age"].mean() 
+        avg_age = math.ceil(avg_age)
+        avg_points = df["points"].mean()
+        avg_points = math.ceil(avg_points)
+
+        q1_counts = df["q1"].value_counts()
+        q2_counts = df["q2"].value_counts()
+        q3_counts = df["q3"].value_counts()
+        q4_counts = df["q4"].value_counts()
+        q5_counts = df["q5"].value_counts()
+        q6_counts = df["q6"].value_counts()
+        q7_counts = df["q7"].value_counts()
+        q8_counts = df["q8"].value_counts()
+        q9_counts = df["q9"].value_counts()
+        q10_counts = df["q10"].value_counts()
+
+        with st.container():
+            col1,col2,col3 = st.columns(3)
+            with col1:
+                st.markdown(f"<h3 style='text-align: center;'>Total Submissions</h3>", unsafe_allow_html=True)
+                st.markdown(f"<h2 style='text-align: center;color:blue;'>{submit_counts}</h2>", unsafe_allow_html=True)
+            with col2:
+                st.markdown(f"<h3 style='text-align: center;'>Average Age</h3>", unsafe_allow_html=True)
+                st.markdown(f"<h2 style='text-align: center;color:blue;'>{avg_age} Years Old</h2>", unsafe_allow_html=True)
+            with col3:
+                st.markdown(f"<h3 style='text-align: center;'>Average Points</h3>", unsafe_allow_html=True)
+                st.markdown(f"<h2 style='text-align: center;color:blue;'>{avg_points} Points</h2>", unsafe_allow_html=True)
+        
+            col4,col5 = st.columns(2)
+            with col4:
+                st.markdown(f"<h3 style='text-align: center;'>Submissions Frequency over Time</h3>", unsafe_allow_html=True)
+                st.empty()
+                df["submit_date"] = pd.to_datetime(df["submit_date"])
+                df["submit_date"] = df["submit_date"].dt.date
+                submission_counts_per_date = df["submit_date"].value_counts().sort_index()
+                st.line_chart(submission_counts_per_date, height=408)
+            with col5:
+                st.markdown(f"<h3 style='text-align: center;'>Age Distribution</h3>", unsafe_allow_html=True)
+                fig, ax = plt.subplots()
+                ax.hist(df["age"])
+                st.pyplot(fig)  
+            col6,col7 = st.columns(2)
+            with col6:
+                correct_answer = correct_answers[0]
+                st.subheader("Bar Chart: Answers for Question 1")
+                fig, ax = plt.subplots()
+                colors = ['red' if ans != correct_answer else 'green' for ans in q1_counts.index]
+                q1_counts.plot(kind="barh", color=colors, ax=ax)
+                st.pyplot(fig)
+            with col7: 
+                st.subheader("Bar Chart: Answers for Question 2")
+                fig, ax = plt.subplots()
+                correct_answer = correct_answers[1]
+                colors = ['red' if ans != correct_answer else 'green' for ans in q2_counts.index]
+                q2_counts.plot(kind="barh", color=colors, ax=ax)
+                st.pyplot(fig)
+            col8,col9 = st.columns(2)
+            with col8:
+                st.subheader("Bar Chart: Answers for Question 3")
+                fig, ax = plt.subplots()
+                correct_answer = correct_answers[2]
+                colors = ['red' if ans != correct_answer else 'green' for ans in q3_counts.index]
+                q3_counts.plot(kind="barh", color=colors, ax=ax)
+                st.pyplot(fig)
+            with col9:
+                st.subheader("Bar Chart: Answers for Question 4")
+                fig, ax = plt.subplots()
+                correct_answer = correct_answers[3]
+                colors = ['red' if ans != correct_answer else 'green' for ans in q4_counts.index]
+                q4_counts.plot(kind="barh", color=colors, ax=ax)
+                st.pyplot(fig)
+            col10,col11 = st.columns(2)
+            with col10:
+                st.subheader("Bar Chart: Answers for Question 5")
+                fig, ax = plt.subplots()
+                correct_answer = correct_answers[4]
+                colors = ['red' if ans != correct_answer else 'green' for ans in q5_counts.index]
+                q5_counts.plot(kind="barh", color=colors, ax=ax)
+                st.pyplot(fig)
+            with col11:
+                st.subheader("Bar Chart: Answers for Question 6")
+                fig, ax = plt.subplots()
+                correct_answer = correct_answers[5]
+                colors = ['red' if ans != correct_answer else 'green' for ans in q6_counts.index]
+                q6_counts.plot(kind="barh", color=colors, ax=ax)
+                st.pyplot(fig)
+            col12,col13 = st.columns(2)
+            with col12:
+                st.subheader("Bar Chart: Answers for Question 7")
+                fig, ax = plt.subplots()
+                correct_answer = correct_answers[6]
+                colors = ['red' if ans != correct_answer else 'green' for ans in q7_counts.index]
+                q7_counts.plot(kind="barh", color=colors, ax=ax)
+                st.pyplot(fig)
+            with col13:
+                st.subheader("Bar Chart: Answers for Question 8")
+                fig, ax = plt.subplots()
+                correct_answer = correct_answers[7]
+                colors = ['red' if ans != correct_answer else 'green' for ans in q8_counts.index]
+                q8_counts.plot(kind="barh", color=colors, ax=ax)
+                st.pyplot(fig)
+            col14,col15 = st.columns(2)
+            with col14:
+                st.subheader("Bar Chart: Answers for Question 9")
+                fig, ax = plt.subplots()
+                correct_answer = correct_answers[8]
+                colors = ['red' if ans != correct_answer else 'green' for ans in q9_counts.index]
+                q9_counts.plot(kind="barh", color=colors, ax=ax)
+                st.pyplot(fig)
+            with col15:
+                st.subheader("Bar Chart: Answers for Question 10")
+                fig, ax = plt.subplots()
+                correct_answer = correct_answers[9]
+                colors = ['red' if ans != correct_answer else 'green' for ans in q10_counts.index]
+                q10_counts.plot(kind="barh", color=colors, ax=ax)
+                st.pyplot(fig)
