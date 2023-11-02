@@ -74,30 +74,32 @@ with st.container():
     tab1, tab2, tab3, tab4 = st.tabs(["Median AQI PM2.5 (2018-2023)", "Daily Statistics", "Monthly Statistics", "Yearly Statistics"])
     # Buat tab kedua
     with tab1: 
-        # Plot data menggunakan Plotly
-        fig = px.line(df, x='date', y=['median'], title='Median AQI PM2.5 (2018-2023)')
-        fig.update_layout(yaxis_range=[0, 169], xaxis_title='Date', yaxis_title='Median AQI', title_x=0.3, width=950, height=500, xaxis_showgrid=False, yaxis_showgrid=False)
-        fig.update_layout(annotations=[
-        dict(
-            x="2018-10-01",
-            y=0.5,
-            xref="x",
-            yref="paper",
-            text="No Data",
-            showarrow=False,
-            font=dict(
-                family="Arial",
-                size=16,
-                color="black"
-            ))])
-        fig.add_hrect(y0=0, y1=50, fillcolor="green", opacity=0.2, line_width=0, annotation_text="<b>Good</b>")
-        fig.add_hrect(y0=50, y1=100, fillcolor="yellow", opacity=0.2, line_width=0, annotation_text="<b>Moderate</b>")
-        fig.add_hrect(y0=100, y1=df['median'].max(), fillcolor="red", opacity=0.2, line_width=0, annotation_text="<b>Unhealthy</b>")
-        fig.add_vrect(x0=datetime.datetime(2018, 7, 1), x1=datetime.datetime(2018, 12, 31),fillcolor="lightgrey", opacity=0.8, line_width=0)
-
-        st.plotly_chart(fig, theme="streamlit", use_container_width=True)
-        caption = "Air pollution in Jakarta is still a cause for concern, even though PM2.5 AQI has fluctuated from 2018 to 2023 and always decreased during the end and beginning of the year. The median PM2.5 AQI in Jakarta is still predominantly in the moderate and unhealthy range, which means that air pollution in Jakarta can still have a negative impact on the public. This implies that there hasn't been any effective policy or program to address this issue significantly."
-        st.caption(caption)
+        col1,col2 = st.columns([2,1])
+        with col1:
+            # Plot data menggunakan Plotly
+            fig = px.line(df, x='date', y=['median'], title='Median AQI PM2.5 (2018-2023)')
+            fig.update_layout(yaxis_range=[0, 169], xaxis_title='Date', yaxis_title='Median AQI', title_x=0.3, width=950, height=500, xaxis_showgrid=False, yaxis_showgrid=False)
+            fig.update_layout(annotations=[
+            dict(
+                x="2018-10-01",
+                y=0.5,
+                xref="x",
+                yref="paper",
+                text="No Data",
+                showarrow=False,
+                font=dict(
+                    family="Arial",
+                    size=16,
+                    color="black"
+                ))])
+            fig.add_hrect(y0=0, y1=50, fillcolor="green", opacity=0.2, line_width=0, annotation_text="<b>Good</b>")
+            fig.add_hrect(y0=50, y1=100, fillcolor="yellow", opacity=0.2, line_width=0, annotation_text="<b>Moderate</b>")
+            fig.add_hrect(y0=100, y1=df['median'].max(), fillcolor="red", opacity=0.2, line_width=0, annotation_text="<b>Unhealthy</b>")
+            fig.add_vrect(x0=datetime.datetime(2018, 7, 1), x1=datetime.datetime(2018, 12, 31),fillcolor="lightgrey", opacity=0.8, line_width=0)
+            st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+        with col2:
+            caption = "Air pollution in Jakarta is still a cause for concern, even though PM2.5 AQI has fluctuated from 2018 to 2023 and always decreased during the end and beginning of the year. The median PM2.5 AQI in Jakarta is still predominantly in the moderate and unhealthy range, which means that air pollution in Jakarta can still have a negative impact on the public. This implies that there hasn't been any effective policy or program to address this issue significantly."
+            st.caption(caption)
         
     # Buat tab kedua
     with tab2:
@@ -147,7 +149,7 @@ with st.container():
     # Buat tab keempat
     with tab4:
         df_tahun = df.groupby(df['year'])['median'].median().reset_index()
-        fig4 = px.line(df_tahun, x='year', y='median', title='Median PM2.5 per Tahun', markers=True)
+        fig4 = px.line(df_tahun, x='year', y='median', title='Median PM2.5 per Year', markers=True)
         fig4.update_layout(width=850, height=500, title_x = 0.4, xaxis_showgrid=False, yaxis_showgrid=False)
         fig4.add_hrect(y0=0, y1=50, fillcolor="green", opacity=0.2, line_width=0, annotation_text="<b>Good</b>")
         fig4.add_hrect(y0=50, y1=100, fillcolor="yellow", opacity=0.2, line_width=0, annotation_text="<b>Moderate</b>")
