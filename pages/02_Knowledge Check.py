@@ -121,7 +121,7 @@ with tab1:
 expected_password = st.secrets["tab2_password"]
 tab2_access_granted = False
 
-if st.sidebar.checkbox("Open Tab 2"):
+if st.sidebar.checkbox("Open Tab Statistics"):
     password = st.text_input("Enter Password", type="password")
     if password == expected_password:
         st.success("Correct Password! You can access Tab 2.")

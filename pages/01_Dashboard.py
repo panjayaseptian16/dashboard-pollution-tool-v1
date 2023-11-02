@@ -57,9 +57,6 @@ conn.close()
 # Mengonversi data ke dalam DataFrame
 df = pd.DataFrame(rows,  columns=['date', 'country_code', 'city', 'indicator', 'count', 'min', 'max', 'median', 'variance'])
 
-# Menampilkan DataFrame
-st.dataframe(df)
-
 # Ubah format data tanggal
 df['date'] = pd.to_datetime(df['date'])
 
