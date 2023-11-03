@@ -74,7 +74,7 @@ with st.container():
     tab1, tab2, tab3, tab4 = st.tabs(["Median AQI PM2.5 (2018-2023)", "Daily Statistics", "Monthly Statistics", "Yearly Statistics"])
     # Buat tab kedua
     with tab1: 
-        col1,col2 = st.columns([2,1])
+        col1,col2 = st.columns([2,1],gap="small")
         with col1:
             # Plot data menggunakan Plotly
             fig = px.line(df, x='date', y=['median'], title='Median AQI PM2.5 (2018-2023)')
@@ -99,8 +99,8 @@ with st.container():
             st.plotly_chart(fig, theme="streamlit", use_container_width=True)
         with col2:
             caption = "Air pollution in Jakarta is still a cause for concern, even though PM2.5 AQI has fluctuated from 2018 to 2023 and always decreased during the end and beginning of the year. The median PM2.5 AQI in Jakarta is still predominantly in the moderate and unhealthy range, which means that air pollution in Jakarta can still have a negative impact on the public. This implies that there hasn't been any effective policy or program to address this issue significantly."
-            st.caption(caption)
-        
+            st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption}</p>", unsafe_allow_html=True)
+            
     # Buat tab kedua
     with tab2:
         year_filter = st.slider("Select Year", min_value=int(df['year'].min()), max_value=int(df['year'].max()), value=(int(df['year'].min()), int(df['year'].max())))
@@ -116,13 +116,19 @@ with st.container():
             fig2.add_hrect(y0=100, y1=df['max'].max(), fillcolor="red", opacity=0.2, line_width=0, annotation_text="<b>Unhealthy</b>")
             st.plotly_chart(fig2)
         else:
-            df_day = df_filtered.groupby('day').agg({'median': 'median'}).reset_index()
-            fig2 = px.bar(df_day, x='day', y='median', title='Median PM2.5 per Day', barmode='stack')
-            fig2.update_layout(width=850, height=500, title_x=0.4, xaxis={'categoryorder':'array', 'categoryarray':['Mon','Tue','Wed','Thu','Fri','Sat','Sun']}, xaxis_showgrid=False, yaxis_showgrid=False)
-            fig2.add_hrect(y0=0, y1=50, fillcolor="green", opacity=0.2, line_width=0, annotation_text="<b>Good</b>")
-            fig2.add_hrect(y0=50, y1=100, fillcolor="yellow", opacity=0.2, line_width=0, annotation_text="<b>Moderate</b>")
-            fig2.add_hrect(y0=100, y1=df_day['median'].max(), fillcolor="red", opacity=0.2, line_width=0, annotation_text="<b>Unhealthy</b>")
-            st.plotly_chart(fig2)
+            col3,col4 = st.columns([2,1],gap="small")
+            with col3:
+                df_day = df_filtered.groupby('day').agg({'median': 'median'}).reset_index()
+                fig2 = px.bar(df_day, x='day', y='median', title='Median PM2.5 per Day', barmode='stack')
+                fig2.update_layout(width=850, height=500, title_x=0.4, xaxis={'categoryorder':'array', 'categoryarray':['Mon','Tue','Wed','Thu','Fri','Sat','Sun']}, xaxis_showgrid=False, yaxis_showgrid=False)
+                fig2.add_hrect(y0=0, y1=50, fillcolor="green", opacity=0.2, line_width=0, annotation_text="<b>Good</b>")
+                fig2.add_hrect(y0=50, y1=100, fillcolor="yellow", opacity=0.2, line_width=0, annotation_text="<b>Moderate</b>")
+                fig2.add_hrect(y0=100, y1=df_day['median'].max(), fillcolor="red", opacity=0.2, line_width=0, annotation_text="<b>Unhealthy</b>")
+                st.plotly_chart(fig2)
+            with col4:
+                caption1 =  "apaam"
+                st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption1}</p>", unsafe_allow_html=True)
+            
     # Buat tab ketiga
     with tab3:
         year_filter1 = st.slider("Select Year", min_value=int(df['year'].min()), max_value=int(df['year'].max()), value=(int(df['year'].min()), int(df['year'].max())), key='slider_tab3')
