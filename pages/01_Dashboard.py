@@ -98,9 +98,9 @@ with st.container():
             fig.add_vrect(x0=datetime.datetime(2018, 7, 1), x1=datetime.datetime(2018, 12, 31),fillcolor="lightgrey", opacity=0.8, line_width=0)
             st.plotly_chart(fig, theme="streamlit", use_container_width=True)
         with col2:
-            caption = "Air pollution in Jakarta is still a cause for concern, even though PM2.5 AQI has fluctuated from 2018 to 2023 and always decreased during the end and beginning of the year. The median PM2.5 AQI in Jakarta is still predominantly in the moderate and unhealthy range, which means that air pollution in Jakarta can still have a negative impact on the public. This implies that there hasn't been any effective policy or program to address this issue significantly."
-            st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption}</p>", unsafe_allow_html=True)
-            
+           caption = "Air pollution in Jakarta is still a cause for concern, even though PM2.5 AQI has fluctuated from 2018 to 2023 and always decreased during the end and beginning of the year. The median PM2.5 AQI in Jakarta is still predominantly in the <span style='color:red;font-weight:bold;'>unhealthy</span> and <span style='color:yellow;font-weight:bold;'>moderate</span> level, which means that air pollution in Jakarta can still have a negative impact on the public. This implies that there hasn't been any effective policy or program to address this issue significantly."
+           st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption}</p>", unsafe_allow_html=True)
+
     # Buat tab kedua
     with tab2:
         year_filter = st.slider("Select Year", min_value=int(df['year'].min()), max_value=int(df['year'].max()), value=(int(df['year'].min()), int(df['year'].max())))
@@ -116,7 +116,7 @@ with st.container():
             fig2.add_hrect(y0=100, y1=df['max'].max(), fillcolor="red", opacity=0.2, line_width=0, annotation_text="<b>Unhealthy</b>")
             st.plotly_chart(fig2)
         else:
-            col3,col4 = st.columns([2,1],gap="small")
+            col3,col4 = st.columns([2,1],gap="medium")
             with col3:
                 df_day = df_filtered.groupby('day').agg({'median': 'median'}).reset_index()
                 fig2 = px.bar(df_day, x='day', y='median', title='Median PM2.5 per Day', barmode='stack')
