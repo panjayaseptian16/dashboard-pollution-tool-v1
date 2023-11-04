@@ -41,27 +41,33 @@ with tab1:
         unsafe_allow_html=True)
 with tab2:
     html_code = """
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>AirVisual Widget</title>
-            <style>
-                div[name="airvisual_widget"] {
-                    position: absolute;
-                    top: 20%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                }
-            </style>
-        </head>
-        <body>
-            <div name="airvisual_widget" key="654518acce379fa31df00fae"></div>
-            <script type="text/javascript" src="https://widget.iqair.com/script/widget_v3.0.js"></script>
-        </body>
-        </html>
-        """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AirVisual Widget</title>
+        <style>
+            div[name="airvisual_widget"] {
+                position: absolute;
+                top: 20%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                transition: transform 0.3s;
+            }
+            div[name="airvisual_widget"]:hover {
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+        </style>
+    </head>
+    <body>
+        <div name="airvisual_widget" key="654518acce379fa31df00fae"></div>
+        <script type="text/javascript" src="https://widget.iqair.com/script/widget_v3.0.js"></script>
+    </body>
+    </html>
+    """
+
     html(html_code, height=500)
+
 with tab3: 
     html_code1 = """
         <!DOCTYPE html>
@@ -77,6 +83,10 @@ with tab3:
                 }
                 #weatherapi-weather-widget-4 {
                     width: 320px; /* Sesuaikan lebar sesuai kebutuhan Anda */
+                    transition: transform 0.3s;
+                }
+                #weatherapi-weather-widget-4:hover {
+                    transform: scale(1.1);
                 }
             </style>
         </head>
@@ -87,6 +97,7 @@ with tab3:
         </html>
         """
     html(html_code1, height=500)
+
 
 st.markdown("""
             <h3 style="text-align: center;color:#1F4172;">Dashboard Pollution in Jakarta</h3>
