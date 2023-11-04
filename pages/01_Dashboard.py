@@ -32,11 +32,62 @@ st.markdown("""
 # Baca konten HTML dari berkas interactive_aqi_widget.html
 tes_html = read_file("tes.html")
 
-with st.container():
-    html(tes_html, height=425)
-    st.markdown(
-    "<p style='margin-top:-25px; text-align: center; font-size: 14px; color:#1F4172;'>Air Quality Index (AQI) scale as defined by the US-EPA 2016 standard. Check details in <a href='https://aqicn.org/scale/'>here</a></p>",
-    unsafe_allow_html=True)
+tab1,tab2,tab3 = st.tabs(['Widgets 1', 'Widget 2', 'Weather'])
+with tab1: 
+    with st.container():
+        html(tes_html, height=425)
+        st.markdown(
+        "<p style='margin-top:-25px; text-align: center; font-size: 14px; color:#1F4172;'>Air Quality Index (AQI) scale as defined by the US-EPA 2016 standard. Check details in <a href='https://aqicn.org/scale/'>here</a></p>",
+        unsafe_allow_html=True)
+with tab2:
+    html_code = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>AirVisual Widget</title>
+            <style>
+                div[name="airvisual_widget"] {
+                    position: absolute;
+                    top: 20%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            </style>
+        </head>
+        <body>
+            <div name="airvisual_widget" key="654518acce379fa31df00fae"></div>
+            <script type="text/javascript" src="https://widget.iqair.com/script/widget_v3.0.js"></script>
+        </body>
+        </html>
+        """
+    html(html_code, height=500)
+with tab3: 
+    html_code1 = """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>WeatherAPI Widget</title>
+            <style>
+                body {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                }
+                #weatherapi-weather-widget-4 {
+                    width: 320px; /* Sesuaikan lebar sesuai kebutuhan Anda */
+                }
+            </style>
+        </head>
+        <body>
+            <div id="weatherapi-weather-widget-4"></div>
+            <script type='text/javascript' src='https://www.weatherapi.com/weather/widget.ashx?loc=3026315&wid=4&tu=1&div=weatherapi-weather-widget-4' async></script><noscript><a href="https://www.weatherapi.com/weather/q/jakarta-3026315" alt="Hour by hour Jakarta weather">10 day hour by hour Jakarta weather</a>
+            </noscript></body>
+        </html>
+        """
+    html(html_code1, height=500)
+
 st.markdown("""
             <h3 style="text-align: center;color:#1F4172;">Dashboard Pollution in Jakarta</h3>
             """, unsafe_allow_html=True)

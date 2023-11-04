@@ -53,37 +53,3 @@ median_pm25_per_year = df.groupby('year')['median'].median()
 
 st.dataframe(median_pm25_per_year)
 
-
-import streamlit as st
-
-html_code = """
-<!DOCTYPE html>
-<html>
-<head>
-    <title>AirVisual Widget</title>
-</head>
-<body>
-    <div name="airvisual_widget" key="654518acce379fa31df00fae"></div>
-    <script type="text/javascript" src="https://widget.iqair.com/script/widget_v3.0.js"></script>
-</body>
-</html>
-"""
-
-html(html_code, height=500)
-
-import streamlit as st
-
-html_code1 = """
-<!DOCTYPE html>
-<html>
-<head>
-    <title>WeatherAPI Widget</title>
-</head>
-<body>
-    <div id="weatherapi-weather-widget-4"></div>
-    <script type='text/javascript' src='https://www.weatherapi.com/weather/widget.ashx?loc=3026315&wid=4&tu=1&div=weatherapi-weather-widget-4' async></script><noscript><a href="https://www.weatherapi.com/weather/q/jakarta-3026315" alt="Hour by hour Jakarta weather">10 day hour by hour Jakarta weather</a>
-    </noscript></body>
-</html>
-"""
-
-html(html_code1, height=500)
