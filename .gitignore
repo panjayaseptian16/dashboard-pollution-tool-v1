@@ -177,3 +177,7 @@ pyrightconfig.json
 
 # Secret keys
 .streamlit/secrets.toml
+
+#file csv
+daily-aqi.csv
+temperature.csv
