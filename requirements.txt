@@ -1,6 +1,7 @@
 streamlit==1.27.0
 streamlit-lottie==0.0.5
 streamlit-option-menu==0.3.6
+seaborn
 pandas==2.1.2
 plotly==5.18.0
 plotly-express==0.4.1

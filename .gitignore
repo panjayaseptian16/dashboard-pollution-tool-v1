@@ -181,3 +181,4 @@ pyrightconfig.json
 #file csv
 daily-aqi.csv
 temperature.csv
+update.csv

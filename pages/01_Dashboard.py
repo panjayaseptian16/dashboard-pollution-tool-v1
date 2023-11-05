@@ -32,7 +32,7 @@ st.markdown("""
 # Baca konten HTML dari berkas interactive_aqi_widget.html
 tes_html = read_file("tes.html")
 
-tab1,tab2,tab3 = st.tabs(['Widgets 1', 'Widget 2', 'Weather'])
+tab1,tab2,tab3 = st.tabs(['Widgets', 'Alternative', 'Weather'])
 with tab1: 
     with st.container():
         html(tes_html, height=425)
@@ -41,7 +41,7 @@ with tab1:
         unsafe_allow_html=True)
 with tab2:
     html_code = """
-    <!DOCTYPE html>
+        <!DOCTYPE html>
     <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,6 +58,15 @@ with tab2:
                 transform: translate(-50%, -50%) scale(1.1);
             }
         </style>
+        <script type="text/javascript">
+            window.onload = function() {
+                var widget = document.querySelector('div[name="airvisual_widget"]');
+                widget.addEventListener('click', function(event) {
+                    event.preventDefault(); // Mencegah tindakan default
+                    event.stopPropagation(); // Mencegah penyebaran event
+                });
+            };
+        </script>
     </head>
     <body>
         <div name="airvisual_widget" key="654518acce379fa31df00fae"></div>
@@ -65,7 +74,6 @@ with tab2:
     </body>
     </html>
     """
-
     html(html_code, height=500)
 
 with tab3: 
@@ -226,3 +234,112 @@ with st.container():
         fig4.add_annotation(text="Period of COVID-19 (PSBB/PPKM)", x=2021, y=110, showarrow=False, font=dict(family="monospace", size=16, color="black"))
     
         st.plotly_chart(fig4)
+
+conn = sqlite3.connect('pollution.db')
+cursor = conn.cursor()
+cursor.execute(
+    '''
+    SELECT date, temperature, tmax, tmin
+    FROM temperature
+    '''
+)
+rows1 = cursor.fetchall()
+# Menutup koneksi
+conn.close()
+# Mengonversi data ke dalam DataFrame
+df1 = pd.DataFrame(rows1, columns=['date','temperature', 'tmax', 'tmin'])
+df1['date'] = pd.to_datetime(df1['date'])
+df1 = df1.groupby('date')[['temperature', 'tmax','tmin']].mean().reset_index()
+
+temperature = df1.sort_values(by='date')
+pm25 = df.loc[:, ["date", "median"]]
+pm25 = pm25.rename(columns={"median": "pm25"})
+
+result = pd.merge(temperature, pm25, on='date', how='inner')
+result = result.sort_values(by='date')
+
+st.dataframe(result)
+result = result.drop('date', axis=1)
+result = result.rename(columns={"temperature": "tavg"})
+
+st.dataframe(result)
+
+import streamlit as st
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+corr_matrix = result.corr()
+
+plt.figure(figsize=(3, 2))
+sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
+st.pyplot(plt.gcf())  # Use plt.gcf() to get the current figure
+
+# Menampilkan nilai korelasi
+st.write("Heatmap Korelasi:")
+st.write(corr_matrix)
+
+# testing
+conn = sqlite3.connect('pollution.db')
+cursor = conn.cursor()
+cursor.execute(
+    '''
+    select pm10.date,
+       pm10.median as pm10,
+       dew.median as dew,
+       humidity.median as humidity,
+       pm25.median as pm25,
+       pressure.median as pressure, 
+       temperature.median as temperature,
+       wind_gust.median as wind_gust,
+       wind_speed.median as wind_speed
+from 
+    (select date, median 
+     from daily_aqi
+     where indicator LIKE '%pm10%') as pm10
+join 
+    (select date, median 
+     from daily_aqi
+     where indicator LIKE '%dew%') as dew
+on pm10.date = dew.date
+join (select date, median 
+     from daily_aqi
+     where indicator LIKE '%humidity%') as humidity
+on dew.date = humidity.date
+join (select date, median 
+     from daily_aqi
+     where indicator LIKE '%pm25%') as pm25
+on humidity.date = pm25.date
+join (select date, median 
+     from daily_aqi
+     where indicator LIKE '%pressure%') as pressure
+on pm25.date = pressure.date
+join (select date, median 
+     from daily_aqi
+     where indicator LIKE '%temperature%') as temperature
+on pressure.date = temperature.date
+join (select date, median 
+     from daily_aqi
+     where indicator LIKE '%wind-gust%') as wind_gust
+on temperature.date = wind_gust.date
+join (select date, median 
+     from daily_aqi
+     where indicator LIKE '%wind-speed%') as wind_speed
+on wind_gust.date = wind_speed.date
+order by pm10.date
+    '''
+)
+rows2 = cursor.fetchall()
+# Menutup koneksi
+conn.close()
+
+df2 = pd.DataFrame(rows2, columns=['date','pm10', 'dew', 'humidity', 'pm25', 'pressure', 'temperature', 'wind-gust', 'wind-speed'])
+df2 = df2.sort_values(by='date')
+df2 = df2.drop('date', axis=1)
+corr_matrix1 = df2.corr()
+
+plt.figure(figsize=(3, 2))
+sns.heatmap(corr_matrix1, annot=True, cmap='coolwarm', linewidths=0.5)
+st.pyplot(plt.gcf())
+st.write("Heatmap Korelasi:")
+st.write(corr_matrix1)
