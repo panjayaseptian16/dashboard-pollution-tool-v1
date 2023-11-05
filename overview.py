@@ -152,8 +152,7 @@ with st.container():
     st.markdown("<h3 style='text-align: center;color: #FF6347;'>Our Team</h3>", unsafe_allow_html=True)
     col5,col6,col7,col8,col9 = st.columns(5)
     with col5:
-       st.markdown(
-            """
+       st.markdown("""
             <style>
                 .our-team {
                     display: flex;
@@ -190,7 +189,7 @@ with st.container():
                 }
 
                 .profile a button {
-                    background-color: #3498db;
+                    background-color: #f08080;
                     color: #fff;
                     border: none;
                     padding: 8px 12px;
@@ -203,12 +202,8 @@ with st.container():
                     background-color: #2980b9;
                 }
             </style>
-            """,
-            unsafe_allow_html=True,
-        )
-
-        st.markdown(
-            """
+            """,unsafe_allow_html=True)
+       st.markdown("""
             <h3 style='text-align:center;'> Team Leader </h3>
             <div class="our-team">
                 <div class="profile">
@@ -217,5 +212,4 @@ with st.container():
                     <a href="https://www.linkedin.com/in/septian-panjaya"><button>LinkedIn</button></a>
                 </div>
             </div>
-            """,
-            unsafe_allow_html=True)
+            """,unsafe_allow_html=True)
