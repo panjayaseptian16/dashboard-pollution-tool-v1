@@ -32,7 +32,7 @@ st.markdown("""
 # Baca konten HTML dari berkas interactive_aqi_widget.html
 tes_html = read_file("tes.html")
 
-tab1,tab2,tab3 = st.tabs(['Widgets', 'Alternative', 'Weather'])
+tab1,tab2,tab3 = st.tabs(['Widget', 'Alternative', 'Weather'])
 with tab1: 
     with st.container():
         html(tes_html, height=425)
