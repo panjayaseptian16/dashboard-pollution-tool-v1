@@ -1,55 +1,221 @@
 import streamlit as st
 from streamlit.components.v1 import html
+import requests
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
-
+st.set_page_config(
+    layout="wide",
+    initial_sidebar_state="expanded")
 # Adding a sidebar with the required elements
-with st.sidebar:
-    st.subheader("Created by : ")
-    st.markdown("""<h3 style='text-align:center;'>Septian Panjaya</h3>""", unsafe_allow_html=True)
-    col3, col4 = st.columns(2)
-    with col3:
-        st.markdown("[![Linkedin](https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg)](https://www.linkedin.com/in/septian-panjaya)")
+#with st.sidebar:
+#    st.subheader("Created by : ")
+#    st.markdown("""<h3 style='text-align:center;'>Septian Panjaya</h3>""", unsafe_allow_html=True)
+#    col3, col4 = st.columns(2)
+#    with col3:
+#        st.markdown("[![Linkedin](https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg)](https://www.linkedin.com/in/septian-panjaya)")
 
-st.markdown(
-    """
+#st.markdown(
+#    """
+#    <style>
+ #   .sidebar .sidebar-content {
+ #       position: fixed;
+  #      max-width: 220px;
+   #     padding: 2rem;
+    #}
+    #</style>
+    #""",
+#    unsafe_allow_html=True,
+#)
+
+
+st.markdown("""
+          <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome! Pollution Ranger</title>
     <style>
-    .sidebar .sidebar-content {
-        position: fixed;
-        max-width: 220px;
-        padding: 2rem;
-    }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f3f3f3;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .text-container {
+            text-align: center;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .text {
+            font-size: 3rem;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: 0.15em solid;
+            animation: animate-text 5s infinite;
+            transition: all 0.3s ease;
+        }
+
+        .text:hover {
+            color: #ff9900;
+            transform: scale(1.2);
+        }
+
+        @keyframes animate-text {
+            0% {
+                color: #ff0000;
+            }
+            10% {
+                color: #ff7f00;
+            }
+            20% {
+                color: #ffff00;
+            }
+            30% {
+                color: #00ff00;
+            }
+            40% {
+                color: #00ff7f;
+            }
+            50% {
+                color: #00ffff;
+            }
+            60% {
+                color: #007fff;
+            }
+            70% {
+                color: #0000ff;
+            }
+            80% {
+                color: #7f00ff;
+            }
+            90% {
+                color: #ff00ff;
+            }
+            100% {
+                color: #ff0000;
+            }
+        }
     </style>
-    """,
-    unsafe_allow_html=True,
+</head>
+<body>
+    <div class="text-container">
+        <h1 class="text">Welcome! Pollution Ranger</h1>
+    </div>
+</body>
+</html>
+""", unsafe_allow_html=True
 )
-import sqlite3
-import pandas as pd
-conn = sqlite3.connect('pollution.db')
-cursor = conn.cursor()
-cursor.execute(
-    '''
-    SELECT * FROM daily_aqi WHERE indicator LIKE '%pm25%';
-    '''
-)
-rows = cursor.fetchall()
-# Menutup koneksi
-conn.close()
-# Mengonversi data ke dalam DataFrame
-df = pd.DataFrame(rows,  columns=['date', 'country_code', 'city', 'indicator', 'count', 'min', 'max', 'median', 'variance'])
 
-# Ubah format data tanggal
-df['date'] = pd.to_datetime(df['date'])
+from streamlit_lottie import st_lottie
 
-df = df.sort_values(by='date')
+def load_lottieurl(url: str):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
 
-df = df[df['indicator']=='pm25'] 
+about_project = load_lottieurl("https://lottie.host/096edf35-97f9-402a-ab07-13438c3190a2/O6iG18SZ9B.json")
+features = load_lottieurl("https://lottie.host/6ef5a986-33d7-4dcc-8920-d473e3b2db36/bTb56aUDUm.json")
+st.empty()
+col1, col2 = st.columns([1.5, 1], gap="small")
 
-# Tambahkan kolom tahun, bulan, dan hari
-df['year'] = df['date'].dt.year
+with col1:
+    st.markdown("<h3 style='text-align: center;color: #008080;'>About Our Project</h3>", unsafe_allow_html=True)
+    st.markdown(
+    """
+    <p style='text-align: center;'>Air pollution is a <span style='color: #008080; font-weight: bold;'>persistent threat</span> in Jakarta, with the air quality consistently at unhealthy levels for the past 5 years.</p>
+    <p style='text-align: center;'>Our mission is to <span style='color: #008080; font-weight: bold;'>raise awareness</span> and prompt action. Through our website, we provide real-time air quality data and temperature monitoring, empowering individuals to track their contributions to pollution.</p>
+    <p style='text-align: center;'>Recognizing the urgency, we foster a community-driven effort through the <span style='color: #008080; font-weight: bold;'>Pollution Ranger task force</span>. These dedicated individuals monitor and address air pollution within their communities, advocating for change and inspiring others to join the cause.</p>
+    """, unsafe_allow_html=True)
+with col2:
+    st_lottie(about_project, speed=1, reverse=False, loop=True, height=300)
 
-median_pm25_per_year = df.groupby('year')['median'].median()
+col3,col4 = st.columns([1,3],gap="small")
+with col4: 
+    st.markdown("<h3 style='text-align: center;color: #4169E1;'>Features</h3>", unsafe_allow_html=True)
+    st.markdown(':chart_with_upwards_trend: :blue[Dashboard] : Real-time monitoring of AQI (Air Quality Index) and temperature, along with visualization of pollution conditions in Jakarta.')
+    st.markdown(':male-detective: :green[Deep Analysis] : Advanced analysis of pollution data that includes recommendations and ideas for improvement.')
+    st.markdown(":ballot_box_with_check: :rainbow[Knowledge Check] : A feature to assess the user's knowledge about air pollution, including statistics (Developer only).")
+    st.markdown(":bookmark: :orange[Daily Pollution Tracker] : A calculator to measure or track the amount of pollution or emissions generated in daily activities. There are two types available: one for the general public and another specifically designed for programmers.")
+with col3: 
+    st_lottie(features, speed=1, reverse=False, loop=True, height=300)
 
-st.dataframe(median_pm25_per_year)
+with st.container():
+    st.markdown("<h3 style='text-align: center;color: #FF6347;'>Our Team</h3>", unsafe_allow_html=True)
+    col5,col6,col7,col8,col9 = st.columns(5)
+    with col5:
+       st.markdown(
+            """
+            <style>
+                .our-team {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: center;
+                }
 
+                .profile {
+                    margin: 20px;
+                    padding: 20px;
+                    text-align: center;
+                    background-color: #F0FFFF;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    width: 200px;
+                    transition: background-color 0.3s;
+                }
+
+                .profile:hover {
+                    background-color: #AFEEEE;
+                }
+
+                .profile img {
+                    width: 120px;
+                    height: 120px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    margin-bottom: 15px;
+                }
+
+                .profile h3 {
+                    font-size: 18px;
+                    margin-bottom: 10px;
+                }
+
+                .profile a button {
+                    background-color: #3498db;
+                    color: #fff;
+                    border: none;
+                    padding: 8px 12px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: background-color 0.3s;
+                }
+
+                .profile a button:hover {
+                    background-color: #2980b9;
+                }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        st.markdown(
+            """
+            <h3 style='text-align:center;'> Team Leader </h3>
+            <div class="our-team">
+                <div class="profile">
+                    <img src="https://drive.google.com/uc?export=view&id=1S2YdHLmzTA-m6qCHvbsFeQSfNg1_S7Uc" alt="">
+                    <h3>Septian Panjaya</h3>
+                    <a href="https://www.linkedin.com/in/septian-panjaya"><button>LinkedIn</button></a>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True)
