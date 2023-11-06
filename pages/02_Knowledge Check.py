@@ -10,12 +10,8 @@ st.set_page_config(
     page_title="Dashboard and Realtime Monitoring",
     page_icon="🧊",
     layout="wide",
-    initial_sidebar_state="expanded",
-    menu_items={
-        'Get Help': 'https://www.extremelycoolapp.com/help',
-        'Report a bug': "https://www.extremelycoolapp.com/bug",
-        'About': "# This is a header. This is an *extremely* cool app!"
-    })
+    initial_sidebar_state="expanded"
+    )
 
 
 # List of questions, options, and correct answers
@@ -27,7 +23,7 @@ questions = [
     "Dampak polusi udara di Jakarta terhadap ekonomi adalah...",
     "Apa jenis vegetasi yang paling efektif dalam menyerap polutan udara di perkotaan Jakarta?",
     "Apa langkah-langkah yang bisa diambil pemerintah untuk mempromosikan pola transportasi berkelanjutan di Jakarta?",
-    "Bagaimana peningkatan jumlah industri tekstil di sekitar Jakarta berkontribusi terhadap polusi air di daerah sekitarnya?",
+    "Bagaimana konsep ekonomi sirkular berperan dalam mengurangi dampak polusi udara terhadap kesehatan masyarakat?",
     "Program pemerintah apa yang bertujuan untuk mengurangi polusi udara di Jakarta?",
     "Salah satu cara untuk mengurangi polusi udara di Jakarta adalah dengan mengurangi penggunaan kendaraan pribadi. Aktivitas apa yang bisa dilakukan untuk mengurangi penggunaan kendaraan pribadi, tetapi membutuhkan dukungan dari masyarakat?"
 ]
@@ -40,7 +36,7 @@ options = [
     ['a. Menurunkan produktivitas kerja', 'b. Meningkatkan biaya kesehatan', 'c. Menurunkan daya saing', 'd. Semua jawaban benar'],
     ['a. Rumput', 'b. Pohon berdaun lebar', 'c. Semak belukar', 'd. Alga'],
     ['a. Meningkatkan harga bahan bakar', 'b. Membangun lebih banyak jalan tol', 'c. Meningkatkan tarif parkir', 'd. Memberikan insentif bagi pengguna transportasi umum'],
-    ['a. Peningkatan kualitas air', 'b. Peningkatan kesejahteraan masyarakat', 'c. Peningkatan konsumsi energi', 'd. Peningkatan produksi limbah cair'],
+    ['a. Dengan meningkatkan akses terhadap pelayanan kesehatan', 'b. Dengan menekan produksi limbah berbahaya', 'c. Dengan mengurangi harga obat-obatan', 'd. Dengan meningkatkan ketersediaan kendaraan pribadi'],
     ['a. Program Langit Biru', 'b. Program Jakarta Hijau', 'c. Program Kendaraan Bermotor Listrik', 'd. Program Pengendalian Sampah'],
     ['a. Menggunakan kendaraan umum', 'b. Berjalan kaki', 'c. Bersepeda', 'd. Melakukan carpooling']
 ]
@@ -52,7 +48,7 @@ correct_answers = ['c. Partikel halus (PM2.5)',
                    'd. Semua jawaban benar', 
                    'b. Pohon berdaun lebar', 
                    'd. Memberikan insentif bagi pengguna transportasi umum', 
-                   'd. Peningkatan produksi limbah cair', 
+                   'b. Dengan menekan produksi limbah berbahaya', 
                    'a. Program Langit Biru', 
                    'd. Melakukan carpooling']
 
@@ -118,6 +114,11 @@ with tab1:
                 st.markdown(
                             """
                             <style>
+                                .container {
+                                    width: 73%;
+                                    margin: 0 auto;
+                                    overflow: hidden;
+                                }
                                 .text-animation {
                                     text-align: center;
                                     color: #008080;
@@ -126,7 +127,7 @@ with tab1:
                                     white-space: nowrap;
                                     overflow: hidden;
                                     border-right: 0.15em solid;
-                                    animation: typing 8s steps(35, end) infinite, color-change 8s infinite;
+                                    animation: typing 6s steps(25, end) infinite, color-change 8s infinite;
                                 }
 
                                 @keyframes typing {
@@ -143,13 +144,12 @@ with tab1:
                                 }
                             </style>
                             """,
-                            unsafe_allow_html=True,
-                        )
-
+                            unsafe_allow_html=True)
                 st.markdown(
                             """
-                            <div class="text-animation">Jangan lewatkan kesempatan untuk upgrade pengetahuanmu tentang polusi udara dengan menonton video atau membaca artikel rekomendasi kami!</div>
-                            """,
+                            <div class="container">
+                            <p class="text-animation">Upgrade pengetahuanmu dengan menonton rekomendasi video di bawah ini!</p>
+                            </div>""",
                             unsafe_allow_html=True,
                         )
                 col19,col20,col21 = st.columns(3,gap="large")
@@ -310,13 +310,300 @@ with tab1:
                     st.markdown(
                             f"""
                             <div class="card">
-                                <h3 style='font-size:20px'>Air Pollution | What Causes Air Pollution? | The Dr Binocs Show | </h3>
+                                <h3 style='font-size:20px'> Six ways to reduce air pollution </h3>
                                 <img src="{thumbnail_url2}" alt="Thumbnail" class="thumbnail">
                                 <p>Klik tombol di bawah untuk menonton video:</p>
                                 <a href="https://www.youtube.com/watch?v={video_id2}" target="_blank"><button class="button">Tonton Video</button></a>
                             </div>
                             """,
                             unsafe_allow_html=True)
+                st.empty()
+                st.empty()
+                st.markdown(
+                            """
+                            <style>
+                                .container {
+                                    width: 50%;
+                                    margin: 0 auto;
+                                    overflow: hidden;
+                                }
+                                .text-animation {
+                                    text-align: center;
+                                    color: #008080;
+                                    font-size: 24px;
+                                    font-weight: bold;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    border-right: 0.15em solid;
+                                    animation: typing 6s steps(25, end) infinite, color-change 8s infinite;
+                                }
+
+                                @keyframes typing {
+                                    from { width: 0 }
+                                    to { width: 100% }
+                                }
+
+                                @keyframes color-change {
+                                    0% { color: #FF1493; }
+                                    25% { color: #1E90FF; }
+                                    50% { color: #32CD32; }
+                                    75% { color: #FFA500; }
+                                    100% { color: #FF1493; }
+                                }
+                            </style>
+                            """,
+                            unsafe_allow_html=True)
+                st.markdown(
+                            """
+                            <div class="container">
+                            <p class="text-animation">Naik level dengan membaca artikel ini!</p>
+                            </div>""",
+                            unsafe_allow_html=True,
+                        )
+                col16,col17,col18 = st.columns(3, gap="small")
+                with col16:
+                    st.markdown(
+                        """
+                        <style>
+                            .card {
+                                width: 300px;
+                                border: 2px solid #e6e6e6;
+                                border-radius: 10px;
+                                overflow: hidden;
+                                margin: 20px;
+                                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                                transition: 0.3s;
+                                font-family: 'Arial';
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: center;
+                                background-color: #f9f9f9;
+                                text-align: center;
+                            }
+
+                            .card:hover {
+                                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+                                transform: scale(1.05);
+                            }
+
+                            .card-content {
+                                padding: 20px;
+                            }
+
+                            .card-content h3 {
+                                color: #333;
+                                font-size: 1.5em;
+                                margin: 0;
+                            }
+
+                            .card-link {
+                                text-decoration: none;
+                                color: #333;
+                            }
+                        </style>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+
+                    url = 'https://news.detik.com/berita/d-6073382/pemprov-dki-siapkan-program-langit-biru-untuk-perbaiki-kualitas-udara'
+                    title = 'Pemprov DKI Siapkan Program Langit Biru'
+
+                    st.markdown(
+                        f"""
+                        <div class="card">
+                            <a class="card-link" href="{url}" target="_blank">
+                                <div class="card-content">
+                                    <h3>{title}</h3>
+                                </div>
+                            </a>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+                with col17:
+                    st.markdown(
+                        """
+                        <style>
+                            .card {
+                                width: 300px;
+                                border: 2px solid #e6e6e6;
+                                border-radius: 10px;
+                                overflow: hidden;
+                                margin: 20px;
+                                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                                transition: 0.3s;
+                                font-family: 'Arial';
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: center;
+                                background-color: #f9f9f9;
+                                text-align: center;
+                            }
+
+                            .card:hover {
+                                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+                                transform: scale(1.05);
+                            }
+
+                            .card-content {
+                                padding: 20px;
+                            }
+
+                            .card-content h3 {
+                                color: #333;
+                                font-size: 1.5em;
+                                margin: 0;
+                            }
+
+                            .card-link {
+                                text-decoration: none;
+                                color: #333;
+                            }
+                        </style>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+
+                    url = 'https://www.siloamhospitals.com/informasi-siloam/artikel/bahaya-polusi-udara'
+                    title = '8 Bahaya Polusi Udara'
+
+                    st.markdown(
+                        f"""
+                        <div class="card">
+                            <a class="card-link" href="{url}" target="_blank">
+                                <div class="card-content">
+                                    <h3>{title}</h3>
+                                </div>
+                            </a>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+                with col18:
+                    st.markdown(
+                        """
+                        <style>
+                            .card {
+                                width: 300px;
+                                border: 2px solid #e6e6e6;
+                                border-radius: 10px;
+                                overflow: hidden;
+                                margin: 20px;
+                                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                                transition: 0.3s;
+                                font-family: 'Arial';
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: center;
+                                background-color: #f9f9f9;
+                                text-align: center;
+                            }
+
+                            .card:hover {
+                                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+                                transform: scale(1.05);
+                            }
+
+                            .card-content {
+                                padding: 20px;
+                            }
+
+                            .card-content h3 {
+                                color: #333;
+                                font-size: 1.5em;
+                                margin: 0;
+                            }
+
+                            .card-link {
+                                text-decoration: none;
+                                color: #333;
+                            }
+                        </style>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+
+                    url = 'https://solarimpulse.com/air-pollution-solutions'
+                    title = 'Air Pollution Solutions'
+
+                    st.markdown(
+                        f"""
+                        <div class="card">
+                            <a class="card-link" href="{url}" target="_blank">
+                                <div class="card-content">
+                                    <h3>{title}</h3>
+                                </div>
+                            </a>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+                col22,col23,col24 = st.columns(3, gap="small")
+                with col23:
+                    st.markdown(
+                        """
+                        <style>
+                            .card {
+                                width: 300px;
+                                border: 2px solid #e6e6e6;
+                                border-radius: 10px;
+                                overflow: hidden;
+                                margin: 20px;
+                                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                                transition: 0.3s;
+                                font-family: 'Arial';
+                                display: flex;
+                                flex-direction: column;
+                                justify-content: center;
+                                align-items: center;
+                                background-color: #f9f9f9;
+                                text-align: center;
+                            }
+
+                            .card:hover {
+                                box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+                                transform: scale(1.05);
+                            }
+
+                            .card-content {
+                                padding: 20px;
+                            }
+
+                            .card-content h3 {
+                                color: #333;
+                                font-size: 1.5em;
+                                margin: 0;
+                            }
+
+                            .card-link {
+                                text-decoration: none;
+                                color: #333;
+                            }
+                        </style>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+
+                    url = 'https://www.pca.state.mn.us/news-and-stories/what-you-can-do-about-air-pollution'
+                    title = 'What you can do about air pollution ?'
+
+                    st.markdown(
+                        f"""
+                        <div class="card">
+                            <a class="card-link" href="{url}" target="_blank">
+                                <div class="card-content">
+                                    <h3>{title}</h3>
+                                </div>
+                            </a>
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+
+
         else: 
                 st.error('Kamu belum mengisi semua form', icon="🚨")
 
@@ -383,7 +670,21 @@ if tab2_access_granted:
                 st.markdown(f"<h3 style='text-align: center;'>Age Distribution</h3>", unsafe_allow_html=True)
                 fig, ax = plt.subplots()
                 ax.hist(df["age"])
-                st.pyplot(fig)  
+                st.pyplot(fig)
+            col25,col26,col27 = st.columns([1,2,1])
+            with col26 : 
+                points = df['points']  # Ganti dengan kolom yang sesuai
+                # Kategorisasi nilai points
+                low_count = sum(1 for point in points if point in range(0, 4))
+                medium_count = sum(1 for point in points if point in range(4, 8))
+                high_count = sum(1 for point in points if point in range(8, 11))
+
+                # Membuat pie chart
+                fig, ax = plt.subplots()
+                ax.pie([low_count, medium_count, high_count], labels=['Low Knowledge', 'Medium Knowledge', 'High Knowledge'], colors=['#ff9999','#66b3ff','#99ff99'], autopct='%1.1f%%')
+                ax.set_title("Knowledge Level Distribution")
+                # Menampilkan pie chart di Streamlit
+                st.pyplot(fig)
             col6,col7 = st.columns(2)
             with col6:
                 correct_answer = correct_answers[0]
