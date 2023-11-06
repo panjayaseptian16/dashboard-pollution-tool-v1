@@ -115,17 +115,50 @@ with tab1:
                 st.success('Terima kasih telah mengisi Knowledge Check!')
                 st.write('Tanggal Submit:', submit_date)
                 st.write('Total Poin:', points)
-                col16,col17,col18 = st.columns([1,3,1])
-                with col17:
-                    st.subheader("Jangan lewatkan kesempatan untuk upgrade pengetahuanmu tentang polusi udara dengan menonton video rekomendasi kami!")
-                if points <= 3:
-                    col19,col20,col21 = st.columns(3)
-                    with col19:
-                        st.markdown(
+                st.markdown(
+                            """
+                            <style>
+                                .text-animation {
+                                    text-align: center;
+                                    color: #008080;
+                                    font-size: 24px;
+                                    font-weight: bold;
+                                    white-space: nowrap;
+                                    overflow: hidden;
+                                    border-right: 0.15em solid;
+                                    animation: typing 8s steps(35, end) infinite, color-change 8s infinite;
+                                }
+
+                                @keyframes typing {
+                                    from { width: 0 }
+                                    to { width: 100% }
+                                }
+
+                                @keyframes color-change {
+                                    0% { color: #FF1493; }
+                                    25% { color: #1E90FF; }
+                                    50% { color: #32CD32; }
+                                    75% { color: #FFA500; }
+                                    100% { color: #FF1493; }
+                                }
+                            </style>
+                            """,
+                            unsafe_allow_html=True,
+                        )
+
+                st.markdown(
+                            """
+                            <div class="text-animation">Jangan lewatkan kesempatan untuk upgrade pengetahuanmu tentang polusi udara dengan menonton video atau membaca artikel rekomendasi kami!</div>
+                            """,
+                            unsafe_allow_html=True,
+                        )
+                col19,col20,col21 = st.columns(3,gap="large")
+                with col19:
+                    st.markdown(
                             """
                             <style>
                                 .card {
-                                    width: 400px;
+                                    width: 350px;
                                     background-color: #f8f9fa;
                                     padding: 20px;
                                     border-radius: 10px;
@@ -151,7 +184,7 @@ with tab1:
                                 }
                                 .thumbnail {
                                     width: 300px;
-                                    height: 200px;
+                                    height: 250px;
                                     border-radius: 10px;
                                     object-fit: cover;
                                     margin-bottom: 15px;
@@ -161,13 +194,13 @@ with tab1:
                             unsafe_allow_html=True,
                         )
 
-                        video_id = "pbrpdUiSYMY"  # Ganti dengan ID video YouTube yang diinginkan
-                        thumbnail_url = f"https://img.youtube.com/vi/{video_id}/0.jpg"  # URL thumbnail dari video YouTube
+                    video_id = "pbrpdUiSYMY"  # Ganti dengan ID video YouTube yang diinginkan
+                    thumbnail_url = f"https://img.youtube.com/vi/{video_id}/0.jpg"  # URL thumbnail dari video YouTube
 
-                        st.markdown(
+                    st.markdown(
                             f"""
                             <div class="card">
-                                <h3>Air pollution - How does it impact our health?</h3>
+                                <h3 style='font-size:20px'>Air pollution - How does it impact our health?</h3>
                                 <img src="{thumbnail_url}" alt="Thumbnail" class="thumbnail">
                                 <p>Klik tombol di bawah untuk menonton video:</p>
                                 <a href="https://www.youtube.com/watch?v={video_id}" target="_blank"><button class="button">Tonton Video</button></a>
@@ -175,12 +208,12 @@ with tab1:
                             """,
                             unsafe_allow_html=True,
                         )
-                    with col20:
-                        st.markdown(
+                with col20:
+                    st.markdown(
                             """
                             <style>
                                 .card {
-                                    width: 400px;
+                                    width: 350px;
                                     background-color: #f8f9fa;
                                     padding: 20px;
                                     border-radius: 10px;
@@ -206,7 +239,7 @@ with tab1:
                                 }
                                 .thumbnail {
                                     width: 300px;
-                                    height: 200px;
+                                    height: 250px;
                                     border-radius: 10px;
                                     object-fit: cover;
                                     margin-bottom: 15px;
@@ -216,13 +249,13 @@ with tab1:
                             unsafe_allow_html=True,
                         )
 
-                        video_id1 = "fephtrPt6wk"  # Ganti dengan ID video YouTube yang diinginkan
-                        thumbnail_url1 = f"https://img.youtube.com/vi/{video_id1}/0.jpg"  # URL thumbnail dari video YouTube
+                    video_id1 = "fephtrPt6wk"  # Ganti dengan ID video YouTube yang diinginkan
+                    thumbnail_url1 = f"https://img.youtube.com/vi/{video_id1}/0.jpg"  # URL thumbnail dari video YouTube
 
-                        st.markdown(
+                    st.markdown(
                             f"""
                             <div class="card">
-                                <h3>Air Pollution | What Causes Air Pollution? | The Dr Binocs Show | </h3>
+                                <h3 style='font-size:20px'>Air Pollution | What Causes Air Pollution? | The Dr Binocs Show | </h3>
                                 <img src="{thumbnail_url1}" alt="Thumbnail" class="thumbnail">
                                 <p>Klik tombol di bawah untuk menonton video:</p>
                                 <a href="https://www.youtube.com/watch?v={video_id1}" target="_blank"><button class="button">Tonton Video</button></a>
@@ -230,14 +263,60 @@ with tab1:
                             """,
                             unsafe_allow_html=True,
                         )
-                elif points <= 7:
-                    st.write("Tingkat pengetahuan Anda tentang polusi sudah cukup baik. Untuk memperdalam pengetahuan, Anda dapat membaca sumber-sumber berikut:")
-                    st.write("- [Artikel] (link artikel terkait polusi)")
-                    st.write("- [Video] (link video terkait polusi)")
-                else:
-                    st.write("Tingkat pengetahuan Anda tentang polusi sangat baik! Namun, Anda tetap dapat memperkaya pengetahuan dengan membaca sumber-sumber berikut:")
-                    st.write("- [Artikel] (link artikel terkait polusi)")
-                    st.write("- [Video] (link video terkait polusi)")
+                with col21:
+                    st.markdown(
+                            """
+                            <style>
+                                .card {
+                                    width: 350px;
+                                    background-color: #f8f9fa;
+                                    padding: 20px;
+                                    border-radius: 10px;
+                                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                                    text-align: center;
+                                    transition: transform 0.3s;
+                                }
+                                .card:hover {
+                                    transform: scale(1.05);
+                                }
+                                .button {
+                                    display: inline-block;
+                                    background-color: #3498db;
+                                    color: #fff;
+                                    border: none;
+                                    padding: 10px 16px;
+                                    border-radius: 5px;
+                                    cursor: pointer;
+                                    transition: background-color 0.3s;
+                                }
+                                .button:hover {
+                                    background-color: #2980b9;
+                                }
+                                .thumbnail {
+                                    width: 300px;
+                                    height: 250px;
+                                    border-radius: 10px;
+                                    object-fit: cover;
+                                    margin-bottom: 15px;
+                                }
+                            </style>
+                            """,
+                            unsafe_allow_html=True,
+                        )
+
+                    video_id2 = "0gjnhBfvnZs"  # Ganti dengan ID video YouTube yang diinginkan
+                    thumbnail_url2 = f"https://img.youtube.com/vi/{video_id2}/0.jpg"  # URL thumbnail dari video YouTube
+
+                    st.markdown(
+                            f"""
+                            <div class="card">
+                                <h3 style='font-size:20px'>Air Pollution | What Causes Air Pollution? | The Dr Binocs Show | </h3>
+                                <img src="{thumbnail_url2}" alt="Thumbnail" class="thumbnail">
+                                <p>Klik tombol di bawah untuk menonton video:</p>
+                                <a href="https://www.youtube.com/watch?v={video_id2}" target="_blank"><button class="button">Tonton Video</button></a>
+                            </div>
+                            """,
+                            unsafe_allow_html=True)
         else: 
                 st.error('Kamu belum mengisi semua form', icon="🚨")
 
