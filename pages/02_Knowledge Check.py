@@ -115,7 +115,7 @@ with tab1:
                             """
                             <style>
                                 .container {
-                                    width: 73%;
+                                    width: 80%;
                                     margin: 0 auto;
                                     overflow: hidden;
                                 }
@@ -127,7 +127,7 @@ with tab1:
                                     white-space: nowrap;
                                     overflow: hidden;
                                     border-right: 0.15em solid;
-                                    animation: typing 6s steps(25, end) infinite, color-change 8s infinite;
+                                    animation: typing 6s steps(35, end) infinite, color-change 8s infinite;
                                 }
 
                                 @keyframes typing {
