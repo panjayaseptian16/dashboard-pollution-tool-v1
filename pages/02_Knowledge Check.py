@@ -148,7 +148,7 @@ with tab1:
                 st.markdown(
                             """
                             <div class="container">
-                            <p class="text-animation">Upgrade pengetahuanmu dengan menonton rekomendasi video di bawah ini!</p>
+                            <p class="text-animation">Upgrade pengetahuanmu dengan menonton video ini!</p>
                             </div>""",
                             unsafe_allow_html=True,
                         )
