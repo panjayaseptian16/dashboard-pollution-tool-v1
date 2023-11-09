@@ -1,0 +1,1 @@
+tab1,tab2,tab3 = st.tabs(['Hypotesis Testing','SWOT Analysis', 'Root Cause Analysis', 'Recommendation'])
