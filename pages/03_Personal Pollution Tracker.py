@@ -36,16 +36,16 @@ with tab1:
     # Form input
     jumlah_anggota = st.number_input('Jumlah Anggota Keluarga dalam 1 Rumah', min_value=1, help="Masukkan jumlah anggota keluarga dalam 1 rumah")
 
-    membakar_sampah = st.radio('Membakar Sampah (dalam sehari)', ('Ya', 'Tidak'), help="Pilih 'Ya' jika membakar sampah dalam sehari, pilih 'Tidak' jika tidak", index=None)
+    membakar_sampah = st.radio('Membakar Sampah (dalam sehari)', ('Ya', 'Tidak'), help="Pilih 'Ya' jika membakar sampah dalam sehari, pilih 'Tidak' jika tidak membakar sampah", index=None)
 
-    gas_lpg = st.radio('Gunakan Gas LPG?', ('Ya', 'Tidak'), help="Pilih 'Ya' jika menggunakan Gas LPG, pilih 'Tidak' jika tidak",index=None)
+    gas_lpg = st.radio('Gunakan Gas LPG?', ('Ya', 'Tidak'), help="Pilih 'Ya' jika menggunakan Gas LPG, pilih 'Tidak' jika tidak menggunakan LPG",index=None)
     ukuran_lpg = None
     hari_pemakaian = 0
     if gas_lpg == 'Ya':
         ukuran_lpg = st.selectbox('Ukuran Gas LPG', ('3 KG', '5.5 KG', '12 KG'), help="Pilih ukuran Gas LPG yang digunakan")
         hari_pemakaian = st.number_input('Jumlah Hari Pemakaian', min_value=1, help="Masukkan jumlah hari pemakaian Gas LPG", key='LPG')
 
-    merokok = st.radio('Merokok?', ('Ya', 'Tidak'), help="Pilih 'Ya' jika merokok, pilih 'Tidak' jika tidak",index=None)
+    merokok = st.radio('Merokok?', ('Ya', 'Tidak'), help="Pilih 'Ya' jika merokok, pilih 'Tidak' jika tidak merokok",index=None)
     tipe_rokok = None
     batang_rokok = 0
     if merokok == 'Ya':
