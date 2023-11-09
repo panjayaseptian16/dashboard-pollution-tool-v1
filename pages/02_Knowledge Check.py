@@ -79,7 +79,7 @@ with tab1:
 
             submitted = st.form_submit_button(label='Submit')
 
-        if submitted and all(user_answers):
+        if submitted and all(user_answers) and name and age and location:
             submit_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             points = calculate_points(user_answers) 
 
@@ -611,7 +611,7 @@ with tab1:
 expected_password = st.secrets["tab2_password"]
 tab2_access_granted = False
 
-if st.sidebar.checkbox("Open Tab Statistics"):
+with tab2:
     password = st.text_input("Enter Password (Developer Only)", type="password")
     if password == expected_password:
         st.success("Correct Password! You can access Tab 2.")

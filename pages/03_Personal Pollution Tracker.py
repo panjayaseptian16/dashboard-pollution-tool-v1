@@ -1,8 +1,9 @@
 import streamlit as st
 import matplotlib.pyplot as plt
+import pandas as pd
 from deta import Deta
 
-tab1,tab2,tab3 = st.tabs(['Personal Pollution Tracker', 'Carbon Footprint', 'Statistics'])
+tab1,tab2 = st.tabs(['Personal Pollution Tracker', 'Statistics'])
 with tab1: 
     # CSS dan HTML untuk tampilan
     st.markdown(
@@ -322,3 +323,27 @@ with tab1:
                     st.pyplot(fig)
                 else:
                     st.write("Tidak ada pencemaran yang tercatat.")
+
+expected_password = st.secrets["tab2_password"]
+tab2_access_granted = False
+
+with tab2:
+    password = st.text_input("Enter Password (Developer Only)", type="password")
+    if password == expected_password:
+        st.success("Correct Password! You can access Tab 2.")
+        tab2_access_granted = True
+    else:
+        st.warning("Incorrect Password! Please try again.")
+        tab2_access_granted = False
+
+if tab2_access_granted:
+    tab2 = st.tabs(["Statistics"])
+    if tab2[0]:
+
+        deta = Deta(st.secrets["data_key"])
+        db = deta.Base("db_test1")
+        db_content = db.fetch().items
+
+        df = pd.DataFrame(db_content)
+        submit_counts = df.shape[0]
+        st.write(submit_counts)
