@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Pollution Tracker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #008080;
+        }
+
+        h2 {
+            color: #008080;
+            margin-top: 20px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #008080;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #006666;
+        }
+
+        p {
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Personal Pollution Tracker</h1>
+
+        <form id="pollution_form" onsubmit="handleSubmit(event)">
+            <label for="jumlah_anggota_keluarga">Jumlah Anggota Keluarga dalam 1 rumah:</label><br>
+            <input type="number" id="jumlah_anggota_keluarga" name="jumlah_anggota_keluarga" required><br>
+
+            <h2>Membakar Sampah</h2>
+            <label for="membakar_sampah">Membakar sampah:</label><br>
+            <input type="radio" id="membakar_ya" name="membakar_sampah" value="Ya">
+            <label for="membakar_ya">Ya</label>
+            <input type="radio" id="membakar_tidak" name="membakar_sampah" value="Tidak">
+            <label for="membakar_tidak">Tidak</label><br>
+
+            <h2>GAS LPG</h2>
+            <label for="gas_lpg">GAS LPG:</label><br>
+            <input type="radio" id="gas_lpg_ya" name="gas_lpg" value="Ya">
+            <label for="gas_lpg_ya">Ya</label>
+            <input type="radio" id="gas_lpg_tidak" name="gas_lpg" value="Tidak">
+            <label for="gas_lpg_tidak">Tidak</label><br>
+            <label for="ukuran_gas_lpg">Ukuran GAS LPG:</label><br>
+            <select id="ukuran_gas_lpg" name="ukuran_gas_lpg">
+                <option value="3 KG">3 KG</option>
+                <option value="5.5kg">5.5kg</option>
+                <option value="12kg">12kg</option>
+            </select><br>
+            <label for="hari_pemakaian">Berapa hari pemakaian:</label><br>
+            <input type="number" id="hari_pemakaian" name="hari_pemakaian"><br>
+
+            <h2>Merokok</h2>
+            <label for="merokok">Merokok:</label><br>
+            <input type="radio" id="merokok_ya" name="merokok" value="Ya">
+            <label for="merokok_ya">Ya</label>
+            <input type="radio" id="merokok_tidak" name="merokok" value="Tidak">
+            <label for="merokok_tidak">Tidak</label><br>
+            <label for="jenis_rokok">Jenis Rokok:</label><br>
+            <select id="jenis_rokok" name="jenis_rokok">
+                <option value="Rokok Konvensional">Rokok Konvensional</option>
+                <option value="Rokok Elektrik">Rokok Elektrik</option>
+                <option value="iQOS">iQOS</option>
+            </select><br>
+            <label for="batang_per_hari">Berapa batang per hari:</label><br>
+            <input type="number" id="batang_per_hari" name="batang_per_hari"><br>
+
+            <h2>Penerbangan</h2>
+            <label for="penerbangan_domestik">Berapa kali penerbangan domestik (dalam tahun ini):</label><br>
+            <input type="number" id="penerbangan_domestik" name="penerbangan_domestik"><br>
+            <label for="penerbangan_internasional">Berapa kali penerbangan internasional (dalam tahun ini):</label><br>
+            <input type="number" id="penerbangan_internasional" name="penerbangan_internasional"><br>
+
+            <input type="submit" value="Hitung">
+        </form>
+
+        <div id="result" style="display: none;">
+            <h2>Total Pencemaran</h2>
+            <p id="result_daily"></p>
+            <p id="result_monthly"></p>
+            <p id="result_yearly"></p>
+        </div>
+    </div>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            const form = document.getElementById('pollution_form');
+            const formData = new FormData(form);
+
+            // Mengambil nilai dari form
+            const jumlahAnggotaKeluarga = formData.get('jumlah_anggota_keluarga');
+            const isMembakarSampah = formData.get('membakar_sampah');
+            const isGasLPG = formData.get('gas_lpg');
+            const ukuranGasLPG = formData.get('ukuran_gas_lpg');
+            const hariPemakaian = formData.get('hari_pemakaian');
+            const isMerokok = formData.get('merokok');
+            const jenisRokok = formData.get('jenis_rokok');
+            const batangPerHari = formData.get('batang_per_hari');
+            const penerbanganDomestik = formData.get('penerbangan_domestik');
+            const penerbanganInternasional = formData.get('penerbangan_internasional');
+
+            // Melakukan kalkulasi berdasarkan nilai yang diambil dari form
+            // Contoh kalkulasi
+            let totalNOx = 0;
+            let totalCO = 0;
+            let totalSOx = 0;
+            let totalPM10 = 0;
+
+            if (isMembakarSampah === 'Ya') {
+                // Lakukan kalkulasi untuk membakar sampah
+                totalNOx += 2.04;
+                totalCO += 28.56;
+                totalSOx += 0.34;
+                totalPM10 += 5.44;
+            }
+
+            if (isGasLPG === 'Ya' && hariPemakaian) {
+                // Lakukan kalkulasi untuk GAS LPG
+                if (ukuranGasLPG === '3 KG') {
+                    totalNOx += 7.5 / jumlahAnggotaKeluarga / hariPemakaian;
+                    totalCO += 7.5 / jumlahAnggotaKeluarga / hariPemakaian;
+                    totalSOx += 0.075 / jumlahAnggotaKeluarga / hariPemakaian;
+                    totalPM10 += 0.075 / jumlahAnggotaKeluarga / hariPemakaian;
+                } else if (ukuranGasLPG === '5.5kg') {
+                    totalNOx += 13.75 / jumlahAnggotaKeluarga / hariPemakaian;
+                    totalCO += 13.75 / jumlahAnggotaKeluarga / hariPemakaian;
+                    totalSOx += 0.1375 / jumlahAnggotaKeluarga / hariPemakaian;
+                    totalPM10 += 0.1375 / jumlahAnggotaKeluarga / hariPemakaian;
+                } else if (ukuranGasLPG === '12kg') {
+                    totalNOx += 30 / jumlahAnggotaKeluarga / hariPemakaian;
+                    totalCO += 30 / jumlahAnggotaKeluarga / hariPemakaian;
+                    totalSOx += 0.3 / jumlahAnggotaKeluarga / hariPemakaian;
+                    totalPM10 += 0.3 / jumlahAnggotaKeluarga / hariPemakaian;
+                }
+            }
+
+            if (isMerokok === 'Ya' && batangPerHari) {
+                // Lakukan kalkulasi untuk merokok
+                if (jenisRokok === 'Rokok Konvensional') {
+                    totalPM10 += 0.000529 * batangPerHari;
+                    // tambahkan kalkulasi untuk PM2.5 jika diperlukan
+                } else if (jenisRokok === 'Rokok Elektrik') {
+                    // Lakukan kalkulasi untuk rokok elektrik jika diperlukan
+                } else if (jenisRokok === 'iQOS') {
+                    // Lakukan kalkulasi untuk iQOS jika diperlukan
+                }
+            }
+
+            if (penerbanganDomestik) {
+                // Lakukan kalkulasi untuk penerbangan domestik
+                totalNOx += 51 * penerbanganDomestik / 365;
+                totalCO += 0.432 * penerbanganDomestik / 365;
+                totalSOx += 4.94 * penerbanganDomestik / 365;
+                totalPM10 += 0.432 * penerbanganDomestik / 365;
+                // tambahkan kalkulasi untuk PM2.5 jika diperlukan
+            }
+
+            if (penerbanganInternasional) {
+                // Lakukan kalkulasi untuk penerbangan internasional
+                totalNOx += 51 * penerbanganInternasional * 2 / 365;
+                totalCO += 0.432 * penerbanganInternasional * 2 / 365;
+                totalSOx += 4.94 * penerbanganInternasional * 2 / 365;
+                totalPM10 += 0.432 * penerbanganInternasional * 2 / 365;
+                // tambahkan kalkulasi untuk PM2.5 jika diperlukan
+            }
+
+            // Menampilkan hasil kalkulasi
+            const resultDiv = document.getElementById('result');
+            const resultDaily = document.getElementById('result_daily');
+            const resultMonthly = document.getElementById('result_monthly');
+            const resultYearly = document.getElementById('result_yearly');
+
+            resultDiv.style.display = 'block';
+            resultDaily.innerText = `Total Pencemaran Harian: 
+                                    NOx: ${totalNOx}gr 
+                                    CO: ${totalCO}gr 
+                                    SOx: ${totalSOx}gr 
+                                    PM10: ${totalPM10}gr`;
+            resultMonthly.innerText = `Total Pencemaran Bulanan: 
+                                    NOx: ${totalNOx * 30}gr 
+                                    CO: ${totalCO * 30}gr 
+                                    SOx: ${totalSOx * 30}gr 
+                                    PM10: ${totalPM10 * 30}gr`;
+            resultYearly.innerText = `Total Pencemaran Tahunan: 
+                                    NOx: ${totalNOx * 365}gr 
+                                    CO: ${totalCO * 365}gr 
+                                    SOx: ${totalSOx * 365}gr 
+                                    PM10: ${totalPM10 * 365}gr`;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,43 +1,64 @@
 import streamlit as st
 
-# Fungsi untuk menghitung total polusi
-def hitung_total_polusi(data_kegiatan):
-    total_polusi = 0
-    for kegiatan, nilai in data_kegiatan.items():
-        if kegiatan == "Naik Kendaraan":
-            total_polusi += 0.5 * nilai["Jarak (km)"] * nilai["Waktu (jam)"]
-        elif kegiatan == "Merokok":
-            total_polusi += 0.2 * nilai
-        # Tambahkan pernyataan kondisional untuk setiap kegiatan lain yang ingin Anda tambahkan
+def main():
+    st.title("Personal Pollution Tracker")
 
-    return total_polusi
+    # Form Input
+    with st.form("pollution_form"):
+        jumlah_anggota_keluarga = st.number_input("Jumlah Anggota Keluarga dalam 1 rumah", min_value=1, step=1)
 
-# Judul aplikasi
-st.title('Personal Pollution Tracker')
+        st.markdown("<h2 style='color: #008080;'>Membakar Sampah</h2>", unsafe_allow_html=True)
+        is_membakar_sampah = st.radio("Membakar sampah:", ('Ya', 'Tidak'))
+        membarak_sampah_pollutants = {"NOx": 2.04, "CO": 28.56, "SOx": 0.34, "PM10": 5.44} if is_membakar_sampah == 'Ya' else {"NOx": 0, "CO": 0, "SOx": 0, "PM10": 0}
 
-# Membuat input untuk data pengguna
-with st.form(key='input_form'):
-    st.header('Masukkan Data Anda')
+        st.markdown("<h2 style='color: #008080;'>GAS LPG</h2>", unsafe_allow_html=True)
+        is_gas_lpg = st.radio("GAS LPG:", ('Ya', 'Tidak'))
+        gas_lpg_pollutants = {"3 KG": {"NOx": 7.5, "CO": 7.5, "SOx": 0.075, "PM10": 0.075},
+                              "5.5kg": {"NOx": 13.75, "CO": 13.75, "SOx": 0.1375, "PM10": 0.1375},
+                              "12kg": {"NOx": 30, "CO": 30, "SOx": 0.3, "PM10": 0.3}}
+        gas_lpg_usage = 0
+        if is_gas_lpg == 'Ya':
+            ukuran = st.selectbox("Ukuran GAS LPG:", ('3 KG', '5.5kg', '12kg'))
+            gas_lpg_usage = st.number_input("Berapa hari pemakaian:", min_value=1, step=1)
+            gas_lpg_pollutants = {k: {k2: v2 / jumlah_anggota_keluarga / gas_lpg_usage for k2, v2 in v.items()} for k, v in gas_lpg_pollutants.items()}[ukuran]
 
-    data_kegiatan = {}
-    jumlah_kegiatan = st.number_input('Masukkan jumlah kegiatan yang ingin Anda masukkan', min_value=1, step=1)
+        st.markdown("<h2 style='color: #008080;'>Merokok</h2>", unsafe_allow_html=True)
+        is_merokok = st.radio("Merokok:", ('Ya', 'Tidak'))
+        smoking_pollutants = {"Rokok Konvensional": {"PM10": 0.000529, "PM2.5": 0.0005},
+                              "Rokok Elektrik": {"PM10": 0, "PM2.5": 0},
+                              "iQOS": {"PM10": 0.0000081, "PM2.5": 0.0000065}}
+        smoking_count = 0
+        if is_merokok == 'Ya':
+            jenis_rokok = st.selectbox("Jenis Rokok:", ('Rokok Konvensional', 'Rokok Elektrik', 'iQOS'))
+            if jenis_rokok != 'Rokok Elektrik':
+                smoking_count = st.number_input("Berapa batang per hari:", min_value=1, step=1)
+                smoking_pollutants = smoking_pollutants[jenis_rokok]
+                smoking_pollutants = {k: v * smoking_count for k, v in smoking_pollutants.items()}
 
-    for i in range(jumlah_kegiatan):
-        nama_kegiatan = st.text_input(f'Masukkan nama kegiatan ke-{i+1}')
-        if nama_kegiatan not in data_kegiatan:
-            if nama_kegiatan == "Naik Kendaraan":
-                jarak = st.number_input('Jarak yang ditempuh (km)', min_value=0, step=1)
-                waktu = st.number_input('Waktu perjalanan (jam)', min_value=0, step=1)
-                data_kegiatan[nama_kegiatan] = {"Jarak (km)": jarak, "Waktu (jam)": waktu}
-            elif nama_kegiatan == "Merokok":
-                jumlah = st.number_input('Berapa banyak batang rokok', min_value=0, step=1)
-                data_kegiatan[nama_kegiatan] = jumlah
-            # Tambahkan pernyataan kondisional untuk setiap kegiatan lain yang ingin Anda tambahkan
+        st.markdown("<h2 style='color: #008080;'>Penerbangan Domestik</h2>", unsafe_allow_html=True)
+        penerbangan_domestik = st.number_input("Berapa kali penerbangan domestik (dalam tahun ini):", min_value=0, step=1)
+        penerbangan_domestik_pollutants = {"NOx": 51, "SOx": 4.94, "CO": 0.432, "PM2.5": 0.432, "PM10": 0.432}
+        penerbangan_domestik_pollutants = {k: v * penerbangan_domestik / 365 for k, v in penerbangan_domestik_pollutants.items()}
 
-    submitted = st.form_submit_button('Hitung Polusi')
+        st.markdown("<h2 style='color: #008080;'>Penerbangan Internasional</h2>", unsafe_allow_html=True)
+        penerbangan_internasional = st.number_input("Berapa kali penerbangan internasional (dalam tahun ini):", min_value=0, step=1)
+        penerbangan_internasional_pollutants = {k: v * penerbangan_internasional * 4 / 365 for k, v in penerbangan_domestik_pollutants.items()}
 
-# Menampilkan hasil perhitungan
-if submitted:
-    total_polusi = hitung_total_polusi(data_kegiatan)
-    st.header('Hasil Perhitungan Polusi Anda')
-    st.write(f'Total polusi yang dihasilkan dalam sehari: {total_polusi} satuan')
+        submit_button = st.form_submit_button(label='Hitung')
+
+    if submit_button:
+        total_pollutants = {}
+        for pollutants in [membarak_sampah_pollutants, gas_lpg_pollutants, smoking_pollutants, penerbangan_domestik_pollutants, penerbangan_internasional_pollutants]:
+            for key, value in pollutants.items():
+                total_pollutants[key] = total_pollutants.get(key, 0) + value
+
+        st.markdown("<h2 style='color: #008080;'>Total Pencemaran</h2>", unsafe_allow_html=True)
+        total_result_daily = " | ".join([f"{key}: {value}gr/hari" for key, value in total_pollutants.items()])
+        total_result_monthly = " | ".join([f"{key}: {value*30}gr/bulan" for key, value in total_pollutants.items()])
+        total_result_yearly = " | ".join([f"{key}: {value*365}gr/tahun" for key, value in total_pollutants.items()])
+        st.markdown(f"<p style='font-size: 16px;'>Harian: {total_result_daily}</p>", unsafe_allow_html=True)
+        st.markdown(f"<p style='font-size: 16px;'>Bulanan: {total_result_monthly}</p>", unsafe_allow_html=True)
+        st.markdown(f"<p style='font-size: 16px;'>Tahunan: {total_result_yearly}</p>", unsafe_allow_html=True)
+
+if __name__ == "__main__":
+    main()
