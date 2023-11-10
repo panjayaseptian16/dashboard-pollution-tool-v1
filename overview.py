@@ -6,7 +6,7 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 st.set_page_config(
     layout="wide",
-    initial_sidebar_state="expanded")
+    initial_sidebar_state="auto")
 # Adding a sidebar with the required elements
 #with st.sidebar:
 #    st.subheader("Created by : ")
@@ -151,7 +151,7 @@ with col3:
 with st.container():
     st.markdown("<h3 style='text-align: center;color: #FF6347;'>Our Team</h3>", unsafe_allow_html=True)
     col5,col6,col7,col8,col9 = st.columns(5, gap="small")
-    with col5:
+    with col6:
        st.markdown("""
             <style>
                 .our-team {
@@ -208,12 +208,12 @@ with st.container():
             <div class="our-team">
                 <div class="profile">
                     <img src="https://drive.google.com/uc?export=view&id=1S2YdHLmzTA-m6qCHvbsFeQSfNg1_S7Uc" alt="">
-                    <h3>Septian Panjaya</h3>
+                    <h3 style='color:#183D3D;'>Septian Panjaya</h3>
                     <a href="https://www.linkedin.com/in/septian-panjaya"><button>LinkedIn</button></a>
                 </div>
             </div>
             """,unsafe_allow_html=True)
-    with col6: 
+    with col8: 
        st.markdown("""
             <style>
                 .our-team {
@@ -270,194 +270,8 @@ with st.container():
             <div class="our-team">
                 <div class="profile">
                     <img src="https://drive.google.com/uc?export=view&id=1cP4zUoHT6XjW_imoDDFDvnLJn37OKr8o" alt="">
-                    <h3>Katon Bagaskara</h3>
+                    <h3 style='color:#183D3D;'>Katon Bagaskara</h3>
                     <a href="https://www.linkedin.com/in/katonbk"><button>LinkedIn</button></a>
-                </div>
-            </div>
-            """,unsafe_allow_html=True)
-    with col7:
-       st.markdown("""
-            <style>
-                .our-team {
-                    display: flex;
-                    flex-wrap: wrap;
-                    justify-content: center;
-                }
-
-                .profile {
-                    margin: 20px;
-                    padding: 20px;
-                    text-align: center;
-                    background-color: #F0FFFF;
-                    border-radius: 10px;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                    width: 200px;
-                    transition: background-color 0.3s;
-                }
-
-                .profile:hover {
-                    background-color: #AFEEEE;
-                }
-
-                .profile img {
-                    width: 120px;
-                    height: 120px;
-                    border-radius: 50%;
-                    object-fit: cover;
-                    margin-bottom: 15px;
-                }
-
-                .profile h3 {
-                    font-size: 15px;
-                    margin-bottom: 10px;
-                }
-
-                .profile a button {
-                    background-color: #f08080;
-                    color: #fff;
-                    border: none;
-                    padding: 8px 12px;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    transition: background-color 0.3s;
-                }
-
-                .profile a button:hover {
-                    background-color: #2980b9;
-                }
-            </style>
-            """,unsafe_allow_html=True)
-       st.markdown("""
-            <h3 style='text-align:center;font-size:20px;'> Team Member </h3>
-            <div class="our-team">
-                <div class="profile">
-                    <img src="https://drive.google.com/uc?export=view&id=1jfvn4QCOVowaou54naSaxJuDY0hdMO0a" alt="">
-                    <h3>Faris Izzatur Rahman</h3>
-                    <a href="https://www.linkedin.com/in/farisizzaturrahman/"><button>LinkedIn</button></a>
-                </div>
-            </div>
-            """,unsafe_allow_html=True)
-    with col8:
-       st.markdown("""
-            <style>
-                .our-team {
-                    display: flex;
-                    flex-wrap: wrap;
-                    justify-content: center;
-                }
-
-                .profile {
-                    margin: 20px;
-                    padding: 20px;
-                    text-align: center;
-                    background-color: #F0FFFF;
-                    border-radius: 10px;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                    width: 200px;
-                    transition: background-color 0.3s;
-                }
-
-                .profile:hover {
-                    background-color: #AFEEEE;
-                }
-
-                .profile img {
-                    width: 120px;
-                    height: 120px;
-                    border-radius: 50%;
-                    object-fit: cover;
-                    margin-bottom: 15px;
-                }
-
-                .profile h3 {
-                    font-size: 18px;
-                    margin-bottom: 10px;
-                }
-
-                .profile a button {
-                    background-color: #f08080;
-                    color: #fff;
-                    border: none;
-                    padding: 8px 12px;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    transition: background-color 0.3s;
-                }
-
-                .profile a button:hover {
-                    background-color: #2980b9;
-                }
-            </style>
-            """,unsafe_allow_html=True)
-       st.markdown("""
-            <h3 style='text-align:center;font-size:20px;'> Team Member </h3>
-            <div class="our-team">
-                <div class="profile">
-                    <img src="https://drive.google.com/uc?export=view&id=1S2YdHLmzTA-m6qCHvbsFeQSfNg1_S7Uc" alt="">
-                    <h3>Septian Panjaya</h3>
-                    <a href="https://www.linkedin.com/in/septian-panjaya"><button>LinkedIn</button></a>
-                </div>
-            </div>
-            """,unsafe_allow_html=True)
-    with col9:
-       st.markdown("""
-            <style>
-                .our-team {
-                    display: flex;
-                    flex-wrap: wrap;
-                    justify-content: center;
-                }
-
-                .profile {
-                    margin: 20px;
-                    padding: 20px;
-                    text-align: center;
-                    background-color: #F0FFFF;
-                    border-radius: 10px;
-                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                    width: 200px;
-                    transition: background-color 0.3s;
-                }
-
-                .profile:hover {
-                    background-color: #AFEEEE;
-                }
-
-                .profile img {
-                    width: 120px;
-                    height: 120px;
-                    border-radius: 50%;
-                    object-fit: cover;
-                    margin-bottom: 15px;
-                }
-
-                .profile h3 {
-                    font-size: 18px;
-                    margin-bottom: 10px;
-                }
-
-                .profile a button {
-                    background-color: #f08080;
-                    color: #fff;
-                    border: none;
-                    padding: 8px 12px;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    transition: background-color 0.3s;
-                }
-
-                .profile a button:hover {
-                    background-color: #2980b9;
-                }
-            </style>
-            """,unsafe_allow_html=True)
-       st.markdown("""
-            <h3 style='text-align:center;font-size:20px;'> Team Member </h3>
-            <div class="our-team">
-                <div class="profile">
-                    <img src="https://drive.google.com/uc?export=view&id=1S2YdHLmzTA-m6qCHvbsFeQSfNg1_S7Uc" alt="">
-                    <h3>Septian Panjaya</h3>
-                    <a href="https://www.linkedin.com/in/septian-panjaya"><button>LinkedIn</button></a>
                 </div>
             </div>
             """,unsafe_allow_html=True)
@@ -518,9 +332,9 @@ with st.container():
             <h3 style='text-align:center;font-size:20px;'> Team Coach </h3>
             <div class="our-team">
                 <div class="profile">
-                    <img src="https://drive.google.com/uc?export=view&id=1S2YdHLmzTA-m6qCHvbsFeQSfNg1_S7Uc" alt="">
-                    <h3>Septian Panjaya</h3>
-                    <a href="https://www.linkedin.com/in/septian-panjaya"><button>LinkedIn</button></a>
+                    <img src="https://drive.google.com/uc?export=view&id=151O1cYGzt7IavTX8j2r4XlB0Q-g-tkWV" alt="">
+                    <h3 style='color:#183D3D;'>I Wayan Nadiantara</h3>
+                    <a href="https://www.linkedin.com/in/nadiantara"><button>LinkedIn</button></a>
                 </div>
             </div>
             """,unsafe_allow_html=True)

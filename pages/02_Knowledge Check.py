@@ -67,6 +67,7 @@ tab1, tab2= st.tabs(["Knowledge Quiz", "Statistics"])
 
 with tab1:
         name = st.text_input('Nama:', placeholder='Masukkan nama Anda', help='Nama tidak boleh kosong')
+        sex = st.selectbox('Jenis Kelamin:',('Laki-Laki', 'Perempuan'), index=None, help='Pilih jenis kelamin anda')
         age = st.number_input('Umur:',  min_value=17, max_value=50, step=1, help='Umur minimal 17 tahun dan maksimal 50 tahun', value=None, placeholder="Masukkan umur Anda")
         location = st.selectbox('Domisili:', ('Jakarta Pusat', 'Jakarta Timur', 'Jakarta Barat', 'Jakarta Utara', 'Jakarta Selatan', 'Bogor', 'Depok', 'Tangerang', 'Bekasi'), help='Pilih domisili Anda', index=None)
 
@@ -79,7 +80,7 @@ with tab1:
 
             submitted = st.form_submit_button(label='Submit')
 
-        if submitted and all(user_answers) and name and age and location:
+        if submitted and all(user_answers) and name and age and location and sex:
             submit_date = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             points = calculate_points(user_answers) 
 
@@ -93,6 +94,7 @@ with tab1:
             if submitted and all(user_answers):
                 db.put({
                     "name": name,
+                    "sex" : sex,
                     "age": age,
                     "location": location,
                     "submit_date": submit_date,
@@ -671,8 +673,8 @@ if tab2_access_granted:
                 fig, ax = plt.subplots()
                 ax.hist(df["age"])
                 st.pyplot(fig)
-            col25,col26,col27 = st.columns([1,2,1])
-            with col26 : 
+            col25,col26 = st.columns(2)
+            with col25 : 
                 points = df['points']  # Ganti dengan kolom yang sesuai
                 # Kategorisasi nilai points
                 low_count = sum(1 for point in points if point in range(0, 4))
@@ -680,10 +682,18 @@ if tab2_access_granted:
                 high_count = sum(1 for point in points if point in range(8, 11))
 
                 # Membuat pie chart
-                fig, ax = plt.subplots()
+                fig, ax = plt.subplots(figsize=(5,5))
                 ax.pie([low_count, medium_count, high_count], labels=['Low Knowledge', 'Medium Knowledge', 'High Knowledge'], colors=['#ff9999','#66b3ff','#99ff99'], autopct='%1.1f%%')
                 ax.set_title("Knowledge Level Distribution")
                 # Menampilkan pie chart di Streamlit
+                st.pyplot(fig)
+            with col26:
+                sex_counts = df['sex'].value_counts()
+                # Buat pie chart
+                fig, ax = plt.subplots(figsize=(4,4))
+                ax.pie(sex_counts, labels=sex_counts.index, autopct='%1.1f%%', startangle=90, colors=['skyblue', 'lightcoral'])
+                ax.set_title('Distribution of Sex')
+                # Tampilkan di Streamlit
                 st.pyplot(fig)
             col6,col7 = st.columns(2)
             with col6:
