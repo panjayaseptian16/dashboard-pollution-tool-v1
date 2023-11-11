@@ -144,7 +144,7 @@ with col4:
     st.markdown(':chart_with_upwards_trend: :blue[Dashboard] : Real-time monitoring of AQI (Air Quality Index) and temperature, along with visualization of pollution conditions in Jakarta.')
     st.markdown(':male-detective: :green[Deep Analysis] : Advanced analysis of pollution data that includes recommendations and ideas for improvement.')
     st.markdown(":ballot_box_with_check: :rainbow[Knowledge Check] : A feature to assess the user's knowledge about air pollution, including statistics (Developer only).")
-    st.markdown(":bookmark: :orange[Personal Pollution Tracker] : A calculator to measure or track the amount of pollution or emissions generated in daily activities. There are two types available: one for the general public and another specifically designed for programmers.")
+    st.markdown(":bookmark: :orange[Personal Pollution Tracker] : A calculator to measure or track the amount of pollution or emissions generated in daily activities, including statistics (Developer only).")
 with col3: 
     st_lottie(features, speed=1, reverse=False, loop=True, height=300)
 

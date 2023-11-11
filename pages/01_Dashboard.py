@@ -26,7 +26,7 @@ st.set_page_config(
 )
 
 st.markdown("""
-            <h3 style="text-align: center;color:#1F4172;">Air Quality Realtime Monitoring</h3>
+            <h3 style="text-align: center;color:#FFFD8C;">Air Quality Realtime Monitoring</h3>
             """, unsafe_allow_html=True)
 
 # Baca konten HTML dari berkas interactive_aqi_widget.html
@@ -108,7 +108,7 @@ with tab3:
 
 
 st.markdown("""
-            <h3 style="text-align: center;color:#1F4172;">Dashboard Pollution in Jakarta</h3>
+            <h3 style="text-align: center;color:#FFFD8C;">Dashboard Pollution in Jakarta</h3>
             """, unsafe_allow_html=True)
 
 # Perform query

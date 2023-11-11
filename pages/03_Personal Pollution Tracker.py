@@ -96,7 +96,7 @@ with tab1:
             <style>
             .title {
                 font-size: 32px;
-                color: #FF5733;
+                color: #FFFD8C;
             }
 
             .result-card {
