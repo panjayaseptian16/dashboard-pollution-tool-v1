@@ -4,6 +4,7 @@ import pandas as pd
 import seaborn as sns
 from deta import Deta
 import math
+from datetime import datetime
 
 st.set_page_config(
     page_title="Dashboard and Realtime Monitoring",
@@ -168,7 +169,7 @@ with tab1:
                 else:
                     st.success('Terima Kasih sudah Submit!')
                     st.header('Hasil Pencatatan Pencemaran Pribadi')
-
+                    submission_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                     # Hitung total pencemaran berdasarkan input
                     if membakar_sampah == 'Ya':
                         total_nox = 2.04 / jumlah_anggota # gram
@@ -281,13 +282,14 @@ with tab1:
 
                     total_pencemaran_sehari_gr = round(total_nox + total_co + total_sox + total_pm10 + total_pm25 + total_hc + total_co2, 3)
                     total_pencemaran_sebulan_kg = round((total_pencemaran_sehari_gr * 30)/1000,2) 
-                    total_pencemaran_setahun_ton = round((total_pencemaran_sebulan_kg * 12)/1000000,5)
+                    total_pencemaran_setahun_ton = round((total_pencemaran_sebulan_kg * 12)/1000000,2)
 
                     deta = Deta(st.secrets["data_key"])
 
                     db = deta.Base("db_test1")
                     db.put({
                         "Name": name,
+                        "Submission Date": submission_date,
                         "Jenis Kelamin" : sex,
                         "Usia" : age,
                         "Domisili" : location,
@@ -466,85 +468,127 @@ if tab2_access_granted:
                 st.markdown(f"<h3 style='text-align: center;'>Average Daily Emissions</h3>", unsafe_allow_html=True)
                 st.markdown(f"<h2 style='text-align: center;color:red; font-weight:bold;'>{avg_pollution} gr</h2>", unsafe_allow_html=True)
             col7,col8,col12 = st.columns(3)
-            with col7 : 
+            # Visualization 4: Pie chart for Jenis Kelamin
+            with col7:
                 sex_counts = df['Jenis Kelamin'].value_counts()
                 fig, ax = plt.subplots(figsize=(4, 4))
-                ax.pie(sex_counts, labels=sex_counts.index, autopct='%1.1f%%', colors=['#ff9999', '#66b3ff'])
-                ax.set_title("Jenis Kelamin Distribution")
+                ax.pie(sex_counts, labels=['Men','Women'], autopct='%1.1f%%', colors=['#ff9999', '#66b3ff'])
+                ax.set_title("Gender Distribution")
                 st.pyplot(fig)
-            with col12 :
+            # Visualization 5: Bar plot for Domisili
+            with col12:
                 fig, ax = plt.subplots()
                 domisili_counts = df['Domisili'].value_counts()
                 sns.barplot(x=domisili_counts.index, y=domisili_counts.values, palette='viridis', ax=ax)
-                ax.set_title("Distribution of Data by Domisili")
-                ax.set_xlabel("Domisili")
+                ax.set_title("Distribution of Data by Location")
+                ax.set_xlabel("Location")
                 ax.set_ylabel("Count")
                 ax.set_xticklabels(ax.get_xticklabels(), rotation=45, horizontalalignment='right')
                 st.pyplot(fig)
+            st.markdown(f"<h3 style='text-align: center;'>Household</h3>", unsafe_allow_html=True)
+
             col4, col5, col6 = st.columns(3)
             with col4:
                 membakar_sampah_counts = df['Membakar Sampah'].value_counts()
                 fig, ax = plt.subplots()
-                ax.pie(membakar_sampah_counts, labels=membakar_sampah_counts.index, autopct='%1.1f%%', colors=['#ff9999', '#66b3ff'])
-                ax.set_title("Membakar Sampah Distribution")
+                ax.pie(membakar_sampah_counts, labels=['Yes','No'], autopct='%1.1f%%', colors=['#ff9999', '#66b3ff'])
+                ax.set_title("Waste Burning Distribution")
                 st.pyplot(fig)
-            # Visualisasi 2: Count plot untuk Ukuran Gas LPG
+            # Visualization 2: Count plot for Ukuran Gas LPG
             with col5:
                 sns.set_theme(style="darkgrid")
                 fig, ax = plt.subplots()
                 sns.countplot(x='Ukuran Gas LPG', data=df, palette='viridis', ax=ax)
-                ax.set_title("Distribution of Ukuran Gas LPG")
-                ax.set_xlabel("Ukuran Gas LPG")
+                ax.set_title("Distribution of LPG Gas Size")
+                ax.set_xlabel("LPG Gas Size")
                 ax.set_ylabel("Count")
                 st.pyplot(fig)
-            # Visualisasi 3: Bar plot untuk Jumlah Anggota Keluarga
+            # Visualization 3: Bar plot for Jumlah Anggota Keluarga
             with col6:
                 fig, ax = plt.subplots()
                 # Use seaborn's histplot with automatic bin selection
                 sns.histplot(df['Jumlah Anggota Keluarga'], kde=False, color='skyblue', ax=ax)
-                ax.set_title("Distribution of Jumlah Anggota Keluarga")
-                ax.set_xlabel("Jumlah Anggota Keluarga")
+                ax.set_title("Distribution of Number of Household Members")
+                ax.set_xlabel("Number of Household Members")
                 ax.set_ylabel("Count")
                 st.pyplot(fig)
+
+            st.markdown(f"<h3 style='text-align: center;'>Smoking Activity</h3>", unsafe_allow_html=True)
+            col16,col17,col18 = st.columns(3)
+            with col16 :
+                # Histogram untuk jumlah batang rokok
+                fig, ax = plt.subplots()
+                sns.histplot(df["Jumlah Batang Rokok"], bins=10, kde=False, color="skyblue", ax=ax)
+                plt.title('Distribution of Cigarette Consumption')
+                plt.xlabel('Number of Cigarettes')
+                plt.ylabel('Frequency')
+                st.pyplot(fig)
+            with col17 :   
+                # Pie chart untuk tipe rokok
+                fig, ax = plt.subplots()
+                df['Tipe Rokok'].value_counts().plot.pie(autopct='%1.1f%%', startangle=90, ax=ax, colors=['lightcoral', 'lightgreen'])
+                plt.title('Distribution of Cigarette Types')
+                st.pyplot(fig)
+            with col18 :
+                # Bar chart untuk Merokok atau Tidak
+                df['Merokok'] = df['Merokok'].map({'Ya': 'Yes', 'Tidak': 'No'})
+                fig, ax = plt.subplots()
+                sns.countplot(x="Merokok", data=df, palette="pastel", ax=ax)
+                plt.title('Smoking Status')
+                plt.xlabel('Smoking')
+                plt.ylabel('Count')
+                st.pyplot(fig)
+            st.markdown(f"<h3 style='text-align: center;'>Transportation</h3>", unsafe_allow_html=True)
             col9,col10,col11 = st.columns(3)
             with col9: 
-                df_melted = df.melt(var_name="Transportation Mode", value_name="Distance (KM)")
-
-# Ensure the distance column is numeric
-df_melted["Distance (KM)"] = pd.to_numeric(df_melted["Distance (KM)"])
-
-# Plot using Seaborn
-plt.figure(figsize=(10, 6))
-sns.barplot(x="Transportation Mode", y="Distance (KM)", data=df_melted, palette="magma")
-plt.title('Transportation Habits')
-plt.ylabel('Distance (KM)')
-plt.show()
-            with col10 : 
+                transportation_data = df[["Total KM Motor per hari", "Total KM Mobil per hari", "Total KM Angkot per hari"]].iloc[0]
+                fig, ax = plt.subplots()
+                ax.pie(transportation_data, labels=['Daily Motorcycle Mileage (km)', 'Daily Car Mileage (km)', 'Daily Angkot Mileage (km)'], autopct='%1.1f%%', startangle=90,
+                    colors=['skyblue', 'lightcoral', 'lightgreen'])
+                ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular.
+                plt.title('Transportation Habits')
+                plt.xlabel('Mode of Transportation')
+                plt.ylabel('Percentage')
+                st.pyplot(fig)
+            with col10: 
                 fig, ax = plt.subplots()
                 ax.scatter(df['Penerbangan Domestik'], df['Penerbangan Internasional'], s=df['Penerbangan Internasional']*10, alpha=0.5)
-                ax.set_title("Penerbangan Domestik vs Penerbangan Internasional")
-                ax.set_xlabel("Penerbangan Domestik")
-                ax.set_ylabel("Penerbangan Internasional")
+                ax.set_title("Domestic Flights vs International Flights")
+                ax.set_xlabel("Domestic Flights")
+                ax.set_ylabel("International Flights")
                 st.pyplot(fig)
-            with col11 :
+            with col11:
                 transport_counts = df[['KRL', 'Transjakarta', 'MRT']].sum()
                 fig, ax = plt.subplots()
                 transport_counts.plot(kind='bar', color=['#ffcc99', '#66b3ff', '#99ff99'], ax=ax)
-                ax.set_title("Total Penggunaan Alat Transportasi Umum")
-                ax.set_xlabel("Alat Transportasi Umum")
-                ax.set_ylabel("Total Penggunaan")
+                ax.set_title("Total Public Transportation Usage")
+                ax.set_xlabel("Public Transportation Mode")
+                ax.set_ylabel("Total Usage")
+                ax.set_xticklabels(ax.get_xticklabels(), rotation=0)
                 st.pyplot(fig)
-            col13,col14,col15 = st.columns([1,2,1])
-            with col14 : 
-                import squarify
-                total_pencemaran_setahun_by_type = df[['Total NOx', 'Total CO2', 'Total CO', 'Total SOx', 'Total PM10', 'Total PM25', 'Total HC']]
+            st.markdown(f"<h3 style='text-align: center;'>Pollution Estimation</h3>", unsafe_allow_html=True)
+            col13,col14,col15 = st.columns(3)
+            with col13 : 
+                pollution_labels = ["Total NOx", "Total CO2", "Total CO", "Total SOx", "Total PM10", "Total PM25", "Total HC"]
+                pollution_data = [df[label].iloc[0] for label in pollution_labels]
+                # Plotting
                 fig, ax = plt.subplots()
-                squarify.plot(sizes=total_pencemaran_setahun_by_type.sum(), label=total_pencemaran_setahun_by_type.columns, alpha=0.8, color=sns.color_palette('Paired'))
-                ax.set_title("Total Pencemaran Setahun by Type")
-                ax.axis('off')
+                sns.barplot(x=pollution_labels, y=pollution_data, palette="coolwarm", ax=ax)
+                ax.set_title('Total Pollutant Emissions')
+                ax.set_ylabel('Total Emissions (grams)')
+                ax.set_xticklabels(ax.get_xticklabels(), rotation=45)
+                # Display the plot in Streamlit
                 st.pyplot(fig)
+            with col15:
+                fig, ax = plt.subplots(figsize=(12, 8))
+                sns.lineplot(x='Submission Date', y='Total Pencemaran Harian', data=df, marker='o', color='purple')
+                plt.title('Daily Pollution Over Time')
+                plt.xlabel('Submission Date')
+                plt.ylabel('Total Emissions (grams)')
+                plt.xticks(rotation=45, ha='right')  # Rotate x-axis labels for better visibility
 
-
+                # Display the plot in Streamlit
+                st.pyplot(fig)
 
 
 

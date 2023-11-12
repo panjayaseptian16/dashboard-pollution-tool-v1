@@ -3,8 +3,8 @@ from deta import Deta
 import datetime
 import pandas as pd
 import matplotlib.pyplot as plt
-from collections import Counter
 import math
+import seaborn as sns
 
 st.set_page_config(
     page_title="Dashboard and Realtime Monitoring",
@@ -675,17 +675,13 @@ if tab2_access_granted:
                 st.pyplot(fig)
             col25,col26 = st.columns(2)
             with col25 : 
-                points = df['points']  # Ganti dengan kolom yang sesuai
-                # Kategorisasi nilai points
-                low_count = sum(1 for point in points if point in range(0, 4))
-                medium_count = sum(1 for point in points if point in range(4, 8))
-                high_count = sum(1 for point in points if point in range(8, 11))
-
-                # Membuat pie chart
-                fig, ax = plt.subplots(figsize=(5,5))
-                ax.pie([low_count, medium_count, high_count], labels=['Low Knowledge', 'Medium Knowledge', 'High Knowledge'], colors=['#ff9999','#66b3ff','#99ff99'], autopct='%1.1f%%')
-                ax.set_title("Knowledge Level Distribution")
-                # Menampilkan pie chart di Streamlit
+                fig, ax = plt.subplots()
+                domisili_counts = df['location'].value_counts()
+                sns.barplot(x=domisili_counts.index, y=domisili_counts.values, palette='viridis', ax=ax)
+                ax.set_title("Distribution of Data by Location")
+                ax.set_xlabel("Location")
+                ax.set_ylabel("Count")
+                ax.set_xticklabels(ax.get_xticklabels(), rotation=45, horizontalalignment='right')
                 st.pyplot(fig)
             with col26:
                 sex_counts = df['sex'].value_counts()
@@ -694,6 +690,19 @@ if tab2_access_granted:
                 ax.pie(sex_counts, labels=sex_counts.index, autopct='%1.1f%%', startangle=90, colors=['skyblue', 'lightcoral'])
                 ax.set_title('Distribution of Sex')
                 # Tampilkan di Streamlit
+                st.pyplot(fig)
+            col27,col28,col29 = st.columns([1,2,1])
+            with col28:
+                points = df['points']  # Ganti dengan kolom yang sesuai
+                # Kategorisasi nilai points
+                low_count = sum(1 for point in points if point in range(0, 4))
+                medium_count = sum(1 for point in points if point in range(4, 8))
+                high_count = sum(1 for point in points if point in range(8, 11))
+                # Membuat pie chart
+                fig, ax = plt.subplots(figsize=(5,5))
+                ax.pie([low_count, medium_count, high_count], labels=['Low Knowledge', 'Medium Knowledge', 'High Knowledge'], colors=['#ff9999','#66b3ff','#99ff99'], autopct='%1.1f%%')
+                ax.set_title("Knowledge Level Distribution")
+                # Menampilkan pie chart di Streamlit
                 st.pyplot(fig)
             col6,col7 = st.columns(2)
             with col6:
