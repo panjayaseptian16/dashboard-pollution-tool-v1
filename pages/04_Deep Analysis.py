@@ -63,12 +63,6 @@ with tab1:
             """,unsafe_allow_html=True
         )
 
-import sqlite3
-import pandas as pd
-from scipy.stats import ttest_ind
-import streamlit as st
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 def run_hypothesis_test(query_before, query_after, label_before, label_after):
     # Connect to the SQLite database

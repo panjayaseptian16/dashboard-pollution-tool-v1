@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 from deta import Deta
+import math
 
 st.set_page_config(
     page_title="Dashboard and Realtime Monitoring",
@@ -38,7 +39,7 @@ with tab3:
                         }
 
                         a {
-                            color: #0645AD;
+                            color: #183D3D;
                             text-decoration: none;
                             font-weight: bold;
                             font-size: 14px;
@@ -58,7 +59,7 @@ with tab3:
                 <body>
                     <table>
                         <tr>
-                            <th>Estimate Emission Factor Source-Data</th>
+                            <th style='color:#183D3D;'>Estimate Emission Factor Source-Data</th>
                         </tr>
                         <tr>
                             <td><a href="https://indonesia.go.id/kategori/indonesia-dalam-angka/2533/membenahi-tata-kelola-sampah-nasional">Rata-rata sampah harian per individu</a></td>
@@ -120,6 +121,10 @@ with tab1:
 
         # Form input (isikan sesuai instruksi)
         # Form input
+        name = st.text_input('Nama:', placeholder='Masukkan nama Anda', help='Nama tidak boleh kosong')
+        sex = st.selectbox('Jenis Kelamin:',('Laki-Laki', 'Perempuan'), index=None, help='Pilih jenis kelamin anda')
+        age = st.number_input('Umur:',  min_value=17, max_value=50, step=1, help='Umur minimal 17 tahun dan maksimal 50 tahun', value=None, placeholder="Masukkan umur Anda")
+        location = st.selectbox('Domisili:', ('Jakarta Pusat', 'Jakarta Timur', 'Jakarta Barat', 'Jakarta Utara', 'Jakarta Selatan', 'Bogor', 'Depok', 'Tangerang', 'Bekasi'), help='Pilih domisili Anda', index=None)
         jumlah_anggota = st.number_input('Jumlah Anggota Keluarga dalam 1 Rumah', min_value=1, help="Masukkan jumlah anggota keluarga dalam 1 rumah")
 
         membakar_sampah = st.radio('Membakar Sampah (dalam sehari)', ('Ya', 'Tidak'), help="Pilih 'Ya' jika membakar sampah dalam sehari, pilih 'Tidak' jika tidak membakar sampah", index=None)
@@ -158,7 +163,7 @@ with tab1:
 
         # Output
         if submitted:
-                if not (jumlah_anggota and membakar_sampah and gas_lpg and merokok):
+                if not (jumlah_anggota and membakar_sampah and gas_lpg and merokok and name and age and sex and location):
                     st.error('Harap mengisi semua isi form sebelum melanjutkan.')
                 else:
                     st.success('Terima Kasih sudah Submit!')
@@ -282,6 +287,10 @@ with tab1:
 
                     db = deta.Base("db_test1")
                     db.put({
+                        "Name": name,
+                        "Jenis Kelamin" : sex,
+                        "Usia" : age,
+                        "Domisili" : location,
                         "Jumlah Anggota Keluarga": jumlah_anggota,
                         "Membakar Sampah": membakar_sampah,
                         "Gas LPG": gas_lpg,
@@ -328,10 +337,11 @@ with tab1:
                                             padding: 20px;
                                             border: 1px solid #ddd;
                                             border-radius: 5px;
-                                            background-color: #f9f9f9;
+                                            background-color: #183D3D;
                                             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
                                             transition: box-shadow 0.3s;
                                             text-align: center;
+                                            color: 183D3D;
                                         }
 
                                         .card:hover {
@@ -369,7 +379,7 @@ with tab1:
                                             padding: 20px;
                                             border: 1px solid #ddd;
                                             border-radius: 5px;
-                                            background-color: #f9f9f9;
+                                            background-color: #183D3D;
                                             box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
                                             transition: box-shadow 0.3s;
                                             text-align: center;
@@ -402,10 +412,19 @@ with tab1:
                         fig, ax = plt.subplots(figsize=(2, 2))
                         labels = ['NOx', 'CO', 'SOx', 'PM10', 'PM2.5', 'HC', 'CO2']
                         sizes = [total_nox, total_co, total_sox, total_pm10, total_pm25, total_hc, total_co2]
-                        ax.pie(sizes, autopct='%1.1f%%', startangle=90)
+
+                        # Mengurutkan data berdasarkan ukuran
+                        sorted_sizes, sorted_labels = zip(*sorted(zip(sizes, labels), reverse=True))
+                        # Hanya mempertahankan 3 label tertinggi
+                        show_labels = 3
+                        visible_labels = sorted_labels[:show_labels]
+                        visible_sizes = sorted_sizes[:show_labels]
+
+                        ax.pie(visible_sizes, autopct='%1.1f%%', startangle=90)
                         ax.axis('equal')
-                        legend = ax.legend(labels, loc="best", bbox_to_anchor=(1, 0.5), fontsize="small")
+                        legend = ax.legend(visible_labels, loc="best", bbox_to_anchor=(1, 0.5), fontsize="xx-small")
                         st.pyplot(fig)
+
                     else:
                         st.write("Tidak ada pencemaran yang tercatat.")
 
@@ -431,38 +450,103 @@ if tab2_access_granted:
 
         df = pd.DataFrame(db_content)
         submit_counts = df.shape[0]
-        st.write(submit_counts)
-        col1, col2, col3 = st.columns(3)
-        # Visualisasi 1: Pie chart untuk Membakar Sampah
-        # Visualisasi 1: Pie chart untuk Membakar Sampah
-        with col1:
-            membakar_sampah_counts = df['Membakar Sampah'].value_counts()
-            fig, ax = plt.subplots()
-            ax.pie(membakar_sampah_counts, labels=membakar_sampah_counts.index, autopct='%1.1f%%', colors=['#ff9999', '#66b3ff'])
-            ax.set_title("Membakar Sampah Distribution")
-            st.pyplot(fig)
+        avg_age = df["Usia"].mean()
+        avg_age = math.ceil(avg_age)
+        avg_pollution = df["Total Pencemaran Harian"].mean()
+        avg_pollution = math.ceil(avg_pollution)
+        with st.container():
+            col1,col2,col3 = st.columns(3)
+            with col1:
+                st.markdown(f"<h3 style='text-align: center;'>Total Submissions</h3>", unsafe_allow_html=True)
+                st.markdown(f"<h2 style='text-align: center;color:red; font-weight:bold;'>{submit_counts}</h2>", unsafe_allow_html=True)
+            with col2:
+                st.markdown(f"<h3 style='text-align: center;'>Average Age</h3>", unsafe_allow_html=True)
+                st.markdown(f"<h2 style='text-align: center;color:red; font-weight:bold;'>{avg_age} Years Old</h2>", unsafe_allow_html=True)
+            with col3:
+                st.markdown(f"<h3 style='text-align: center;'>Average Daily Emissions</h3>", unsafe_allow_html=True)
+                st.markdown(f"<h2 style='text-align: center;color:red; font-weight:bold;'>{avg_pollution} gr</h2>", unsafe_allow_html=True)
+            col7,col8,col12 = st.columns(3)
+            with col7 : 
+                sex_counts = df['Jenis Kelamin'].value_counts()
+                fig, ax = plt.subplots(figsize=(4, 4))
+                ax.pie(sex_counts, labels=sex_counts.index, autopct='%1.1f%%', colors=['#ff9999', '#66b3ff'])
+                ax.set_title("Jenis Kelamin Distribution")
+                st.pyplot(fig)
+            with col12 :
+                fig, ax = plt.subplots()
+                domisili_counts = df['Domisili'].value_counts()
+                sns.barplot(x=domisili_counts.index, y=domisili_counts.values, palette='viridis', ax=ax)
+                ax.set_title("Distribution of Data by Domisili")
+                ax.set_xlabel("Domisili")
+                ax.set_ylabel("Count")
+                ax.set_xticklabels(ax.get_xticklabels(), rotation=45, horizontalalignment='right')
+                st.pyplot(fig)
+            col4, col5, col6 = st.columns(3)
+            with col4:
+                membakar_sampah_counts = df['Membakar Sampah'].value_counts()
+                fig, ax = plt.subplots()
+                ax.pie(membakar_sampah_counts, labels=membakar_sampah_counts.index, autopct='%1.1f%%', colors=['#ff9999', '#66b3ff'])
+                ax.set_title("Membakar Sampah Distribution")
+                st.pyplot(fig)
+            # Visualisasi 2: Count plot untuk Ukuran Gas LPG
+            with col5:
+                sns.set_theme(style="darkgrid")
+                fig, ax = plt.subplots()
+                sns.countplot(x='Ukuran Gas LPG', data=df, palette='viridis', ax=ax)
+                ax.set_title("Distribution of Ukuran Gas LPG")
+                ax.set_xlabel("Ukuran Gas LPG")
+                ax.set_ylabel("Count")
+                st.pyplot(fig)
+            # Visualisasi 3: Bar plot untuk Jumlah Anggota Keluarga
+            with col6:
+                fig, ax = plt.subplots()
+                # Use seaborn's histplot with automatic bin selection
+                sns.histplot(df['Jumlah Anggota Keluarga'], kde=False, color='skyblue', ax=ax)
+                ax.set_title("Distribution of Jumlah Anggota Keluarga")
+                ax.set_xlabel("Jumlah Anggota Keluarga")
+                ax.set_ylabel("Count")
+                st.pyplot(fig)
+            col9,col10,col11 = st.columns(3)
+            with col9: 
+                df_melted = df.melt(var_name="Transportation Mode", value_name="Distance (KM)")
 
-        # Visualisasi 2: Count plot untuk Ukuran Gas LPG
-        with col2:
-            sns.set_theme(style="darkgrid")
-            fig, ax = plt.subplots()
-            sns.countplot(x='Ukuran Gas LPG', data=df, palette='viridis', ax=ax)
-            ax.set_title("Distribution of Ukuran Gas LPG")
-            ax.set_xlabel("Ukuran Gas LPG")
-            ax.set_ylabel("Count")
-            st.pyplot(fig)
+# Ensure the distance column is numeric
+df_melted["Distance (KM)"] = pd.to_numeric(df_melted["Distance (KM)"])
 
-        # Visualisasi 3: Bar plot untuk Jumlah Anggota Keluarga
-        with col3:
-            fig, ax = plt.subplots()
-            
-            # Use seaborn's histplot with automatic bin selection
-            sns.histplot(df['Jumlah Anggota Keluarga'], kde=False, color='skyblue', ax=ax)
-            
-            ax.set_title("Distribution of Jumlah Anggota Keluarga")
-            ax.set_xlabel("Jumlah Anggota Keluarga")
-            ax.set_ylabel("Count")
-            
-            st.pyplot(fig)
+# Plot using Seaborn
+plt.figure(figsize=(10, 6))
+sns.barplot(x="Transportation Mode", y="Distance (KM)", data=df_melted, palette="magma")
+plt.title('Transportation Habits')
+plt.ylabel('Distance (KM)')
+plt.show()
+            with col10 : 
+                fig, ax = plt.subplots()
+                ax.scatter(df['Penerbangan Domestik'], df['Penerbangan Internasional'], s=df['Penerbangan Internasional']*10, alpha=0.5)
+                ax.set_title("Penerbangan Domestik vs Penerbangan Internasional")
+                ax.set_xlabel("Penerbangan Domestik")
+                ax.set_ylabel("Penerbangan Internasional")
+                st.pyplot(fig)
+            with col11 :
+                transport_counts = df[['KRL', 'Transjakarta', 'MRT']].sum()
+                fig, ax = plt.subplots()
+                transport_counts.plot(kind='bar', color=['#ffcc99', '#66b3ff', '#99ff99'], ax=ax)
+                ax.set_title("Total Penggunaan Alat Transportasi Umum")
+                ax.set_xlabel("Alat Transportasi Umum")
+                ax.set_ylabel("Total Penggunaan")
+                st.pyplot(fig)
+            col13,col14,col15 = st.columns([1,2,1])
+            with col14 : 
+                import squarify
+                total_pencemaran_setahun_by_type = df[['Total NOx', 'Total CO2', 'Total CO', 'Total SOx', 'Total PM10', 'Total PM25', 'Total HC']]
+                fig, ax = plt.subplots()
+                squarify.plot(sizes=total_pencemaran_setahun_by_type.sum(), label=total_pencemaran_setahun_by_type.columns, alpha=0.8, color=sns.color_palette('Paired'))
+                ax.set_title("Total Pencemaran Setahun by Type")
+                ax.axis('off')
+                st.pyplot(fig)
+
+
+
+
+
 
 

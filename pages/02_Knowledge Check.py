@@ -652,13 +652,13 @@ if tab2_access_granted:
             col1,col2,col3 = st.columns(3)
             with col1:
                 st.markdown(f"<h3 style='text-align: center;'>Total Submissions</h3>", unsafe_allow_html=True)
-                st.markdown(f"<h2 style='text-align: center;color:blue;'>{submit_counts}</h2>", unsafe_allow_html=True)
+                st.markdown(f"<h2 style='text-align: center;color:red; font-weight:bold;'>{submit_counts}</h2>", unsafe_allow_html=True)
             with col2:
                 st.markdown(f"<h3 style='text-align: center;'>Average Age</h3>", unsafe_allow_html=True)
-                st.markdown(f"<h2 style='text-align: center;color:blue;'>{avg_age} Years Old</h2>", unsafe_allow_html=True)
+                st.markdown(f"<h2 style='text-align: center;color:red; font-weight:bold;'>{avg_age} Years Old</h2>", unsafe_allow_html=True)
             with col3:
                 st.markdown(f"<h3 style='text-align: center;'>Average Points</h3>", unsafe_allow_html=True)
-                st.markdown(f"<h2 style='text-align: center;color:blue;'>{avg_points} Points</h2>", unsafe_allow_html=True)
+                st.markdown(f"<h2 style='text-align: center;color:red; font-weight:bold;'>{avg_points} Points</h2>", unsafe_allow_html=True)
         
             col4,col5 = st.columns(2)
             with col4:
