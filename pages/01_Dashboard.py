@@ -7,6 +7,7 @@ import datetime
 import sqlite3
 
 
+
 #@st.cache_resource
 def read_file(file_path):
     with open(file_path, "r") as file:
@@ -24,6 +25,28 @@ st.set_page_config(
         'About': "# This is a header. This is an *extremely* cool app!"
     }
 )
+
+with st.sidebar:
+    st.markdown(
+        """
+        <style>
+        .sidebar-gif-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown("## Your Sidebar Title")
+    gif_path = "us_epa.gif"
+    st.markdown(
+        f'<div class="sidebar-gif-container"><img src="{gif_path}" alt="GIF"></div>',
+        unsafe_allow_html=True
+    )
 
 st.markdown("""
             <h3 style="text-align: center;color:#FFFD8C;">Air Quality Realtime Monitoring</h3>
