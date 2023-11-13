@@ -5,6 +5,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 import datetime
 import sqlite3
+import base64
 
 
 
@@ -25,28 +26,20 @@ st.set_page_config(
         'About': "# This is a header. This is an *extremely* cool app!"
     }
 )
-
-with st.sidebar:
+with st.sidebar: 
+    file_ = open("us_epa.gif", "rb")
+    contents = file_.read()
+    data_url = base64.b64encode(contents).decode("utf-8")
+    file_.close()
+    gif_url = "https://aqicn.org/scale/"
     st.markdown(
-        """
-        <style>
-        .sidebar-gif-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
+    f'<div style="text-align:left;">'
+    f'<a href="{gif_url}" target="_blank">'
+    f'<img src="data:image/gif;base64,{data_url}" alt="cat gif" style="max-width:100%; cursor: pointer;">'
+    f'</a></div>',
+    unsafe_allow_html=True,
+)
 
-    st.markdown("## Your Sidebar Title")
-    gif_path = "us_epa.gif"
-    st.markdown(
-        f'<div class="sidebar-gif-container"><img src="{gif_path}" alt="GIF"></div>',
-        unsafe_allow_html=True
-    )
 
 st.markdown("""
             <h3 style="text-align: center;color:#FFFD8C;">Air Quality Realtime Monitoring</h3>
