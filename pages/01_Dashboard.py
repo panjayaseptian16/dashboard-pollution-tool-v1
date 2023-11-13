@@ -249,111 +249,120 @@ with st.container():
     
         st.plotly_chart(fig4)
 
-conn = sqlite3.connect('pollution.db')
-cursor = conn.cursor()
-cursor.execute(
-    '''
-    SELECT date, temperature, tmax, tmin
-    FROM temperature
-    '''
-)
-rows1 = cursor.fetchall()
-# Menutup koneksi
-conn.close()
-# Mengonversi data ke dalam DataFrame
-df1 = pd.DataFrame(rows1, columns=['date','temperature', 'tmax', 'tmin'])
-df1['date'] = pd.to_datetime(df1['date'])
-df1 = df1.groupby('date')[['temperature', 'tmax','tmin']].mean().reset_index()
+col5,col6 = st.columns(2)
 
-temperature = df1.sort_values(by='date')
-pm25 = df.loc[:, ["date", "median"]]
-pm25 = pm25.rename(columns={"median": "pm25"})
+with col5:
+    df = pd.read_csv("pollution_data.csv")
 
-result = pd.merge(temperature, pm25, on='date', how='inner')
-result = result.sort_values(by='date')
+    # Bar chart for pollutant composition using Plotly
+    selected_pollutants = ["CO", "NO", "NO2", "O3", "SO2", "PM2.5", "PM10", "NH3"]
 
-st.dataframe(result)
-result = result.drop('date', axis=1)
-result = result.rename(columns={"temperature": "tavg"})
+    # Create a new DataFrame for selected pollutants
+    df_selected_pollutants = df[selected_pollutants]
 
-st.dataframe(result)
+    # Sum the selected pollutants
+    total_concentration = df_selected_pollutants.sum()
 
-import streamlit as st
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
+    # Plotly bar chart
+    fig = px.bar(total_concentration, x=total_concentration.index, y=total_concentration.values, labels={'y':'Total Concentration (µg/m³)'})
+    fig.update_traces(marker_color=['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f'])
+    fig.update_layout(
+        title='Pollutant Composition',
+        xaxis_title='Pollutants',
+        yaxis_title='Total Concentration (µg/m³)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
+        plot_bgcolor='rgba(0, 0, 0, 0)'   # Set transparent background for the plot area
+    )
 
-corr_matrix = result.corr()
+    # Display Plotly chart in Streamlit
+    st.plotly_chart(fig)
+with col6 :
+    # Convert the "DateTime" column to datetime type
+    df['DateTime'] = pd.to_datetime(df['DateTime'])
 
-plt.figure(figsize=(3, 2))
-sns.heatmap(corr_matrix, annot=True, cmap='coolwarm', linewidths=0.5)
-st.pyplot(plt.gcf())  # Use plt.gcf() to get the current figure
+    # Extract the hour from the "DateTime" column
+    df['Hour'] = df['DateTime'].dt.hour
 
-# Menampilkan nilai korelasi
-st.write("Heatmap Korelasi:")
-st.write(corr_matrix)
+    # Group data by hour and sum the concentrations
+    df_hourly = df.groupby('Hour')[selected_pollutants].sum()
 
-# testing
-conn = sqlite3.connect('pollution.db')
-cursor = conn.cursor()
-cursor.execute(
-    '''
-    select pm10.date,
-       pm10.median as pm10,
-       dew.median as dew,
-       humidity.median as humidity,
-       pm25.median as pm25,
-       pressure.median as pressure, 
-       temperature.median as temperature,
-       wind_gust.median as wind_gust,
-       wind_speed.median as wind_speed
-from 
-    (select date, median 
-     from daily_aqi
-     where indicator LIKE '%pm10%') as pm10
-join 
-    (select date, median 
-     from daily_aqi
-     where indicator LIKE '%dew%') as dew
-on pm10.date = dew.date
-join (select date, median 
-     from daily_aqi
-     where indicator LIKE '%humidity%') as humidity
-on dew.date = humidity.date
-join (select date, median 
-     from daily_aqi
-     where indicator LIKE '%pm25%') as pm25
-on humidity.date = pm25.date
-join (select date, median 
-     from daily_aqi
-     where indicator LIKE '%pressure%') as pressure
-on pm25.date = pressure.date
-join (select date, median 
-     from daily_aqi
-     where indicator LIKE '%temperature%') as temperature
-on pressure.date = temperature.date
-join (select date, median 
-     from daily_aqi
-     where indicator LIKE '%wind-gust%') as wind_gust
-on temperature.date = wind_gust.date
-join (select date, median 
-     from daily_aqi
-     where indicator LIKE '%wind-speed%') as wind_speed
-on wind_gust.date = wind_speed.date
-order by pm10.date
-    '''
-)
-rows2 = cursor.fetchall()
-# Menutup koneksi
-conn.close()
+    # Convert the index (hour) to custom format
+    df_hourly.index = df_hourly.index.map(lambda x: f'{x} AM' if x < 12 else '12 PM' if x == 12 else f'{x-12} PM')
 
-df2 = pd.DataFrame(rows2, columns=['date','pm10', 'dew', 'humidity', 'pm25', 'pressure', 'temperature', 'wind-gust', 'wind-speed'])
-df2 = df2.sort_values(by='date')
-df2 = df2.drop('date', axis=1)
-corr_matrix1 = df2.corr()
+    # Line chart for hourly pollution levels using Plotly
+    fig = px.line(df_hourly, x=df_hourly.index, y=df_hourly.columns, labels={'value':'Concentration (µg/m³)'}, 
+                title='Hourly Pollution Levels',
+                line_shape='linear', render_mode='svg')
 
-plt.figure(figsize=(3, 2))
-sns.heatmap(corr_matrix1, annot=True, cmap='coolwarm', linewidths=0.5)
-st.pyplot(plt.gcf())
-st.write("Heatmap Korelasi:")
-st.write(corr_matrix1)
+    # Update layout for a more appealing appearance
+    fig.update_layout(
+        xaxis_title='Hour of the Day',
+        yaxis_title='Concentration (µg/m³)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
+        plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
+    )
+
+    # Display Plotly chart in Streamlit
+    st.plotly_chart(fig)
+
+col7,col8 = st.columns(2)
+with col7 : 
+    df['DateTime'] = pd.to_datetime(df['DateTime'])
+
+    # Extract the day of the week from the "DateTime" column
+    df['DayOfWeek'] = df['DateTime'].dt.day_name()
+
+    # Define the desired order of days of the week
+    day_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+    # Convert the "DayOfWeek" column to a categorical data type with the specified order
+    df['DayOfWeek'] = pd.Categorical(df['DayOfWeek'], categories=day_order, ordered=True)
+
+    # Group data by day of the week and sum the concentrations
+    df_daily = df.groupby('DayOfWeek')[selected_pollutants].sum()
+
+    # Bar chart for daily pollution levels using Plotly
+    fig = px.bar(df_daily, x=df_daily.index, y=df_daily.columns, labels={'value':'Concentration (µg/m³)'}, 
+                title='Daily Pollution Levels',
+                color_discrete_sequence=px.colors.qualitative.Set3)
+
+    # Update layout for a more appealing appearance
+    fig.update_layout(
+        xaxis_title='Day of the Week',
+        yaxis_title='Concentration (µg/m³)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
+        plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
+    )
+
+    # Display Plotly chart in Streamlit
+    st.plotly_chart(fig)
+with col8 : 
+    df['DateTime'] = pd.to_datetime(df['DateTime'])
+
+    # Extract the month from the "DateTime" column
+    df['Month'] = df['DateTime'].dt.strftime('%B')  # %B returns the full month name
+
+    # Define the desired order of months
+    month_order = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+    # Convert the "Month" column to a categorical data type with the specified order
+    df['Month'] = pd.Categorical(df['Month'], categories=month_order, ordered=True)
+
+    # Group data by month and sum the concentrations
+    df_monthly = df.groupby('Month')[selected_pollutants].sum()
+
+    # Bar chart for monthly pollution levels using Plotly
+    fig = px.bar(df_monthly, x=df_monthly.index, y=df_monthly.columns, labels={'value':'Concentration (µg/m³)'}, 
+                title='Monthly Pollution Levels',
+                color_discrete_sequence=px.colors.qualitative.Set3)
+
+    # Update layout for a more appealing appearance
+    fig.update_layout(
+        xaxis_title='Month',
+        yaxis_title='Concentration (µg/m³)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
+        plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
+    )
+
+    # Display Plotly chart in Streamlit
+    st.plotly_chart(fig)
