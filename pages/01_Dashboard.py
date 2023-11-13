@@ -37,8 +37,9 @@ with st.sidebar:
     f'<a href="{gif_url}" target="_blank">'
     f'<img src="data:image/gif;base64,{data_url}" alt="cat gif" style="max-width:100%; cursor: pointer;">'
     f'</a></div>',
-    unsafe_allow_html=True,
-)
+    unsafe_allow_html=True)
+    st.markdown("<p style='margin-top:10px; text-align: center; font-size: 14px; color:#FFFD8C;'>Air Quality Index (AQI) scale as defined by the US-EPA 2016 standard. Check details in <a href='https://aqicn.org/scale/'>here</a></p>",
+        unsafe_allow_html=True)
 
 
 st.markdown("""
@@ -52,9 +53,6 @@ tab1,tab2,tab3 = st.tabs(['Widget', 'Alternative', 'Weather'])
 with tab1: 
     with st.container():
         html(tes_html, height=425)
-        st.markdown(
-        "<p style='margin-top:-25px; text-align: center; font-size: 14px; color:#1F4172;'>Air Quality Index (AQI) scale as defined by the US-EPA 2016 standard. Check details in <a href='https://aqicn.org/scale/'>here</a></p>",
-        unsafe_allow_html=True)
 with tab2:
     html_code = """
         <!DOCTYPE html>

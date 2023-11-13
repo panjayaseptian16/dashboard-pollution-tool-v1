@@ -24,12 +24,13 @@ with st.sidebar:
     f'<a href="{gif_url}" target="_blank">'
     f'<img src="data:image/gif;base64,{data_url}" alt="cat gif" style="max-width:100%; cursor: pointer;">'
     f'</a></div>',
-    unsafe_allow_html=True,
-)
+    unsafe_allow_html=True)
+    st.markdown("<p style='margin-top:10px; text-align: center; font-size: 14px; color:#FFFD8C;'>Air Quality Index (AQI) scale as defined by the US-EPA 2016 standard. Check details in <a href='https://aqicn.org/scale/'>here</a></p>",
+        unsafe_allow_html=True)
     
 tab1,tab2,tab3 = st.tabs(['Hypotesis Testing','SWOT Analysis', 'Recommendation'])
 with tab1: 
-    hypothesis_option = st.selectbox("Select Hypothesis Test", ["Hypothesis 1: Impact of WFH and WFO Policy on Air Quality", "Hypothesis 2: Comparison of Air Pollution Levels on Dry Season and Rainy Season"])
+    hypothesis_option = st.selectbox("Select Hypothesis Test", ["Hypothesis 1: Impact of WFH and WFO Policy on Air Quality", "Hypothesis 2: Comparison of Air Pollution Levels on Dry Season and Rainy Season"], index=None)
     # Hypothesis 1
     if hypothesis_option == "Hypothesis 1: Impact of WFH and WFO Policy on Air Quality":
             st.markdown('##')
