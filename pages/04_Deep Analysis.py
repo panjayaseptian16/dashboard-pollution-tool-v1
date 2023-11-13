@@ -64,8 +64,12 @@ with tab1:
                         </thead>
                         <tbody>
                             <tr>
-                                <td>WFH Policy</td>
+                                <td>WFH Policy 1</td>
                                 <td><a href="https://jdih.maritim.go.id/cfind/source/files/surat-edaran/2023semenpanrb017.pdf">Link</a></td>
+                            </tr>
+                            <tr>
+                                <td>WFH Policy 2</td>
+                                <td><a href="https://news.detik.com/berita/d-6887325/asn-di-jakarta-mulai-wfh-50-persen-hari-ini-simak-kebijakan-lengkapnya">Link</a></td>
                             </tr>
                         </tbody>
                     </table>

@@ -18,7 +18,7 @@ with col1:
     st.lottie(lottie_hello, height=100, width=-20)
 with col2:
     st.markdown("""
-                <h1 style="margin-bottom: 0x; color:#1F4172; font-family: monospace;"> Get in touch With Us </h1>""", unsafe_allow_html=True)
+                <h1 style="margin-bottom: 0x; color:#FFFD8C; font-family: monospace;"> Get in touch With Us </h1>""", unsafe_allow_html=True)
 
 def on_submit():
     st.success('Thank You for the feedback', icon="✅")
