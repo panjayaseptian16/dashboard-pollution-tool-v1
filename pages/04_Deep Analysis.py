@@ -29,7 +29,7 @@ with st.sidebar:
     
 tab1,tab2,tab3 = st.tabs(['Hypotesis Testing','SWOT Analysis', 'Recommendation'])
 with tab1: 
-    hypothesis_option = st.selectbox("Select Hypothesis Test", ["Hypothesis 1: Impact of WFH and WFO Policy on Air Quality", "Hypothesis 2"])
+    hypothesis_option = st.selectbox("Select Hypothesis Test", ["Hypothesis 1: Impact of WFH and WFO Policy on Air Quality", "Hypothesis 2: Comparison of Air Pollution Levels on Dry Season and Rainy Season"])
     # Hypothesis 1
     if hypothesis_option == "Hypothesis 1: Impact of WFH and WFO Policy on Air Quality":
             st.markdown('##')
@@ -169,6 +169,7 @@ with tab1:
                 ax.set_title(f'Comparison of AQI Distribution {label_before} and {label_after}')
                 ax.legend()
                 st.pyplot(fig)
+                st.caption("_The Air Quality Index (AQI) is presented on the sidebar, where higher values indicate poorer air quality. Moving towards the right corresponds to higher AQI values and a decrease in air quality._")
                 st.write("**Conclusion: The analysis suggests a significant difference in the AQI distribution before and during the WFH event.**")
                 st.write("**However, it appears that the AQI did not increase during the WFH event**")
 
@@ -187,7 +188,7 @@ with tab1:
                 "Same Month (2022)",
                 "WFH Event (2023)"
             )
-    elif hypothesis_option == "Hypothesis 2":
+    elif hypothesis_option == "Hypothesis 2: Comparison of Air Pollution Levels on Dry Season and Rainy Season":
         st.markdown('##')
         with st.expander('Source_Data'):
             st.markdown(
@@ -234,100 +235,96 @@ with tab1:
                         </thead>
                         <tbody>
                             <tr>
-                                <td>WFH Policy 1</td>
-                                <td><a href="https://jdih.maritim.go.id/cfind/source/files/surat-edaran/2023semenpanrb017.pdf">Link</a></td>
-                            </tr>
-                            <tr>
-                                <td>WFH Policy 2</td>
-                                <td><a href="https://news.detik.com/berita/d-6887325/asn-di-jakarta-mulai-wfh-50-persen-hari-ini-simak-kebijakan-lengkapnya">Link</a></td>
+                                <td>Season in Indonesia</td>
+                                <td><a href="https://regional.kompas.com/read/2022/07/23/154321578/mengenal-2-jenis-musim-di-indonesia-musim-hujan-dan-musim-kemarau?page=all">Link</a></td>
                             </tr>
                         </tbody>
                     </table>
                     """,unsafe_allow_html=True
                 )
 
-            # Hypothesis 1
-            st.header("Hypothesis 2: Comparison of Air Pollution Levels on Weekdays and Weekends")
+        # Hypothesis 2
+        st.header("Hypothesis 2: Comparison of Air Pollution Levels on Dry Season and Rainy Season")
 
-            hypothesis_2_description = """
-            I am assessing the difference in air pollution levels between weekdays and weekends over two months (Aug 21, 2023, to Oct 21, 2023).
+        hypothesis_2_description = """
+            I am evaluating the disparities in air pollution levels between the Dry Season (April-September) and Rainy Season (October-March) over a span of 6 years (Jan 01, 2018, to Oct 29, 2023).
 
-            **Comparison 1: Weekdays vs. Weekends (During Same Period)**
-            - **Same period conditions:** Control for external factors during the same timeframe.
-            - **Type I Error Control:** Apply Bonferroni correction for multiple test control.
+            **Comparison: Dry Season vs. Rainy Season (Previous Year)**
+            - **Previous-year conditions:** Maintaining consistency and controlling for year-specific variations enhances the reliability of the analysis.
 
-            **Comparison 2: Weekdays vs. Weekends (Previous Year)**
-            - **Previous-year conditions:** Consistency and control for year-specific variations.
-            - **Type I Error Control:** Apply Bonferroni correction.
-
-            Ensuring a robust analysis, considering within-year and cross-year perspectives, while controlling potential errors via Bonferroni correction.
+            Considering both within-year and cross-year perspectives ensures a robust analysis.
             """
+        st.write(hypothesis_2_description)
+        st.divider()
 
-            st.write(hypothesis_2_description)
-            st.divider()
-
-            def run_hypothesis_test(query_weekdays, query_weekends, label_weekdays, label_weekends):
+        def run_hypothesis_test(query_dry_season, query_rainy_season, label_dry_season, label_rainy_season):
+            try:
                 # Connect to the SQLite database
                 conn = sqlite3.connect('pollution.db')  # Replace 'pollution.db' with your database name
                 cursor = conn.cursor()
 
-                # Execute the query for weekdays
-                result_weekdays = pd.read_sql_query(query_weekdays, conn)
+                # Execute the query for the dry season
+                result_dry_season = pd.read_sql_query(query_dry_season, conn)
 
-                # Execute the query for weekends
-                result_weekends = pd.read_sql_query(query_weekends, conn)
+                # Execute the query for the rainy season
+                result_rainy_season = pd.read_sql_query(query_rainy_season, conn)
 
+            except Exception as e:
+                st.error(f"Error connecting to the database: {e}")
+                return
+
+            finally:
                 # Close the database connection
                 conn.close()
 
-                # Conduct an independent t-test
-                t_stat, p_value = ttest_ind(result_weekdays['median'], result_weekends['median'], equal_var=False)
+            # Conduct an independent t-test
+            t_stat, p_value = ttest_ind(result_dry_season['median'], result_rainy_season['median'], equal_var=False)
 
-                # Set the significance level (alpha)
-                alpha = 0.05
+            # Set the significance level (alpha)
+            alpha = 0.05
 
-                # Define the null hypothesis (H0) and alternative hypothesis (H1)
-                h0 = f"There is no significant difference between the median AQI {label_weekdays} and {label_weekends}."
-                h1 = f"There is a significant difference between the median AQI {label_weekdays} and {label_weekends}."
+            # Define the null hypothesis (H0) and alternative hypothesis (H1)
+            h0 = f"There is no significant difference between the median AQI {label_dry_season} and {label_rainy_season}."
+            h1 = f"There is a significant difference between the median AQI {label_dry_season} and {label_rainy_season}."
 
-                # Display the test results along with H0 and H1
-                st.write(f"**Alpha:** {alpha}")
-                st.write(f"**H0:** {h0}")
-                st.write(f"**H1:** {h1}")
-                st.write(f"**T-Test Results ({label_weekdays} vs {label_weekends}):**")
-                st.write("**T-Statistic:**", t_stat)
-                st.write("**P-Value:**", p_value)
+            # Display the test results along with H0 and H1
+            st.write(f"**Alpha:** {alpha}")
+            st.write(f"**H0:** {h0}")
+            st.write(f"**H1:** {h1}")
+            st.write(f"**T-Test Results ({label_dry_season} vs {label_rainy_season}):**")
+            st.write("**T-Statistic:**", t_stat)
+            st.write("**P-Value:**", p_value)
 
-                # Perform hypothesis testing with Bonferroni correction
-                if p_value < bonferroni_alpha:
-                    st.write(f"**Reject H0:** {h1}")
-                    plot_distribution_comparison(result_weekdays, result_weekends, label_weekdays, label_weekends)
-                else:
-                    st.write(f"**Not enough evidence to reject H0:** {h0}")
-                st.divider()
+            # Perform hypothesis testing
+            if p_value < alpha:
+                st.write(f"**Reject H0:** {h1}")
+                plot_distribution_comparison(result_dry_season, result_rainy_season, label_dry_season, label_rainy_season)
+            else:
+                st.write(f"**Not enough evidence to reject H0:** {h0}")
+            st.divider()
 
 
-            def plot_distribution_comparison(result_before, result_after, label_before, label_after):
-                # Create a distribution plot
-                fig, ax = plt.subplots()
-                sns.kdeplot(result_before['median'], label=label_before, fill=True)
-                sns.kdeplot(result_after['median'], label=label_after, fill=True)
-                ax.set_xlabel('Median AQI (PM2.5)')
-                ax.set_ylabel('Density')
-                ax.set_title(f'Comparison of AQI Distribution {label_before} and {label_after}')
-                ax.legend()
-                st.pyplot(fig)
-                st.write("**Conclusion: The analysis suggests a significant difference in the AQI distribution before and during the WFH event.**")
-                st.write("**However, it appears that the AQI did not increase during the WFH event**")
+        def plot_distribution_comparison(result_before, result_after, label_before, label_after):
+            # Create a distribution plot
+            fig, ax = plt.subplots()
+            sns.kdeplot(result_before['median'], label=label_before, fill=True, color='chocolate')  # Set color for dry season
+            sns.kdeplot(result_after['median'], label=label_after, fill=True, color='skyblue')     # Set color for rainy season
+            ax.set_xlabel('Median AQI (PM2.5)')
+            ax.set_ylabel('Density')
+            ax.set_title(f'Comparison of AQI Distribution {label_before} and {label_after}')
+            ax.legend()
+            st.pyplot(fig)
+            st.caption("_The Air Quality Index (AQI) is presented on the sidebar, where higher values indicate poorer air quality. Moving towards the right corresponds to higher AQI values and a decrease in air quality._")
+            st.write("**Conclusion: The analysis reveals a significant difference in the AQI distribution between the Dry Season (April-September) and the Rainy Season (October-March).**")
+            st.write("**The null hypothesis (H0) is rejected, suggesting that there is indeed a decrease in air quality during the Dry Season.**")
 
-           # Run hypothesis test for weekdays vs. weekends across all available years
-            run_hypothesis_test(
-                "SELECT median FROM daily_aqi WHERE indicator LIKE '%pm25%' AND (strftime('%w', date) IN ('1','2','3','4','5')) ORDER BY date",
-                "SELECT median FROM daily_aqi WHERE indicator LIKE '%pm25%' AND (strftime('%w', date) IN ('0','6')) ORDER BY date",
-                "All Weekdays",
-                "All Weekends"
-            )
-        
+        # Run hypothesis test for dry season vs. rainy season across all available years
+        run_hypothesis_test(
+            "SELECT median FROM daily_aqi WHERE indicator LIKE '%pm25%' AND (strftime('%m', date) BETWEEN '04' AND '09') ORDER BY date",
+            "SELECT median FROM daily_aqi WHERE indicator LIKE '%pm25%' AND (strftime('%m', date) IN ('10','11','12','01','02','03')) ORDER BY date",
+            "Dry Season (April-September)",
+            "Rainy Season (October-March)"
+        )
 
 
 
