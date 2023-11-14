@@ -6,7 +6,9 @@ import plotly.graph_objects as go
 import datetime
 import sqlite3
 import base64
-
+from prophet.plot import plot_plotly, plot_components_plotly
+from prophet import Prophet
+import holidays
 
 
 #@st.cache_resource
@@ -155,32 +157,53 @@ df['day'] = df['date'].dt.day_name().str.slice(0, 3)
 
 with st.container():
     # Buat tab pertama
-    tab1, tab2, tab3, tab4 = st.tabs(["Median AQI PM2.5 (2018-2023)", "Daily Statistics", "Monthly Statistics", "Yearly Statistics"])
+    tab1, tab2, tab3, tab4,tab5 = st.tabs(["Median AQI PM2.5 (2018-2023)", "Daily Statistics", "Monthly Statistics", "Yearly Statistics", "Forecast using Prophet"])
     # Buat tab kedua
     with tab1: 
         col1,col2 = st.columns([2,1],gap="small")
         with col1:
-            # Plot data menggunakan Plotly
-            fig = px.line(df, x='date', y=['median'], title='Median AQI PM2.5 (2018-2023)')
-            fig.update_layout(yaxis_range=[0, 169], xaxis_title='Date', yaxis_title='Median AQI', title_x=0.3, width=950, height=500, xaxis_showgrid=False, yaxis_showgrid=False)
-            fig.update_layout(annotations=[
-            dict(
-                x="2018-10-01",
-                y=0.5,
-                xref="x",
-                yref="paper",
-                text="No Data",
-                showarrow=False,
-                font=dict(
-                    family="Arial",
-                    size=16,
-                    color="black"
-                ))])
-            fig.add_hrect(y0=0, y1=50, fillcolor="green", opacity=0.2, line_width=0, annotation_text="<b>Good</b>")
-            fig.add_hrect(y0=50, y1=100, fillcolor="yellow", opacity=0.2, line_width=0, annotation_text="<b>Moderate</b>")
-            fig.add_hrect(y0=100, y1=df['median'].max(), fillcolor="red", opacity=0.2, line_width=0, annotation_text="<b>Unhealthy</b>")
-            fig.add_vrect(x0=datetime.datetime(2018, 7, 1), x1=datetime.datetime(2018, 12, 31),fillcolor="lightgrey", opacity=0.8, line_width=0)
-            st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+            # Add a Streamlit date range slider
+            date_range = st.date_input('Select Date Range:', (datetime.date(2018, 1, 1), datetime.date(2023, 10, 29)),datetime.date(2018, 1, 1), datetime.date(2023, 10, 29))
+
+            # Check if both start_date and end_date are provided
+            if len(date_range) == 2 and date_range[0] and date_range[1]:
+                # Convert date_range values to Pandas datetime objects
+                start_date, end_date = pd.to_datetime(date_range[0]), pd.to_datetime(date_range[1])
+
+                # Filter the DataFrame based on the selected date range
+                filtered_df = df[(df['date'] >= start_date) & (df['date'] <= end_date)]
+
+                # Create the Plotly figure with the filtered DataFrame
+                fig = px.line(filtered_df, x='date', y=['median'], title='Median AQI PM2.5 (2018-2023)')
+
+                # Add your layout and annotations here (as in your existing code)
+                fig.update_layout(yaxis_range=[0, 169], xaxis_title='Date', yaxis_title='Median AQI', title_x=0.3, width=950, height=500, xaxis_showgrid=False, yaxis_showgrid=False)
+                fig.update_layout(annotations=[
+                dict(
+                    x="2018-10-01",
+                    y=0.5,
+                    xref="x",
+                    yref="paper",
+                    text="No Data",
+                    showarrow=False,
+                    font=dict(
+                        family="Arial",
+                        size=16,
+                        color="black"
+                    ))])
+                fig.add_hrect(y0=0, y1=50, fillcolor="green", opacity=0.2, line_width=0, annotation_text="<b>Good</b>")
+                fig.add_hrect(y0=50, y1=100, fillcolor="yellow", opacity=0.2, line_width=0, annotation_text="<b>Moderate</b>")
+                fig.add_hrect(y0=100, y1=df['median'].max(), fillcolor="red", opacity=0.2, line_width=0, annotation_text="<b>Unhealthy</b>")
+                fig.add_vrect(x0=datetime.datetime(2018, 7, 1), x1=datetime.datetime(2018, 12, 31),fillcolor="lightgrey", opacity=0.8, line_width=0)
+
+                # Finally, display the Plotly chart in the Streamlit app
+                st.plotly_chart(fig, theme="streamlit", use_container_width=True)
+
+            else:
+                # Display an error message if the user didn't provide both start and end dates
+                st.error("Please provide both start and end dates.")
+
+            
         with col2:
            caption = "Air pollution in Jakarta is still a cause for concern, even though PM2.5 AQI has fluctuated from 2018 to 2023 and always decreased during the end and beginning of the year. The median PM2.5 AQI in Jakarta is still predominantly in the <span style='color:red;font-weight:bold;'>unhealthy</span> and <span style='color:yellow;font-weight:bold;'>moderate</span> level, which means that air pollution in Jakarta can still have a negative impact on the public. This implies that there hasn't been any effective policy or program to address this issue significantly."
            st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption}</p>", unsafe_allow_html=True)
@@ -248,6 +271,40 @@ with st.container():
         fig4.add_annotation(text="Period of COVID-19 (PSBB/PPKM)", x=2021, y=110, showarrow=False, font=dict(family="monospace", size=16, color="black"))
     
         st.plotly_chart(fig4)
+    with tab5:
+        col9,col10,col11 = st.columns([1,3,1])
+        with col10:
+            df = df[["date", "median"]]
+            df.columns = ['ds', 'y']
+            df['ds'] = pd.to_datetime(df['ds'])
+
+            # Kontrol untuk jangka waktu prediksi
+            forecast_period = st.slider("Pilih Periode Prediksi (dalam hari):", min_value=1, max_value=730, value=365)  # 730 hari untuk 2 tahun
+
+            # Buat DataFrame untuk hari libur
+            new_holidays = holidays.ID(years=[2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025], language="id")
+            holiday_dates = []
+            holiday_names = []
+            for dt, name in sorted(new_holidays.items()):
+                holiday_dates.append(dt)
+                holiday_names.append(name)
+            holiday_df = pd.DataFrame({'ds': pd.to_datetime(holiday_dates), 'holiday': holiday_names})
+
+            # Fit model
+            model = Prophet(holidays=holiday_df)
+            model.fit(df)
+            
+            future = model.make_future_dataframe(periods=forecast_period)
+            forecast = model.predict(future)
+
+            # Menampilkan grafik menggunakan plotly_chart di Streamlit
+            st.plotly_chart(plot_plotly(model, forecast))
+
+            # Menampilkan komponen-komponen grafik menggunakan plotly_chart di Streamlit
+            st.plotly_chart(plot_components_plotly(model, forecast))
+            st.subheader("Holiday Component")
+            st.plotly_chart(plot_components_plotly(model, forecast, component='holidays'))
+
 
 col5,col6 = st.columns(2)
 
@@ -366,3 +423,24 @@ with col8 :
 
     # Display Plotly chart in Streamlit
     st.plotly_chart(fig)
+
+df['Year'] = df['DateTime'].dt.year
+
+# Group data by year and sum the concentrations
+df_yearly = df.groupby('Year')[selected_pollutants].sum()
+
+# Bar chart for yearly pollution levels using Plotly
+fig = px.bar(df_yearly, x=df_yearly.index, y=df_yearly.columns, labels={'value':'Concentration (µg/m³)'}, 
+            title='Yearly Pollution Levels',
+            color_discrete_sequence=px.colors.qualitative.Set3)
+
+# Update layout for a more appealing appearance
+fig.update_layout(
+    xaxis_title='Year',
+    yaxis_title='Concentration (µg/m³)',
+    paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
+    plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
+)
+
+# Display Plotly chart in Streamlit
+st.plotly_chart(fig)
