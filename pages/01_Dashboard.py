@@ -341,7 +341,7 @@ with st.container():
 
 st.divider()
 st.subheader("By Pollutant Composition")
-col5,col6 = st.columns(2)
+col5,col6 = st.columns(2, gap="medium")
 
 with col5:
     df = pd.read_csv("pollution_data.csv")
@@ -397,7 +397,7 @@ with col6 :
     # Display Plotly chart in Streamlit
     st.plotly_chart(fig)
 
-col7,col8 = st.columns(2,gap="small")
+col7,col8 = st.columns(2,gap="medium")
 with col7 : 
     df['DateTime'] = pd.to_datetime(df['DateTime'])
 
@@ -458,7 +458,7 @@ with col8 :
 
     # Display Plotly chart in Streamlit
     st.plotly_chart(fig)
-col13,col14 = st.columns(2,gap="small")
+col13,col14 = st.columns(2,gap="medium")
 with col13:
     df['Year'] = df['DateTime'].dt.year
 
