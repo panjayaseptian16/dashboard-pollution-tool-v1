@@ -145,6 +145,7 @@ with col4:
     st.markdown(':male-detective: :green[Deep Analysis] : Advanced analysis of pollution data that includes recommendations and ideas for improvement.')
     st.markdown(":ballot_box_with_check: :rainbow[Knowledge Check] : A feature to assess the user's knowledge about air pollution, including statistics (Developer only).")
     st.markdown(":bookmark: :orange[Personal Pollution Tracker] : A calculator to measure or track the amount of pollution or emissions generated in daily activities, including statistics (Developer only).")
+    st.caption("*NOTE : It is highly recommended to use a desktop or laptop web browser. However, if you prefer using a smartphone, make sure to enable desktop mode (in Chrome) and use it in landscape orientation.*")
 with col3: 
     st_lottie(features, speed=1, reverse=False, loop=True, height=300)
 
