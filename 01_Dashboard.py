@@ -3,6 +3,8 @@ from streamlit.components.v1 import html
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import seaborn as sns
+import matplotlib.pyplot as plt
 import datetime
 import sqlite3
 import base64
@@ -543,5 +545,205 @@ with col14:
                     </table>
                 </body>
                 </html>""",unsafe_allow_html=True)
+
+st.divider()
+st.subheader("Correlation")
+with st.container():
+    col24,col25 = st.columns(2)
+    with col24:
+        df = pd.read_csv('jakarta.csv')
+
+        # Mengubah kolom 'time_code' menjadi tipe data datetime
+        df['time_code'] = pd.to_datetime(df['time_code'], format='%Y%m%d %H:%M')
+
+        # Menambahkan kolom baru 'date' yang berisi tanggal
+        df['date'] = df['time_code'].dt.date
+
+        # Melakukan pengelompokan (group by) berdasarkan tanggal dan menghitung median AQI
+        result = df.groupby('date')['value'].median().reset_index()
+        result = result.rename(columns={'value': 'TCI'})
+
+        # Ambil data dari database
+        conn = sqlite3.connect('pollution.db')
+        cursor = conn.cursor()
+        cursor.execute(
+            '''
+            SELECT * FROM daily_aqi WHERE indicator LIKE '%pm25%';
+            '''
+        )
+        rows = cursor.fetchall()
+        # Menutup koneksi
+        conn.close()
+
+        # Mengonversi data ke dalam DataFrame
+        aqi_df = pd.DataFrame(rows, columns=['date', 'country_code', 'city', 'indicator', 'count', 'min', 'max', 'median', 'variance'])
+
+        # Mengubah format tanggal pada DataFrame dari database SQLite agar sesuai
+        aqi_df['date'] = pd.to_datetime(aqi_df['date']).dt.date
+
+        # Memilih hanya kolom yang diperlukan
+        median_df = aqi_df[['date', 'median']]
+
+        # Melakukan inner join dengan hasil sebelumnya
+        result_df = pd.merge(result, median_df, on='date', how='inner')
+        result_df['Air Quality Index'] = result_df['median']
+        result_df['Traffic Congestion Index'] = result_df['TCI']
+        # Create a correlation matrix
+        correlation_matrix = result_df[['Traffic Congestion Index', 'Air Quality Index']].corr()
+
+        fig = px.imshow(correlation_matrix,
+                x=['TCI', 'AQI'],
+                y=['TCI', 'AQI'],
+                labels=dict(color='Correlation'),
+                title='Correlation Heatmap between Traffic Congestion Index and Air Quality Index',
+                )
+        fig.update_traces(hovertemplate='Correlation: %{z:.2f}')
+        # Update layout for a more appealing appearance
+        fig.update_layout(
+            paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
+            plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
+        )
+
+        # Show the plot
+        st.plotly_chart(fig, use_container_width=True)
+        st.markdown('**Conclusion**: The correlation between Traffic Congestion Index and Air Quality Index is :blue[0.06]. While there is a :blue[positive correlation], the strength is considered :red[very weak].')
+    with col25:
+        # Ambil data dari database
+        conn = sqlite3.connect('pollution.db')
+        cursor = conn.cursor()
+        cursor.execute(
+            '''
+            SELECT
+                a.date,
+                a.median AS dew,
+                b.median AS humidity,
+                d.median AS aqi,
+                e.median AS pressure,
+                f.median AS temperature,
+                g.median AS wind_gust,
+                h.median AS wind_speed
+            FROM
+                daily_aqi a
+            JOIN daily_aqi b ON a.date = b.date
+            JOIN daily_aqi c ON a.date = c.date
+            JOIN daily_aqi d ON a.date = d.date
+            JOIN daily_aqi e ON a.date = e.date
+            JOIN daily_aqi f ON a.date = f.date
+            JOIN daily_aqi g ON a.date = g.date
+            JOIN daily_aqi h ON a.date = h.date
+            WHERE
+                a.indicator = 'dew'
+                AND b.indicator = 'humidity'
+                AND d.indicator = 'pm25'
+                AND e.indicator = 'pressure'
+                AND f.indicator = 'temperature'
+                AND g.indicator = 'wind-gust'
+                AND h.indicator = 'wind-speed'
+            order by a.date 
+            '''
+        )
+        rows = cursor.fetchall()
+        # Menutup koneksi
+        conn.close()
+
+        aqi_df = pd.DataFrame(rows, columns=['date', 'dew', 'humidity', 'aqi', 'pressure', 'temp', 'wind_gust', 'wind_speed'])
+
+        heatmap_data = aqi_df.drop(columns=['date'])
+        
+        # Create a heatmap using Plotly
+        fig = px.imshow(heatmap_data.corr(),
+                        x=heatmap_data.columns,
+                        y=heatmap_data.columns,
+                        labels=dict(color='Correlation'),
+                        title='Correlation Heatmap between Air Quality Index and Weather Parameters',
+                        )
+
+        # Customize hover text to display correlation values
+        fig.update_traces(hovertemplate='Correlation: %{z:.2f}')
+        aqi_indices = [heatmap_data.columns.get_loc(col) for col in heatmap_data.columns if 'aqi' in col]
+
+        # Update layout to focus on columns related to 'aqi'
+        fig.update_layout(
+            paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
+            plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
+            shapes=[
+                dict(
+                    type='rect',
+                    xref='x',
+                    yref='y',
+                    x0=min(aqi_indices) - 0.5,
+                    y0=min(aqi_indices) - 0.5,
+                    x1=max(aqi_indices) + 0.5,
+                    y1=max(aqi_indices) + 0.5,
+                    line=dict(color='red', width=2),
+                    fillcolor='rgba(255, 0, 0, 0.1)',  # Set the fill color to red with transparency
+                )
+            ],
+            xaxis=dict(range=[min(aqi_indices) - 0.5, max(aqi_indices) + 0.5]),
+            yaxis=dict(range=[min(aqi_indices) - 0.5, max(aqi_indices) + 0.5]),
+        )
+        # Show the plot
+        st.plotly_chart(fig, use_container_width=True)
+        st.markdown('**Conclusion:** The correlation between Dew, Humidity, Wind Gust, and Wind Speed with AQI indicates a :red[negative relationship], while **Pressure (0.21)** and **Temperature (0.24)** show a :blue[positive correlation].')
+    col26,col27,col28 = st.columns([1,2,1])
+    with col27: 
+        df = pd.read_csv('pollution_data.csv')
+
+        # Mengubah kolom 'DateTime' menjadi tipe data datetime
+        df['DateTime'] = pd.to_datetime(df['DateTime'])
+
+        # Menambahkan kolom 'Date' yang berisi tanggal saja
+        df['date'] = df['DateTime'].dt.date
+
+        # Mengelompokkan berdasarkan tanggal dan menghitung median untuk setiap kolom
+        result = df.groupby('date')[['CO', 'NO', 'NO2', 'O3', 'SO2', 'PM2.5', 'PM10', 'NH3']].median().reset_index()
+
+        # Ambil data dari database
+        conn = sqlite3.connect('pollution.db')
+        cursor = conn.cursor()
+        cursor.execute(
+            '''
+            SELECT * FROM daily_aqi WHERE indicator LIKE '%pm25%';
+            '''
+        )
+        rows = cursor.fetchall()
+        # Menutup koneksi
+        conn.close()
+
+        # Mengonversi data ke dalam DataFrame
+        aqi_df = pd.DataFrame(rows, columns=['date', 'country_code', 'city', 'indicator', 'count', 'min', 'max', 'median', 'variance'])
+
+        # Mengubah format tanggal pada DataFrame dari database SQLite agar sesuai
+        aqi_df['date'] = pd.to_datetime(aqi_df['date']).dt.date
+
+        # Memilih hanya kolom yang diperlukan
+        median_df = aqi_df[['date', 'median']]
+
+        # Melakukan inner join dengan hasil sebelumnya berdasarkan kolom 'date'
+        result_df = pd.merge(result, median_df, on='date', how='inner')
+
+        # Mengganti nama kolom 'median' pada median_df menjadi 'aqi'
+        result_df = result_df.rename(columns={'median': 'aqi'})
+        # Menghapus kolom 'date' dari result_df
+        result_df = result_df.drop(columns=['date'])
+
+        # Membuat heatmap menggunakan Plotly
+        fig = px.imshow(result_df.corr(),
+                        x=result_df.columns,
+                        y=result_df.columns,
+                        labels=dict(color='Correlation'),
+                        title='Correlation Heatmap between Air Quality Index & Pollutant Composition',
+                        )
+
+        # Customize hover text to display correlation values
+        fig.update_traces(hovertemplate='Correlation: %{z:.2f}')
+
+        # Update layout for a more appealing appearance
+        fig.update_layout(
+            paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
+            plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
+        )
+        st.plotly_chart(fig, use_container_width=True)
+        st.markdown("**Conclusion** : The analysis reveals :blue[positive correlations], with **NO2** showing the :blue[strongest association (0.60)]. **PM2.5 and PM10** also exhibit a notable correlation of 0.52. **O3** has a lower positive correlation at 0.14.")
 
 st.divider()

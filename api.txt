@@ -74,3 +74,19 @@
 "country":"ID"
 }
 ]
+
+    dew: titik embun adalah kelembapan atmosfer yang mengembun pada permukaan pada malam hari ketika suhu turun.
+
+    humidity: Kelembapan adalah jumlah uap air yang ada di udara, sering kali diungkapkan sebagai persentase. Ini menunjukkan kandungan kelembapan udara.
+
+    pm10: PM10 merujuk pada materi partikulat dengan diameter 10 mikrometer atau lebih kecil, yang dapat dihirup ke dalam paru-paru. Ini adalah ukuran pencemaran udara.
+
+    pm25: PM2.5 adalah materi partikulat yang lebih halus dengan diameter 2.5 mikrometer atau lebih kecil. Seperti PM10, ini adalah indikator kualitas udara dan dapat memiliki efek kesehatan yang merugikan.
+
+    pressure: Tekanan atmosfer adalah gaya yang diberikan oleh udara di atas suatu titik tertentu pada permukaan Bumi. Biasanya diukur dalam hPa atau inci raksa.
+
+    temperature: Suhu adalah ukuran kehangatan atau kedinginan udara. Biasanya diukur dalam derajat Celsius atau Fahrenheit.
+
+    wind-gust: Angin puyuh adalah peningkatan tiba-tiba dan singkat dalam kecepatan angin, sering kali terkait dengan sistem cuaca yang lewat atau badai petir.
+
+    wind-speed: Kecepatan angin adalah kecepatan rata-rata angin selama periode waktu tertentu. Biasanya diukur dalam satuan seperti meter per detik atau mil per jam.
