@@ -22,11 +22,6 @@ st.set_page_config(
     page_icon="🧊",
     layout="wide",
     initial_sidebar_state="expanded",
-    menu_items={
-        'Get Help': 'https://www.extremelycoolapp.com/help',
-        'Report a bug': "https://www.extremelycoolapp.com/bug",
-        'About': "# This is a header. This is an *extremely* cool app!"
-    }
 )
 with st.sidebar: 
     file_ = open("us_epa.gif", "rb")
@@ -51,76 +46,77 @@ st.markdown("""
 # Baca konten HTML dari berkas interactive_aqi_widget.html
 tes_html = read_file("tes.html")
 
-tab1,tab2,tab3 = st.tabs(['Widget', 'Alternative', 'Weather'])
-with tab1: 
-    with st.container():
-        html(tes_html, height=425)
-with tab2:
-    html_code = """
-        <!DOCTYPE html>
-    <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>AirVisual Widget</title>
-        <style>
-            div[name="airvisual_widget"] {
-                position: absolute;
-                top: 20%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                transition: transform 0.3s;
-            }
-            div[name="airvisual_widget"]:hover {
-                transform: translate(-50%, -50%) scale(1.1);
-            }
-        </style>
-        <script type="text/javascript">
-            window.onload = function() {
-                var widget = document.querySelector('div[name="airvisual_widget"]');
-                widget.addEventListener('click', function(event) {
-                    event.preventDefault(); // Mencegah tindakan default
-                    event.stopPropagation(); // Mencegah penyebaran event
-                });
-            };
-        </script>
-    </head>
-    <body>
-        <div name="airvisual_widget" key="654518acce379fa31df00fae"></div>
-        <script type="text/javascript" src="https://widget.iqair.com/script/widget_v3.0.js"></script>
-    </body>
-    </html>
-    """
-    html(html_code, height=500)
-
-with tab3: 
-    html_code1 = """
-        <!DOCTYPE html>
+with st.container():
+    tab1,tab2,tab3 = st.tabs(['Widget', 'Alternative', 'Weather'])
+    with tab1: 
+        with st.container():
+            html(tes_html, height=425)
+    with tab2:
+        html_code = """
+            <!DOCTYPE html>
         <html>
         <head>
-            <title>WeatherAPI Widget</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>AirVisual Widget</title>
             <style>
-                body {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 100vh;
-                }
-                #weatherapi-weather-widget-4 {
-                    width: 320px; /* Sesuaikan lebar sesuai kebutuhan Anda */
+                div[name="airvisual_widget"] {
+                    position: absolute;
+                    top: 20%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
                     transition: transform 0.3s;
                 }
-                #weatherapi-weather-widget-4:hover {
-                    transform: scale(1.1);
+                div[name="airvisual_widget"]:hover {
+                    transform: translate(-50%, -50%) scale(1.1);
                 }
             </style>
+            <script type="text/javascript">
+                window.onload = function() {
+                    var widget = document.querySelector('div[name="airvisual_widget"]');
+                    widget.addEventListener('click', function(event) {
+                        event.preventDefault(); // Mencegah tindakan default
+                        event.stopPropagation(); // Mencegah penyebaran event
+                    });
+                };
+            </script>
         </head>
         <body>
-            <div id="weatherapi-weather-widget-4"></div>
-            <script type='text/javascript' src='https://www.weatherapi.com/weather/widget.ashx?loc=3026315&wid=4&tu=1&div=weatherapi-weather-widget-4' async></script><noscript><a href="https://www.weatherapi.com/weather/q/jakarta-3026315" alt="Hour by hour Jakarta weather">10 day hour by hour Jakarta weather</a>
-            </noscript></body>
+            <div name="airvisual_widget" key="654518acce379fa31df00fae"></div>
+            <script type="text/javascript" src="https://widget.iqair.com/script/widget_v3.0.js"></script>
+        </body>
         </html>
         """
-    html(html_code1, height=500)
+        html(html_code, height=500)
+
+    with tab3: 
+        html_code1 = """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>WeatherAPI Widget</title>
+                <style>
+                    body {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        height: 100vh;
+                    }
+                    #weatherapi-weather-widget-4 {
+                        width: 320px; /* Sesuaikan lebar sesuai kebutuhan Anda */
+                        transition: transform 0.3s;
+                    }
+                    #weatherapi-weather-widget-4:hover {
+                        transform: scale(1.1);
+                    }
+                </style>
+            </head>
+            <body>
+                <div id="weatherapi-weather-widget-4"></div>
+                <script type='text/javascript' src='https://www.weatherapi.com/weather/widget.ashx?loc=3026315&wid=4&tu=1&div=weatherapi-weather-widget-4' async></script><noscript><a href="https://www.weatherapi.com/weather/q/jakarta-3026315" alt="Hour by hour Jakarta weather">10 day hour by hour Jakarta weather</a>
+                </noscript></body>
+            </html>
+            """
+        html(html_code1, height=500)
 
 st.divider()
 st.markdown("""
@@ -300,44 +296,45 @@ with st.container():
             caption4 = "The Air Quality Index tended to increase during the COVID-19 pandemic and started to declined again in 2023, reaching <span style='color:red;font-weight:bold;'>Unhealthy</span> levels."
             st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption4}</p>", unsafe_allow_html=True)
     with tab5:
-        col9,col10 = st.columns([3,1])
-        with col9:
-            df = df[["date", "median"]]
-            df.columns = ['ds', 'y']
-            df['ds'] = pd.to_datetime(df['ds'])
+        with st.container():
+            col9,col10 = st.columns([3,1])
+            with col9:
+                df = df[["date", "median"]]
+                df.columns = ['ds', 'y']
+                df['ds'] = pd.to_datetime(df['ds'])
 
-            # Kontrol untuk jangka waktu prediksi
-            forecast_period = st.slider("Choose Prediction Period (in days):", min_value=1, max_value=730, value=365)  # 730 hari untuk 2 tahun
+                # Kontrol untuk jangka waktu prediksi
+                forecast_period = st.slider("Choose Prediction Period (in days):", min_value=1, max_value=730, value=365)  # 730 hari untuk 2 tahun
 
-            # Buat DataFrame untuk hari libur
-            new_holidays = holidays.ID(years=[2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025], language="id")
-            holiday_dates = []
-            holiday_names = []
-            for dt, name in sorted(new_holidays.items()):
-                holiday_dates.append(dt)
-                holiday_names.append(name)
-            holiday_df = pd.DataFrame({'ds': pd.to_datetime(holiday_dates), 'holiday': holiday_names})
+                # Buat DataFrame untuk hari libur
+                new_holidays = holidays.ID(years=[2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025], language="id")
+                holiday_dates = []
+                holiday_names = []
+                for dt, name in sorted(new_holidays.items()):
+                    holiday_dates.append(dt)
+                    holiday_names.append(name)
+                holiday_df = pd.DataFrame({'ds': pd.to_datetime(holiday_dates), 'holiday': holiday_names})
 
-            # Fit model
-            model = Prophet(holidays=holiday_df,changepoint_prior_scale=0.5)
-            model.fit(df)
-            
-            future = model.make_future_dataframe(periods=forecast_period)
-            forecast = model.predict(future)
+                # Fit model
+                model = Prophet(holidays=holiday_df,changepoint_prior_scale=0.5)
+                model.fit(df)
+                
+                future = model.make_future_dataframe(periods=forecast_period)
+                forecast = model.predict(future)
 
-            # Menampilkan grafik menggunakan plotly_chart di Streamlit
-            st.plotly_chart(plot_plotly(model, forecast),use_container_width=True)
-        with col10:
-            caption5 = "Based on forecast using Prophet, air quality index (AQI) in Indonesia is expected to fall in 2024, despite a steady increase in AQI in Dec 2023 and Jan 2024."
-            st.markdown(f"<p style='text-align: center; margin-top: 60%;'>{caption5}</p>", unsafe_allow_html=True)
-        col11,col12 = st.columns([3,1])
-        with col11:
-            st.subheader("Prophet Components")
-            # Menampilkan komponen-komponen grafik menggunakan plotly_chart di Streamlit
-            st.plotly_chart(plot_components_plotly(model, forecast),theme=None,use_container_width=True)
-        with col12:
-            caption6 = "In the holidays chart, we can observe that Waisak Day is a public holiday, during which the AQI actually decreases compared to other holidays"
-            st.markdown(f"<p style='text-align: center; margin-top: 70%;'>{caption6}</p>", unsafe_allow_html=True)
+                # Menampilkan grafik menggunakan plotly_chart di Streamlit
+                st.plotly_chart(plot_plotly(model, forecast),use_container_width=True)
+            with col10:
+                caption5 = "Based on forecast using Prophet, air quality index (AQI) in Indonesia is expected to fall in 2024, despite a steady increase in AQI in Dec 2023 and Jan 2024."
+                st.markdown(f"<p style='text-align: center; margin-top: 60%;'>{caption5}</p>", unsafe_allow_html=True)
+            col11,col12 = st.columns([3,1])
+            with col11:
+                st.subheader("Prophet Components")
+                # Menampilkan komponen-komponen grafik menggunakan plotly_chart di Streamlit
+                st.plotly_chart(plot_components_plotly(model, forecast),theme=None,use_container_width=True)
+            with col12:
+                caption6 = "In the holidays chart, we can observe that Waisak Day is a public holiday, during which the AQI actually decreases compared to other holidays"
+                st.markdown(f"<p style='text-align: center; margin-top: 70%;'>{caption6}</p>", unsafe_allow_html=True)
 
 st.divider()
 st.subheader("By Pollutant Composition")

@@ -15,80 +15,81 @@ st.set_page_config(
 
 tab1,tab2,tab3 = st.tabs(['Personal Pollution Tracker', 'Statistics',"Source Data"])
 with tab3: 
-    st.markdown("""
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <style>
-                        table {
-                            width: 80%;
-                            border-collapse: collapse;
-                            margin-top: 20px;
-                        }
+    with st.container():
+        st.markdown("""
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <style>
+                            table {
+                                width: 80%;
+                                border-collapse: collapse;
+                                margin-top: 20px;
+                            }
 
-                        th, td {
-                            border: 1px solid #dddddd;
-                            text-align: center;
-                            padding: 12px;
-                            transition: background-color 0.3s ease, color 0.3s ease;
-                        }
+                            th, td {
+                                border: 1px solid #dddddd;
+                                text-align: center;
+                                padding: 12px;
+                                transition: background-color 0.3s ease, color 0.3s ease;
+                            }
 
-                        th {
-                            background-color: #f2f2f2;
-                        }
+                            th {
+                                background-color: #f2f2f2;
+                            }
 
-                        a {
-                            color: #183D3D;
-                            text-decoration: none;
-                            font-weight: bold;
-                            font-size: 14px;
-                            transition: color 0.3s ease;
-                        }
+                            a {
+                                color: #183D3D;
+                                text-decoration: none;
+                                font-weight: bold;
+                                font-size: 14px;
+                                transition: color 0.3s ease;
+                            }
 
-                        a:hover {
-                            text-decoration: underline;
-                            color: #ff4500;
-                        }
+                            a:hover {
+                                text-decoration: underline;
+                                color: #ff4500;
+                            }
 
-                        tr:hover {
-                            background-color: #f5f5f5;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <table>
-                        <tr>
-                            <th style='color:#183D3D;'>Estimate Emission Factor Source-Data</th>
-                        </tr>
-                        <tr>
-                            <td><a href="https://indonesia.go.id/kategori/indonesia-dalam-angka/2533/membenahi-tata-kelola-sampah-nasional">Rata-rata sampah harian per individu</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="https://ppkl.menlhk.go.id/website/filebox/609/190710181542PEDOMAN%20TEKNIS%20PENYUSUNAN%20INVENTARISASI%20EMISI.pdf">LPG & Pesawat (Aviation)</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="https://js.bsn.go.id/index.php/standardisasi/article/view/792/pdf">KRL Emission</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="https://ppis.bsn.go.id/downloads/2021/Life%20Cycle%20Assessment%20Penggunaan%20Bahan%20Bakar,%20Refrigeran%20dan%20Energi%20Listrik%20pada%20Transjakarta.pdf">Transjakarta</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="https://jakartamrt.co.id/id/info-terkini/24-juta-lebih-orang-gunakan-mrt-jakarta-pada-desember-2022">MRT - Rata-rata perhari Desember 2022</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="https://jakartamrt.co.id/sites/default/files/2023-07/Sustainability%20Report%20MRT%20Jakarta%202022.pdf">MRT - CO2 Ton Desember 2022</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="http://komara.weebly.com/uploads/6/5/3/7/6537907/g_permen_lh_12_2010_pelaksanaan_pengendalian_pencemaran_udara_di_daerah.pdf">Motor & Mobil</a></td>
-                        </tr>
-                        <tr>
-                            <td><a href="https://www.tandfonline.com/doi/epdf/10.1080/02786826.2017.1300231?needAccess=true">Rokok</a></td>
-                        </tr>
-                    </table>
-                </body>
-                </html>""",unsafe_allow_html=True)
+                            tr:hover {
+                                background-color: #f5f5f5;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <table>
+                            <tr>
+                                <th style='color:#183D3D;'>Estimate Emission Factor Source-Data</th>
+                            </tr>
+                            <tr>
+                                <td><a href="https://indonesia.go.id/kategori/indonesia-dalam-angka/2533/membenahi-tata-kelola-sampah-nasional">Rata-rata sampah harian per individu</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://ppkl.menlhk.go.id/website/filebox/609/190710181542PEDOMAN%20TEKNIS%20PENYUSUNAN%20INVENTARISASI%20EMISI.pdf">LPG & Pesawat (Aviation)</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://js.bsn.go.id/index.php/standardisasi/article/view/792/pdf">KRL Emission</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://ppis.bsn.go.id/downloads/2021/Life%20Cycle%20Assessment%20Penggunaan%20Bahan%20Bakar,%20Refrigeran%20dan%20Energi%20Listrik%20pada%20Transjakarta.pdf">Transjakarta</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://jakartamrt.co.id/id/info-terkini/24-juta-lebih-orang-gunakan-mrt-jakarta-pada-desember-2022">MRT - Rata-rata perhari Desember 2022</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://jakartamrt.co.id/sites/default/files/2023-07/Sustainability%20Report%20MRT%20Jakarta%202022.pdf">MRT - CO2 Ton Desember 2022</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="http://komara.weebly.com/uploads/6/5/3/7/6537907/g_permen_lh_12_2010_pelaksanaan_pengendalian_pencemaran_udara_di_daerah.pdf">Motor & Mobil</a></td>
+                            </tr>
+                            <tr>
+                                <td><a href="https://www.tandfonline.com/doi/epdf/10.1080/02786826.2017.1300231?needAccess=true">Rokok</a></td>
+                            </tr>
+                        </table>
+                    </body>
+                    </html>""",unsafe_allow_html=True)
 with tab1: 
     # CSS dan HTML untuk tampilan
     col4,col5,col6 = st.columns([1,3,1])
@@ -325,107 +326,108 @@ with tab1:
                 
                     if total_pencemaran_sehari_gr > 0:
                         # Tampilkan hasil pencemaran
-                        col1,col2= st.columns(2, gap="small")
-                        with col1:
-                            st.markdown("""      
-                                <!DOCTYPE html>
-                                <html lang="en">
-                                <head>
-                                    <meta charset="UTF-8">
-                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                    <style>
-                                        .card {
-                                            width: 300px;
-                                            padding: 20px;
-                                            border: 1px solid #ddd;
-                                            border-radius: 5px;
-                                            background-color: #183D3D;
-                                            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-                                            transition: box-shadow 0.3s;
-                                            text-align: center;
-                                            color: 183D3D;
-                                        }
+                        with st.container():
+                            col1,col2= st.columns(2, gap="small")
+                            with col1:
+                                st.markdown("""      
+                                    <!DOCTYPE html>
+                                    <html lang="en">
+                                    <head>
+                                        <meta charset="UTF-8">
+                                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                        <style>
+                                            .card {
+                                                width: 300px;
+                                                padding: 20px;
+                                                border: 1px solid #ddd;
+                                                border-radius: 5px;
+                                                background-color: #183D3D;
+                                                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                                                transition: box-shadow 0.3s;
+                                                text-align: center;
+                                                color: 183D3D;
+                                            }
 
-                                        .card:hover {
-                                            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-                                        }
+                                            .card:hover {
+                                                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+                                            }
 
-                                        .card-title {
-                                            font-size: 18px;
-                                            margin-bottom: 10px;
-                                        }
+                                            .card-title {
+                                                font-size: 18px;
+                                                margin-bottom: 10px;
+                                            }
 
-                                        .card-content {
-                                            font-size: 24px;
-                                        }
-                                    </style>
-                                </head>
-                                <body>
-                                    <div class="card">
-                                        <h3 class="card-title"> Estimasi Total Pencemaran Sehari</h3>
-                                        <h1 class="card-content">"""+str(total_pencemaran_sehari_gr)+""" gram</h1>
-                                    </div>
-                                </body>
-                                </html>
-                                """, unsafe_allow_html=True)
-                        with col2:
-                            st.markdown("""      
-                                <!DOCTYPE html>
-                                <html lang="en">
-                                <head>
-                                    <meta charset="UTF-8">
-                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                    <style>
-                                        .card {
-                                            width: 300px;
-                                            padding: 20px;
-                                            border: 1px solid #ddd;
-                                            border-radius: 5px;
-                                            background-color: #183D3D;
-                                            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-                                            transition: box-shadow 0.3s;
-                                            text-align: center;
-                                        }
+                                            .card-content {
+                                                font-size: 24px;
+                                            }
+                                        </style>
+                                    </head>
+                                    <body>
+                                        <div class="card">
+                                            <h3 class="card-title"> Estimasi Total Pencemaran Sehari</h3>
+                                            <h1 class="card-content">"""+str(total_pencemaran_sehari_gr)+""" gram</h1>
+                                        </div>
+                                    </body>
+                                    </html>
+                                    """, unsafe_allow_html=True)
+                            with col2:
+                                st.markdown("""      
+                                    <!DOCTYPE html>
+                                    <html lang="en">
+                                    <head>
+                                        <meta charset="UTF-8">
+                                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                        <style>
+                                            .card {
+                                                width: 300px;
+                                                padding: 20px;
+                                                border: 1px solid #ddd;
+                                                border-radius: 5px;
+                                                background-color: #183D3D;
+                                                box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+                                                transition: box-shadow 0.3s;
+                                                text-align: center;
+                                            }
 
-                                        .card:hover {
-                                            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-                                        }
+                                            .card:hover {
+                                                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+                                            }
 
-                                        .card-title {
-                                            font-size: 18px;
-                                            margin-bottom: 10px;
-                                        }
+                                            .card-title {
+                                                font-size: 18px;
+                                                margin-bottom: 10px;
+                                            }
 
-                                        .card-content {
-                                            font-size: 24px;
-                                        }
-                                    </style>
-                                </head>
-                                <body>
-                                    <div class="card">
-                                        <h3 class="card-title">Estimasi Total Pencemaran Sebulan</h3>
-                                        <h1 class="card-content">"""+str(total_pencemaran_sebulan_kg)+""" kg</h1>
-                                    </div>
-                                </body>
-                                </html>
-                                """, unsafe_allow_html=True)
-                        st.empty()
-                        st.markdown('<p style="text-align: center; margin-top:15px;" class="title">Detail Air Pollutant</p>', unsafe_allow_html=True)
-                        fig, ax = plt.subplots(figsize=(2, 2))
-                        labels = ['NOx', 'CO', 'SOx', 'PM10', 'PM2.5', 'HC', 'CO2']
-                        sizes = [total_nox, total_co, total_sox, total_pm10, total_pm25, total_hc, total_co2]
+                                            .card-content {
+                                                font-size: 24px;
+                                            }
+                                        </style>
+                                    </head>
+                                    <body>
+                                        <div class="card">
+                                            <h3 class="card-title">Estimasi Total Pencemaran Sebulan</h3>
+                                            <h1 class="card-content">"""+str(total_pencemaran_sebulan_kg)+""" kg</h1>
+                                        </div>
+                                    </body>
+                                    </html>
+                                    """, unsafe_allow_html=True)
+                            st.empty()
+                            st.markdown('<p style="text-align: center; margin-top:15px;" class="title">Detail Air Pollutant</p>', unsafe_allow_html=True)
+                            fig, ax = plt.subplots(figsize=(2, 2))
+                            labels = ['NOx', 'CO', 'SOx', 'PM10', 'PM2.5', 'HC', 'CO2']
+                            sizes = [total_nox, total_co, total_sox, total_pm10, total_pm25, total_hc, total_co2]
 
-                        # Mengurutkan data berdasarkan ukuran
-                        sorted_sizes, sorted_labels = zip(*sorted(zip(sizes, labels), reverse=True))
-                        # Hanya mempertahankan 3 label tertinggi
-                        show_labels = 3
-                        visible_labels = sorted_labels[:show_labels]
-                        visible_sizes = sorted_sizes[:show_labels]
+                            # Mengurutkan data berdasarkan ukuran
+                            sorted_sizes, sorted_labels = zip(*sorted(zip(sizes, labels), reverse=True))
+                            # Hanya mempertahankan 3 label tertinggi
+                            show_labels = 3
+                            visible_labels = sorted_labels[:show_labels]
+                            visible_sizes = sorted_sizes[:show_labels]
 
-                        ax.pie(visible_sizes, autopct='%1.1f%%', startangle=90)
-                        ax.axis('equal')
-                        legend = ax.legend(visible_labels, loc="best", bbox_to_anchor=(1, 0.5), fontsize="xx-small")
-                        st.pyplot(fig)
+                            ax.pie(visible_sizes, autopct='%1.1f%%', startangle=90)
+                            ax.axis('equal')
+                            legend = ax.legend(visible_labels, loc="best", bbox_to_anchor=(1, 0.5), fontsize="xx-small")
+                            st.pyplot(fig)
 
                     else:
                         st.write("Tidak ada pencemaran yang tercatat.")
