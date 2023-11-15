@@ -474,7 +474,7 @@ if tab2_access_granted:
                 fig, ax = plt.subplots(figsize=(4, 4))
                 ax.pie(sex_counts, labels=['Men','Women'], autopct='%1.1f%%', colors=['#ff9999', '#66b3ff'])
                 ax.set_title("Gender Distribution")
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             # Visualization 5: Bar plot for Domisili
             with col12:
                 fig, ax = plt.subplots()
@@ -484,7 +484,7 @@ if tab2_access_granted:
                 ax.set_xlabel("Location")
                 ax.set_ylabel("Count")
                 ax.set_xticklabels(ax.get_xticklabels(), rotation=45, horizontalalignment='right')
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             st.markdown(f"<h3 style='text-align: center;'>Household</h3>", unsafe_allow_html=True)
 
             col4, col5, col6 = st.columns(3)
@@ -493,7 +493,7 @@ if tab2_access_granted:
                 fig, ax = plt.subplots()
                 ax.pie(membakar_sampah_counts, labels=['Yes','No'], autopct='%1.1f%%', colors=['#ff9999', '#66b3ff'])
                 ax.set_title("Waste Burning Distribution")
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             # Visualization 2: Count plot for Ukuran Gas LPG
             with col5:
                 sns.set_theme(style="darkgrid")
@@ -502,7 +502,7 @@ if tab2_access_granted:
                 ax.set_title("Distribution of LPG Gas Size")
                 ax.set_xlabel("LPG Gas Size")
                 ax.set_ylabel("Count")
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             # Visualization 3: Bar plot for Jumlah Anggota Keluarga
             with col6:
                 fig, ax = plt.subplots()
@@ -511,7 +511,7 @@ if tab2_access_granted:
                 ax.set_title("Distribution of Number of Household Members")
                 ax.set_xlabel("Number of Household Members")
                 ax.set_ylabel("Count")
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
 
             st.markdown(f"<h3 style='text-align: center;'>Smoking Activity</h3>", unsafe_allow_html=True)
             col16,col17,col18 = st.columns(3)
@@ -522,13 +522,13 @@ if tab2_access_granted:
                 plt.title('Distribution of Cigarette Consumption')
                 plt.xlabel('Number of Cigarettes')
                 plt.ylabel('Frequency')
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             with col17 :   
                 # Pie chart untuk tipe rokok
                 fig, ax = plt.subplots()
                 df['Tipe Rokok'].value_counts().plot.pie(autopct='%1.1f%%', startangle=90, ax=ax, colors=['lightcoral', 'lightgreen'])
                 plt.title('Distribution of Cigarette Types')
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             with col18 :
                 # Bar chart untuk Merokok atau Tidak
                 df['Merokok'] = df['Merokok'].map({'Ya': 'Yes', 'Tidak': 'No'})
@@ -537,7 +537,7 @@ if tab2_access_granted:
                 plt.title('Smoking Status')
                 plt.xlabel('Smoking')
                 plt.ylabel('Count')
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             st.markdown(f"<h3 style='text-align: center;'>Transportation</h3>", unsafe_allow_html=True)
             col9,col10,col11 = st.columns(3)
             with col9: 
@@ -549,14 +549,14 @@ if tab2_access_granted:
                 plt.title('Transportation Habits')
                 plt.xlabel('Mode of Transportation')
                 plt.ylabel('Percentage')
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             with col10: 
                 fig, ax = plt.subplots()
                 ax.scatter(df['Penerbangan Domestik'], df['Penerbangan Internasional'], s=df['Penerbangan Internasional']*10, alpha=0.5)
                 ax.set_title("Domestic Flights vs International Flights")
                 ax.set_xlabel("Domestic Flights")
                 ax.set_ylabel("International Flights")
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             with col11:
                 transport_counts = df[['KRL', 'Transjakarta', 'MRT']].sum()
                 fig, ax = plt.subplots()
@@ -565,7 +565,7 @@ if tab2_access_granted:
                 ax.set_xlabel("Public Transportation Mode")
                 ax.set_ylabel("Total Usage")
                 ax.set_xticklabels(ax.get_xticklabels(), rotation=0)
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             st.markdown(f"<h3 style='text-align: center;'>Pollution Estimation</h3>", unsafe_allow_html=True)
             col13,col14,col15 = st.columns(3)
             with col13 : 
@@ -578,7 +578,7 @@ if tab2_access_granted:
                 ax.set_ylabel('Total Emissions (grams)')
                 ax.set_xticklabels(ax.get_xticklabels(), rotation=45)
                 # Display the plot in Streamlit
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             with col15:
                 fig, ax = plt.subplots(figsize=(12, 8))
                 sns.lineplot(x='Submission Date', y='Total Pencemaran Harian', data=df, marker='o', color='purple')
@@ -588,7 +588,7 @@ if tab2_access_granted:
                 plt.xticks(rotation=45, ha='right')  # Rotate x-axis labels for better visibility
 
                 # Display the plot in Streamlit
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
 
 
 

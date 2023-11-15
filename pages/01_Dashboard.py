@@ -364,7 +364,6 @@ with col5:
         yaxis_title='Total Concentration (µg/m³)',
         paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
         plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
-        width=600
     )
 
     # Display Plotly chart in Streamlit
@@ -393,7 +392,6 @@ with col6 :
         yaxis_title='Concentration (µg/m³)',
         paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
         plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
-        width=600
     )
 
     # Display Plotly chart in Streamlit
@@ -426,7 +424,6 @@ with col7 :
         yaxis_title='Concentration (µg/m³)',
         paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
         plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
-        width=600
     )
 
     # Display Plotly chart in Streamlit
@@ -457,12 +454,11 @@ with col8 :
         yaxis_title='Concentration (µg/m³)',
         paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
         plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
-        width=600
     )
 
     # Display Plotly chart in Streamlit
     st.plotly_chart(fig,use_container_width=True)
-col13,col14 = st.columns(2,gap="medium")
+col13,col14 = st.columns(2)
 with col13:
     df['Year'] = df['DateTime'].dt.year
 
@@ -480,7 +476,7 @@ with col13:
         yaxis_title='Concentration (µg/m³)',
         paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
         plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
-        width=500
+
     )
 
     # Display Plotly chart in Streamlit
@@ -497,6 +493,7 @@ with col14:
                             width: 70%;
                             border-collapse: collapse;
                             margin-top: 20px;
+                            margin-left: 20px
                         }
 
                         th, td {

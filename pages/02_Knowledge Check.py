@@ -667,12 +667,12 @@ if tab2_access_granted:
                 df["submit_date"] = pd.to_datetime(df["submit_date"])
                 df["submit_date"] = df["submit_date"].dt.date
                 submission_counts_per_date = df["submit_date"].value_counts().sort_index()
-                st.line_chart(submission_counts_per_date, height=408)
+                st.line_chart(submission_counts_per_date, height=408, use_container_width=True)
             with col5:
                 st.markdown(f"<h3 style='text-align: center;'>Age Distribution</h3>", unsafe_allow_html=True)
                 fig, ax = plt.subplots()
                 ax.hist(df["age"])
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             col25,col26 = st.columns(2)
             with col25 : 
                 fig, ax = plt.subplots()
@@ -682,7 +682,7 @@ if tab2_access_granted:
                 ax.set_xlabel("Location")
                 ax.set_ylabel("Count")
                 ax.set_xticklabels(ax.get_xticklabels(), rotation=45, horizontalalignment='right')
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             with col26:
                 sex_counts = df['sex'].value_counts()
                 # Buat pie chart
@@ -690,7 +690,7 @@ if tab2_access_granted:
                 ax.pie(sex_counts, labels=sex_counts.index, autopct='%1.1f%%', startangle=90, colors=['skyblue', 'lightcoral'])
                 ax.set_title('Distribution of Sex')
                 # Tampilkan di Streamlit
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             col27,col28,col29 = st.columns([1,2,1])
             with col28:
                 points = df['points']  # Ganti dengan kolom yang sesuai
@@ -703,7 +703,7 @@ if tab2_access_granted:
                 ax.pie([low_count, medium_count, high_count], labels=['Low Knowledge', 'Medium Knowledge', 'High Knowledge'], colors=['#ff9999','#66b3ff','#99ff99'], autopct='%1.1f%%')
                 ax.set_title("Knowledge Level Distribution")
                 # Menampilkan pie chart di Streamlit
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             col6,col7 = st.columns(2)
             with col6:
                 correct_answer = correct_answers[0]
@@ -711,14 +711,14 @@ if tab2_access_granted:
                 fig, ax = plt.subplots()
                 colors = ['red' if ans != correct_answer else 'green' for ans in q1_counts.index]
                 q1_counts.plot(kind="barh", color=colors, ax=ax)
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             with col7: 
                 st.subheader("Bar Chart: Answers for Question 2")
                 fig, ax = plt.subplots()
                 correct_answer = correct_answers[1]
                 colors = ['red' if ans != correct_answer else 'green' for ans in q2_counts.index]
                 q2_counts.plot(kind="barh", color=colors, ax=ax)
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             col8,col9 = st.columns(2)
             with col8:
                 st.subheader("Bar Chart: Answers for Question 3")
@@ -726,14 +726,14 @@ if tab2_access_granted:
                 correct_answer = correct_answers[2]
                 colors = ['red' if ans != correct_answer else 'green' for ans in q3_counts.index]
                 q3_counts.plot(kind="barh", color=colors, ax=ax)
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             with col9:
                 st.subheader("Bar Chart: Answers for Question 4")
                 fig, ax = plt.subplots()
                 correct_answer = correct_answers[3]
                 colors = ['red' if ans != correct_answer else 'green' for ans in q4_counts.index]
                 q4_counts.plot(kind="barh", color=colors, ax=ax)
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             col10,col11 = st.columns(2)
             with col10:
                 st.subheader("Bar Chart: Answers for Question 5")
@@ -741,14 +741,14 @@ if tab2_access_granted:
                 correct_answer = correct_answers[4]
                 colors = ['red' if ans != correct_answer else 'green' for ans in q5_counts.index]
                 q5_counts.plot(kind="barh", color=colors, ax=ax)
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             with col11:
                 st.subheader("Bar Chart: Answers for Question 6")
                 fig, ax = plt.subplots()
                 correct_answer = correct_answers[5]
                 colors = ['red' if ans != correct_answer else 'green' for ans in q6_counts.index]
                 q6_counts.plot(kind="barh", color=colors, ax=ax)
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             col12,col13 = st.columns(2)
             with col12:
                 st.subheader("Bar Chart: Answers for Question 7")
@@ -756,14 +756,14 @@ if tab2_access_granted:
                 correct_answer = correct_answers[6]
                 colors = ['red' if ans != correct_answer else 'green' for ans in q7_counts.index]
                 q7_counts.plot(kind="barh", color=colors, ax=ax)
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             with col13:
                 st.subheader("Bar Chart: Answers for Question 8")
                 fig, ax = plt.subplots()
                 correct_answer = correct_answers[7]
                 colors = ['red' if ans != correct_answer else 'green' for ans in q8_counts.index]
                 q8_counts.plot(kind="barh", color=colors, ax=ax)
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             col14,col15 = st.columns(2)
             with col14:
                 st.subheader("Bar Chart: Answers for Question 9")
@@ -771,11 +771,11 @@ if tab2_access_granted:
                 correct_answer = correct_answers[8]
                 colors = ['red' if ans != correct_answer else 'green' for ans in q9_counts.index]
                 q9_counts.plot(kind="barh", color=colors, ax=ax)
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
             with col15:
                 st.subheader("Bar Chart: Answers for Question 10")
                 fig, ax = plt.subplots()
                 correct_answer = correct_answers[9]
                 colors = ['red' if ans != correct_answer else 'green' for ans in q10_counts.index]
                 q10_counts.plot(kind="barh", color=colors, ax=ax)
-                st.pyplot(fig)
+                st.pyplot(fig,use_container_width=True)
