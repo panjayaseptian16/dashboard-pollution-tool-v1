@@ -480,7 +480,7 @@ with col13:
 
     # Display Plotly chart in Streamlit
     st.plotly_chart(fig)
-with col115:
+with col15:
     st.markdown("""
                 <!DOCTYPE html>
                 <html lang="en">
