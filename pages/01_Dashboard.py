@@ -228,7 +228,7 @@ with st.container():
                 fig2.add_hrect(y0=0, y1=50, fillcolor=px.colors.qualitative.Set3[0], opacity=0.3, line_width=0.2, annotation_text="<b>Good</b>")
                 fig2.add_hrect(y0=50, y1=100, fillcolor=px.colors.qualitative.Set3[1], opacity=0.3, line_width=0.2, annotation_text="<b>Moderate</b>")
                 fig2.add_hrect(y0=100, y1=180, fillcolor=px.colors.qualitative.Set3[3], opacity=0.3, line_width=0.2, annotation_text="<b>Unhealthy</b>")
-                st.plotly_chart(fig2)
+                st.plotly_chart(fig2,use_container_width=True)
             with col17:
                 caption2 =  "When we delve deeper, it turns out that every day there are moments when the AQI reaches higher <span style='color:red;font-weight:bold;'>Unhealthy</span> levels and also times when the AQI touches the <span style='color:green;font-weight:bold;'>Good</span> level."
                 st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption2}</p>", unsafe_allow_html=True)
@@ -243,7 +243,7 @@ with st.container():
                 fig2.add_hrect(y0=0, y1=50, fillcolor=px.colors.qualitative.Set3[0], opacity=0.3, line_width=0.2, annotation_text="<b>Good</b>")
                 fig2.add_hrect(y0=50, y1=100, fillcolor=px.colors.qualitative.Set3[1], opacity=0.3, line_width=0.2, annotation_text="<b>Moderate</b>")
                 fig2.add_hrect(y0=100, y1=120, fillcolor=px.colors.qualitative.Set3[3], opacity=0.3, line_width=0.2, annotation_text="<b>Unhealthy</b>")
-                st.plotly_chart(fig2)
+                st.plotly_chart(fig2,use_container_width=True)
             with col4:
                 caption2 = "From Monday to Saturday, the AQI remains in the same range, classified as <span style='color:yellow;font-weight:bold;'>Moderate</span>, while on Sunday, it reaches the <span style='color:red;font-weight:bold;'>Unhealthy</span> level."
                 st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption2}</p>", unsafe_allow_html=True)
@@ -264,7 +264,7 @@ with st.container():
                 fig3.add_hrect(y0=0, y1=50, fillcolor=px.colors.qualitative.Set3[0], opacity=0.3, line_width=0.2, annotation_text="<b>Good</b>")
                 fig3.add_hrect(y0=50, y1=100, fillcolor=px.colors.qualitative.Set3[1], opacity=0.3, line_width=0.2, annotation_text="<b>Moderate</b>")
                 fig3.add_hrect(y0=100, y1=185, fillcolor=px.colors.qualitative.Set3[3], opacity=0.3, line_width=0.2, annotation_text="<b>Unhealthy</b>")
-                st.plotly_chart(fig3)
+                st.plotly_chart(fig3,use_container_width=True)
             with col19:
                 caption3 = "In June and July, only the minimum AQI values have reached the <span style='color:yellow;font-weight:bold;'>Moderate</span> level, while the others remain at the <span style='color:green;font-weight:bold;'>Good</span> level."
                 st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption3}</p>", unsafe_allow_html=True)
@@ -278,7 +278,7 @@ with st.container():
                 fig3.add_hrect(y0=0, y1=50, fillcolor=px.colors.qualitative.Set3[0], opacity=0.3, line_width=0.2, annotation_text="<b>Good</b>")
                 fig3.add_hrect(y0=50, y1=100, fillcolor=px.colors.qualitative.Set3[1], opacity=0.3, line_width=0.2, annotation_text="<b>Moderate</b>")
                 fig3.add_hrect(y0=100, y1=160, fillcolor=px.colors.qualitative.Set3[3], opacity=0.3, line_width=0.2, annotation_text="<b>Unhealthy</b>")
-                st.plotly_chart(fig3)
+                st.plotly_chart(fig3,use_container_width=True)
             with col21:
                 caption3 = "From May to October, the AQI consistently reaches <span style='color:red;font-weight:bold;'>Unhealthy</span> levels, with the peak occurring in June and July. Conversely, January has the lowest AQI levels, even though it falls within the <span style='color:yellow;font-weight:bold;'>Moderate</span> category."
                 st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption3}</p>", unsafe_allow_html=True)
@@ -295,7 +295,7 @@ with st.container():
             fig4.add_hrect(y0=100, y1=df['median'].max(), fillcolor=px.colors.qualitative.Set3[3], opacity=0.3, line_width=0.2, annotation_text="<b>Unhealthy</b>")
             fig4.add_vrect(x0=2020, x1=2022, fillcolor="lightgrey", opacity=0.7, line_width=0.2)
             fig4.add_annotation(text="Period of COVID-19 (PSBB/PPKM)", x=2021, y=110, showarrow=False, font=dict(family="monospace", size=16, color="black"))
-            st.plotly_chart(fig4)
+            st.plotly_chart(fig4,use_container_width=True)
         with col23:
             caption4 = "The Air Quality Index tended to increase during the COVID-19 pandemic and started to declined again in 2023, reaching <span style='color:red;font-weight:bold;'>Unhealthy</span> levels."
             st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption4}</p>", unsafe_allow_html=True)
@@ -326,7 +326,7 @@ with st.container():
             forecast = model.predict(future)
 
             # Menampilkan grafik menggunakan plotly_chart di Streamlit
-            st.plotly_chart(plot_plotly(model, forecast))
+            st.plotly_chart(plot_plotly(model, forecast),use_container_width=True)
         with col10:
             caption5 = "Based on forecast using Prophet, air quality index (AQI) in Indonesia is expected to fall in 2024, despite a steady increase in AQI in Dec 2023 and Jan 2024."
             st.markdown(f"<p style='text-align: center; margin-top: 60%;'>{caption5}</p>", unsafe_allow_html=True)
@@ -334,7 +334,7 @@ with st.container():
         with col11:
             st.subheader("Prophet Components")
             # Menampilkan komponen-komponen grafik menggunakan plotly_chart di Streamlit
-            st.plotly_chart(plot_components_plotly(model, forecast),theme=None)
+            st.plotly_chart(plot_components_plotly(model, forecast),theme=None,use_container_width=True)
         with col12:
             caption6 = "In the holidays chart, we can observe that Waisak Day is a public holiday, during which the AQI actually decreases compared to other holidays"
             st.markdown(f"<p style='text-align: center; margin-top: 70%;'>{caption6}</p>", unsafe_allow_html=True)
@@ -368,7 +368,7 @@ with col5:
     )
 
     # Display Plotly chart in Streamlit
-    st.plotly_chart(fig)
+    st.plotly_chart(fig,use_container_width=True)
 with col6 :
     # Convert the "DateTime" column to datetime type
     df['DateTime'] = pd.to_datetime(df['DateTime'])
@@ -397,7 +397,7 @@ with col6 :
     )
 
     # Display Plotly chart in Streamlit
-    st.plotly_chart(fig)
+    st.plotly_chart(fig,use_container_width=True)
 
 col7,col8 = st.columns(2,gap="medium")
 with col7 : 
@@ -430,7 +430,7 @@ with col7 :
     )
 
     # Display Plotly chart in Streamlit
-    st.plotly_chart(fig)
+    st.plotly_chart(fig,use_container_width=True)
 with col8 : 
     df['DateTime'] = pd.to_datetime(df['DateTime'])
 
@@ -461,7 +461,7 @@ with col8 :
     )
 
     # Display Plotly chart in Streamlit
-    st.plotly_chart(fig)
+    st.plotly_chart(fig,use_container_width=True)
 col13,col14 = st.columns(2,gap="medium")
 with col13:
     df['Year'] = df['DateTime'].dt.year
@@ -484,7 +484,7 @@ with col13:
     )
 
     # Display Plotly chart in Streamlit
-    st.plotly_chart(fig)
+    st.plotly_chart(fig,use_container_width=True)
 with col14:
     st.markdown("""
                 <!DOCTYPE html>
