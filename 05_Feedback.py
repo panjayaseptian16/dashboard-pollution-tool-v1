@@ -3,6 +3,13 @@ import requests  # pip install requests
 import streamlit as st  # pip install streamlit
 from streamlit_lottie import st_lottie
 
+st.set_page_config(
+    page_title="Feedback & Suggestion",
+    page_icon="📣",
+    layout="centered",
+    initial_sidebar_state="auto"
+    )
+
 def load_lottieurl(url: str):
     r = requests.get(url)
     if r.status_code != 200:

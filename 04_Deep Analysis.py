@@ -9,7 +9,7 @@ import scipy.stats as stats
 
 st.set_page_config(
     page_title="Deep Analysis",
-    page_icon="🧊",
+    page_icon="🕵️‍♂️",
     layout="centered",
     initial_sidebar_state="auto"
     )

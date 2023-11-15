@@ -10,6 +10,12 @@ from prophet.plot import plot_plotly, plot_components_plotly
 from prophet import Prophet
 import holidays
 
+st.set_page_config(
+    page_title="Dashboard and Realtime Monitoring",
+    page_icon="📈",
+    layout="wide",
+    initial_sidebar_state="auto",
+)
 
 #@st.cache_resource
 def read_file(file_path):
@@ -17,12 +23,7 @@ def read_file(file_path):
         content = file.read()
     return content
 
-st.set_page_config(
-    page_title="Dashboard and Realtime Monitoring",
-    page_icon="🧊",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
+
 with st.sidebar: 
     file_ = open("us_epa.gif", "rb")
     contents = file_.read()

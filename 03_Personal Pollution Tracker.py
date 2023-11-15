@@ -7,10 +7,10 @@ import math
 from datetime import datetime
 
 st.set_page_config(
-    page_title="Dashboard and Realtime Monitoring",
-    page_icon="🧊",
+    page_title="Personal Pollution Tracker",
+    page_icon="🔖",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="auto"
     )
 
 tab1,tab2,tab3 = st.tabs(['Personal Pollution Tracker', 'Statistics',"Source Data"])

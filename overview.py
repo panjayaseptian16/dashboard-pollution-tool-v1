@@ -6,10 +6,11 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 from st_pages import show_pages_from_config, add_page_title
 
 st.set_page_config(
+    page_title="About Our Project",
+    page_icon=":house:",
     layout="wide",
-    initial_sidebar_state="auto")
-
-
+    initial_sidebar_state="auto"
+    )
 
 # Either this or add_indentation() MUST be called on each page in your
 # app to add indendation in the sidebar
@@ -133,7 +134,7 @@ with col4:
     st.markdown(':male-detective: :green[Deep Analysis] : Advanced analysis of pollution data that includes recommendations and ideas for improvement.')
     st.markdown(":ballot_box_with_check: :rainbow[Knowledge Check] : A feature to assess the user's knowledge about air pollution, including statistics (Developer only).")
     st.markdown(":bookmark: :orange[Personal Pollution Tracker] : A calculator to measure or track the amount of pollution or emissions generated in daily activities, including statistics (Developer only).")
-    st.caption("*NOTE : It is highly recommended to use a desktop or laptop web browser. However, if you prefer using a smartphone, make sure to enable desktop mode (in Chrome) and use it in landscape orientation.*")
+    st.caption("*NOTE : It is highly recommended to use a desktop or laptop web browser. However, if you prefer using a smartphone, make sure to enable desktop mode (in Chrome) or use it in landscape orientation.*")
 with col3: 
     st_lottie(features, speed=1, reverse=False, loop=True, height=300)
 
