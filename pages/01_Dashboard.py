@@ -302,8 +302,6 @@ with st.container():
 
             # Menampilkan komponen-komponen grafik menggunakan plotly_chart di Streamlit
             st.plotly_chart(plot_components_plotly(model, forecast))
-            st.subheader("Holiday Component")
-            st.plotly_chart(plot_components_plotly(model, forecast, component='holidays'))
 
 
 col5,col6 = st.columns(2)
