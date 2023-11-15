@@ -300,7 +300,7 @@ with st.container():
             caption4 = "The Air Quality Index tended to increase during the COVID-19 pandemic and started to declined again in 2023, reaching <span style='color:red;font-weight:bold;'>Unhealthy</span> levels."
             st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption4}</p>", unsafe_allow_html=True)
     with tab5:
-        col9,col10 = st.columns([2,1])
+        col9,col10 = st.columns([3,1])
         with col9:
             df = df[["date", "median"]]
             df.columns = ['ds', 'y']
@@ -330,7 +330,7 @@ with st.container():
         with col10:
             caption5 = "Based on forecast using Prophet, air quality index (AQI) in Indonesia is expected to fall in 2024, despite a steady increase in AQI in Dec 2023 and Jan 2024."
             st.markdown(f"<p style='text-align: center; margin-top: 60%;'>{caption5}</p>", unsafe_allow_html=True)
-        col11,col12 = st.columns([2,1])
+        col11,col12 = st.columns([3,1])
         with col11:
             st.subheader("Prophet Components")
             # Menampilkan komponen-komponen grafik menggunakan plotly_chart di Streamlit
@@ -363,7 +363,8 @@ with col5:
         xaxis_title='Pollutants',
         yaxis_title='Total Concentration (µg/m³)',
         paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
-        plot_bgcolor='rgba(0, 0, 0, 0)'   # Set transparent background for the plot area
+        plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
+        width=600
     )
 
     # Display Plotly chart in Streamlit
@@ -392,6 +393,7 @@ with col6 :
         yaxis_title='Concentration (µg/m³)',
         paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
         plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
+        width=600
     )
 
     # Display Plotly chart in Streamlit
@@ -424,6 +426,7 @@ with col7 :
         yaxis_title='Concentration (µg/m³)',
         paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
         plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
+        width=600
     )
 
     # Display Plotly chart in Streamlit
@@ -454,11 +457,12 @@ with col8 :
         yaxis_title='Concentration (µg/m³)',
         paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
         plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
+        width=600
     )
 
     # Display Plotly chart in Streamlit
     st.plotly_chart(fig)
-col13,col14,col15= st.columns([3,1,3],gap="medium")
+col13,col14 = st.columns(2,gap="medium")
 with col13:
     df['Year'] = df['DateTime'].dt.year
 
@@ -476,11 +480,12 @@ with col13:
         yaxis_title='Concentration (µg/m³)',
         paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
         plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
+        width=500
     )
 
     # Display Plotly chart in Streamlit
     st.plotly_chart(fig)
-with col15:
+with col14:
     st.markdown("""
                 <!DOCTYPE html>
                 <html lang="en">
@@ -489,7 +494,7 @@ with col15:
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <style>
                         table {
-                            width: 80%;
+                            width: 70%;
                             border-collapse: collapse;
                             margin-top: 20px;
                         }
