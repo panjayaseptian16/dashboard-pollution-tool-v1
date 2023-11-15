@@ -493,7 +493,7 @@ with col14:
                             width: 70%;
                             border-collapse: collapse;
                             margin-top: 20px;
-                            margin-left: 20px
+                            margin-left: 25px
                         }
 
                         th, td {

@@ -1,0 +1,29 @@
+[[pages]]
+path = "overview.py"
+name = "Home"
+icon = ":house:"
+
+[[pages]]
+path = "01_Dashboard.py"
+name = "Dashboard"
+icon = "📈"
+
+[[pages]]
+path = "04_Deep Analysis.py"
+name = "Deep Analysis"
+icon = "🕵️‍♂️"
+
+[[pages]]
+path = "02_Knowledge Check.py"
+name = "Knowledge Check"
+icon = "☑️"
+
+[[pages]]
+path = "03_Personal Pollution Tracker.py"
+name = "Personal Pollution Tracker"
+icon = "🔖"
+
+[[pages]]
+path = "05_Feedback.py"
+name = "Feedback"
+icon = "📣"

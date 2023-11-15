@@ -3,10 +3,19 @@ from streamlit.components.v1 import html
 import requests
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
+from st_pages import show_pages_from_config, add_page_title
 
 st.set_page_config(
     layout="wide",
     initial_sidebar_state="auto")
+
+
+
+# Either this or add_indentation() MUST be called on each page in your
+# app to add indendation in the sidebar
+show_pages_from_config()
+
+
 # Adding a sidebar with the required elements
 #with st.sidebar:
 #    st.subheader("Created by : ")
