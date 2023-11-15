@@ -122,11 +122,14 @@ with tab3:
         """
     html(html_code1, height=500)
 
-
+st.divider()
 st.markdown("""
-            <h3 style="text-align: center;color:#FFFD8C;">Dashboard Pollution in Jakarta</h3>
+            <h3 style="text-align: center;color:#FFFD8C;">Pollution Dashboard in Jakarta</h3>
             """, unsafe_allow_html=True)
 
+st.markdown("##")
+st.subheader("Air Quality Index")
+st.caption("*NOTE : When the index value increases, it means air quality is decreasing, and vice versa.*")
 # Perform query
 #df = pd.read_csv("daily-aqi.csv", sep=',', names=["date","country","city","indicator","count","min","max","median","variance"])
 
@@ -175,9 +178,10 @@ with st.container():
 
                 # Create the Plotly figure with the filtered DataFrame
                 fig = px.line(filtered_df, x='date', y=['median'], title='Median AQI PM2.5 (2018-2023)')
+                fig.update_traces(line=dict(width=2, dash='solid'))
 
                 # Add your layout and annotations here (as in your existing code)
-                fig.update_layout(yaxis_range=[0, 169], xaxis_title='Date', yaxis_title='Median AQI', title_x=0.3, width=950, height=500, xaxis_showgrid=False, yaxis_showgrid=False)
+                fig.update_layout(yaxis_range=[0, 169], xaxis_title='Date', yaxis_title='AQI', title_x=0.3, width=950, height=500, xaxis_showgrid=False, yaxis_showgrid=False)
                 fig.update_layout(annotations=[
                 dict(
                     x="2018-10-01",
@@ -191,10 +195,10 @@ with st.container():
                         size=16,
                         color="black"
                     ))])
-                fig.add_hrect(y0=0, y1=50, fillcolor="green", opacity=0.2, line_width=0, annotation_text="<b>Good</b>")
-                fig.add_hrect(y0=50, y1=100, fillcolor="yellow", opacity=0.2, line_width=0, annotation_text="<b>Moderate</b>")
-                fig.add_hrect(y0=100, y1=df['median'].max(), fillcolor="red", opacity=0.2, line_width=0, annotation_text="<b>Unhealthy</b>")
-                fig.add_vrect(x0=datetime.datetime(2018, 7, 1), x1=datetime.datetime(2018, 12, 31),fillcolor="lightgrey", opacity=0.8, line_width=0)
+                fig.add_hrect(y0=0, y1=50, fillcolor=px.colors.qualitative.Set3[0], opacity=0.1, line_width=0.2, annotation_text="<b>Good</b>")
+                fig.add_hrect(y0=50, y1=100, fillcolor=px.colors.qualitative.Set3[1], opacity=0.1, line_width=0.2, annotation_text="<b>Moderate</b>")
+                fig.add_hrect(y0=100, y1=df['median'].max(), fillcolor=px.colors.qualitative.Set3[3], opacity=0.1, line_width=0.2, annotation_text="<b>Unhealthy</b>")
+                fig.add_vrect(x0=datetime.datetime(2018, 7, 1), x1=datetime.datetime(2018, 12, 31),fillcolor="lightgrey", opacity=1, line_width=0.3)
 
                 # Finally, display the Plotly chart in the Streamlit app
                 st.plotly_chart(fig, theme="streamlit", use_container_width=True)
@@ -205,7 +209,7 @@ with st.container():
 
             
         with col2:
-           caption = "Air pollution in Jakarta is still a cause for concern, even though PM2.5 AQI has fluctuated from 2018 to 2023 and always decreased during the end and beginning of the year. The median PM2.5 AQI in Jakarta is still predominantly in the <span style='color:red;font-weight:bold;'>unhealthy</span> and <span style='color:yellow;font-weight:bold;'>moderate</span> level, which means that air pollution in Jakarta can still have a negative impact on the public. This implies that there hasn't been any effective policy or program to address this issue significantly."
+           caption = "Air pollution in Jakarta is still a cause for concern, even though AQI has fluctuated from 2018 to 2023 and always decreased during the end and beginning of the year. The median of AQI in Jakarta is still predominantly in the <span style='color:red;font-weight:bold;'>Unhealthy</span> and <span style='color:yellow;font-weight:bold;'>Moderate</span> level, which means that air pollution in Jakarta can still have a negative impact on the public. This implies that there hasn't been any effective policy or program to address this issue significantly."
            st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption}</p>", unsafe_allow_html=True)
 
     # Buat tab kedua
@@ -215,71 +219,95 @@ with st.container():
         use_stack_bar = st.checkbox("Show Stack Bar (with min & max)", value=False)
 
         if use_stack_bar:
-            df_day_stacked = df_filtered.groupby('day').agg({'min': 'median', 'median': 'median', 'max': 'median'}).reset_index()
-            fig2 = px.bar(df_day_stacked, x='day', y=['min', 'median', 'max'], title='Min, Median, and Max PM2.5 per Day', barmode='stack')
-            fig2.update_layout(width=850, height=500, title_x=0.4, xaxis={'categoryorder':'array', 'categoryarray':['Mon','Tue','Wed','Thu','Fri','Sat','Sun']}, xaxis_showgrid=False, yaxis_showgrid=False)
-            fig2.add_hrect(y0=0, y1=50, fillcolor="green", opacity=0.2, line_width=0, annotation_text="<b>Good</b>")
-            fig2.add_hrect(y0=50, y1=100, fillcolor="yellow", opacity=0.2, line_width=0, annotation_text="<b>Moderate</b>")
-            fig2.add_hrect(y0=100, y1=df['max'].max(), fillcolor="red", opacity=0.2, line_width=0, annotation_text="<b>Unhealthy</b>")
-            st.plotly_chart(fig2)
+            col16,col17 = st.columns([2,1],gap="small")
+            with col16 :
+                df_day_stacked = df_filtered.groupby('day').agg({'min': 'median', 'median': 'median', 'max': 'median'}).reset_index()
+                fig2 = px.bar(df_day_stacked, x='day', y=['min', 'median', 'max'], title='Min, Median, and Max AQI by Day of Week', barmode='group')
+                fig2.update_layout(xaxis_title='Day of Week', yaxis_title='AQI',width=950, height=500, title_x=0.4, xaxis={'categoryorder':'array', 'categoryarray':['Mon','Tue','Wed','Thu','Fri','Sat','Sun']}, xaxis_showgrid=False, yaxis_showgrid=False)
+                fig2.update_yaxes(range=[0, 180])
+                fig2.add_hrect(y0=0, y1=50, fillcolor=px.colors.qualitative.Set3[0], opacity=0.3, line_width=0.2, annotation_text="<b>Good</b>")
+                fig2.add_hrect(y0=50, y1=100, fillcolor=px.colors.qualitative.Set3[1], opacity=0.3, line_width=0.2, annotation_text="<b>Moderate</b>")
+                fig2.add_hrect(y0=100, y1=180, fillcolor=px.colors.qualitative.Set3[3], opacity=0.3, line_width=0.2, annotation_text="<b>Unhealthy</b>")
+                st.plotly_chart(fig2)
+            with col17:
+                caption2 =  "When we delve deeper, it turns out that every day there are moments when the AQI reaches higher <span style='color:red;font-weight:bold;'>Unhealthy</span> levels and also times when the AQI touches the <span style='color:green;font-weight:bold;'>Good</span> level."
+                st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption2}</p>", unsafe_allow_html=True)
+            
         else:
             col3,col4 = st.columns([2,1],gap="medium")
             with col3:
                 df_day = df_filtered.groupby('day').agg({'median': 'median'}).reset_index()
-                fig2 = px.bar(df_day, x='day', y='median', title='Median PM2.5 per Day', barmode='stack')
-                fig2.update_layout(width=850, height=500, title_x=0.4, xaxis={'categoryorder':'array', 'categoryarray':['Mon','Tue','Wed','Thu','Fri','Sat','Sun']}, xaxis_showgrid=False, yaxis_showgrid=False)
-                fig2.add_hrect(y0=0, y1=50, fillcolor="green", opacity=0.2, line_width=0, annotation_text="<b>Good</b>")
-                fig2.add_hrect(y0=50, y1=100, fillcolor="yellow", opacity=0.2, line_width=0, annotation_text="<b>Moderate</b>")
-                fig2.add_hrect(y0=100, y1=df_day['median'].max(), fillcolor="red", opacity=0.2, line_width=0, annotation_text="<b>Unhealthy</b>")
+                fig2 = px.bar(df_day, x='day', y='median', title='Air Quality Index by Day Of Week', barmode='stack')
+                fig2.update_layout(xaxis_title='Day of Week', yaxis_title='AQI',width=850, height=500, title_x=0.4, xaxis={'categoryorder':'array', 'categoryarray':['Mon','Tue','Wed','Thu','Fri','Sat','Sun']}, xaxis_showgrid=False, yaxis_showgrid=False)
+                fig2.update_yaxes(range=[0, 120])
+                fig2.add_hrect(y0=0, y1=50, fillcolor=px.colors.qualitative.Set3[0], opacity=0.3, line_width=0.2, annotation_text="<b>Good</b>")
+                fig2.add_hrect(y0=50, y1=100, fillcolor=px.colors.qualitative.Set3[1], opacity=0.3, line_width=0.2, annotation_text="<b>Moderate</b>")
+                fig2.add_hrect(y0=100, y1=120, fillcolor=px.colors.qualitative.Set3[3], opacity=0.3, line_width=0.2, annotation_text="<b>Unhealthy</b>")
                 st.plotly_chart(fig2)
             with col4:
-                caption1 =  "apaam"
-                st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption1}</p>", unsafe_allow_html=True)
-            
+                caption2 = "From Monday to Saturday, the AQI remains in the same range, classified as <span style='color:yellow;font-weight:bold;'>Moderate</span>, while on Sunday, it reaches the <span style='color:red;font-weight:bold;'>Unhealthy</span> level."
+                st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption2}</p>", unsafe_allow_html=True)
+                
     # Buat tab ketiga
     with tab3:
         year_filter1 = st.slider("Select Year", min_value=int(df['year'].min()), max_value=int(df['year'].max()), value=(int(df['year'].min()), int(df['year'].max())), key='slider_tab3')
         df_filtered1 = df[(df['year'] >= year_filter1[0]) & (df['year'] <= year_filter1[1])]
         use_stack_bar_tab3 = st.checkbox("Show Stack Bar (with min & max)", value=False, key='stack_bar_tab3')
-
+        col18,col19 = st.columns([2,1], gap="medium")
         if use_stack_bar_tab3:
-            df_bulan_stacked = df_filtered1.groupby('month').agg({'min': 'median', 'median': 'median', 'max': 'median'}).reset_index()
-            fig3 = px.bar(df_bulan_stacked, x='month', y=['min', 'median', 'max'], title='Min, Median, and Max PM2.5 per Month', barmode='stack')
-            fig3.update_layout(width=850, height=500, title_x=0.4, xaxis={'categoryorder':'array', 'categoryarray':['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']}, xaxis_showgrid=False, yaxis_showgrid=False)
-            fig3.add_hrect(y0=0, y1=50, fillcolor="green", opacity=0.2, line_width=0, annotation_text="<b>Good</b>")
-            fig3.add_hrect(y0=50, y1=100, fillcolor="yellow", opacity=0.2, line_width=0, annotation_text="<b>Moderate</b>")
-            fig3.add_hrect(y0=100, y1=df['max'].max(), fillcolor="red", opacity=0.2, line_width=0, annotation_text="<b>Unhealthy</b>")
+            col18,col19 = st.columns([2,1], gap="medium")
+            with col18:
+                df_bulan_stacked = df_filtered1.groupby('month').agg({'min': 'median', 'median': 'median', 'max': 'median'}).reset_index()
+                fig3 = px.bar(df_bulan_stacked, x='month', y=['min', 'median', 'max'], title='Air Quality Index per Month', barmode='group')
+                fig3.update_layout(xaxis_title='Month',yaxis_title='AQI', width=850, height=500, title_x=0.4, xaxis={'categoryorder':'array', 'categoryarray':['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']}, xaxis_showgrid=False, yaxis_showgrid=False)
+                fig3.update_yaxes(range=[0, 185])
+                fig3.add_hrect(y0=0, y1=50, fillcolor=px.colors.qualitative.Set3[0], opacity=0.3, line_width=0.2, annotation_text="<b>Good</b>")
+                fig3.add_hrect(y0=50, y1=100, fillcolor=px.colors.qualitative.Set3[1], opacity=0.3, line_width=0.2, annotation_text="<b>Moderate</b>")
+                fig3.add_hrect(y0=100, y1=185, fillcolor=px.colors.qualitative.Set3[3], opacity=0.3, line_width=0.2, annotation_text="<b>Unhealthy</b>")
+                st.plotly_chart(fig3)
+            with col19:
+                caption3 = "In June and July, only the minimum AQI values have reached the <span style='color:yellow;font-weight:bold;'>Moderate</span> level, while the others remain at the <span style='color:green;font-weight:bold;'>Good</span> level."
+                st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption3}</p>", unsafe_allow_html=True)
         else:
-            df_bulan = df_filtered1.groupby('month')['median'].median().reset_index()
-            fig3 = px.bar(df_bulan, x='month', y='median', title='Median PM2.5 per Month')
-            fig3.update_layout(width=850, height=500, title_x=0.4, xaxis={'categoryorder':'array', 'categoryarray':['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']}, xaxis_showgrid=False, yaxis_showgrid=False)
-            fig3.add_hrect(y0=0, y1=50, fillcolor="green", opacity=0.2, line_width=0, annotation_text="<b>Good</b>")
-            fig3.add_hrect(y0=50, y1=100, fillcolor="yellow", opacity=0.2, line_width=0, annotation_text="<b>Moderate</b>")
-            fig3.add_hrect(y0=100, y1=df_bulan['median'].max(), fillcolor="red", opacity=0.2, line_width=0, annotation_text="<b>Unhealthy</b>")
-        st.plotly_chart(fig3)
-
+            col20, col21 = st.columns([2,1], gap="medium")
+            with col20:
+                df_bulan = df_filtered1.groupby('month')['median'].median().reset_index()
+                fig3 = px.bar(df_bulan, x='month', y='median', title='Air Quality Index per Month')
+                fig3.update_layout(xaxis_title='Month',yaxis_title='AQI', width=850, height=500, title_x=0.4, xaxis={'categoryorder':'array', 'categoryarray':['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']}, xaxis_showgrid=False, yaxis_showgrid=False)
+                fig3.update_yaxes(range=[0, 160])
+                fig3.add_hrect(y0=0, y1=50, fillcolor=px.colors.qualitative.Set3[0], opacity=0.3, line_width=0.2, annotation_text="<b>Good</b>")
+                fig3.add_hrect(y0=50, y1=100, fillcolor=px.colors.qualitative.Set3[1], opacity=0.3, line_width=0.2, annotation_text="<b>Moderate</b>")
+                fig3.add_hrect(y0=100, y1=160, fillcolor=px.colors.qualitative.Set3[3], opacity=0.3, line_width=0.2, annotation_text="<b>Unhealthy</b>")
+                st.plotly_chart(fig3)
+            with col21:
+                caption3 = "From May to October, the AQI consistently reaches <span style='color:red;font-weight:bold;'>Unhealthy</span> levels, with the peak occurring in June and July. Conversely, January has the lowest AQI levels, even though it falls within the <span style='color:yellow;font-weight:bold;'>Moderate</span> category."
+                st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption3}</p>", unsafe_allow_html=True)
 
     # Buat tab keempat
     with tab4:
-        df_tahun = df.groupby(df['year'])['median'].median().reset_index()
-        fig4 = px.line(df_tahun, x='year', y='median', title='Median PM2.5 per Year', markers=True)
-        fig4.update_layout(width=850, height=500, title_x = 0.4, xaxis_showgrid=False, yaxis_showgrid=False)
-        fig4.add_hrect(y0=0, y1=50, fillcolor="green", opacity=0.2, line_width=0, annotation_text="<b>Good</b>")
-        fig4.add_hrect(y0=50, y1=100, fillcolor="yellow", opacity=0.2, line_width=0, annotation_text="<b>Moderate</b>")
-        fig4.add_hrect(y0=100, y1=df['median'].max(), fillcolor="red", opacity=0.2, line_width=0, annotation_text="<b>Unhealthy</b>")
-        fig4.add_vrect(x0=2020, x1=2022, fillcolor="lightgrey", opacity=0.5, line_width=0)
-        fig4.add_annotation(text="Period of COVID-19 (PSBB/PPKM)", x=2021, y=110, showarrow=False, font=dict(family="monospace", size=16, color="black"))
-    
-        st.plotly_chart(fig4)
+        col22,col23 = st.columns([2,1], gap="medium")
+        with col22:
+            df_tahun = df.groupby(df['year'])['median'].median().reset_index()
+            fig4 = px.line(df_tahun, x='year', y='median', title='Air Quality Index per Year', markers=True)
+            fig4.update_layout(xaxis_title='Year', yaxis_title='Air Quality Index',width=850, height=500, title_x = 0.4, xaxis_showgrid=False, yaxis_showgrid=False)
+            fig4.add_hrect(y0=0, y1=50, fillcolor=px.colors.qualitative.Set3[0], opacity=0.3, line_width=0.2, annotation_text="<b>Good</b>")
+            fig4.add_hrect(y0=50, y1=100, fillcolor=px.colors.qualitative.Set3[1], opacity=0.3, line_width=0.2, annotation_text="<b>Moderate</b>")
+            fig4.add_hrect(y0=100, y1=df['median'].max(), fillcolor=px.colors.qualitative.Set3[3], opacity=0.3, line_width=0.2, annotation_text="<b>Unhealthy</b>")
+            fig4.add_vrect(x0=2020, x1=2022, fillcolor="lightgrey", opacity=0.7, line_width=0.2)
+            fig4.add_annotation(text="Period of COVID-19 (PSBB/PPKM)", x=2021, y=110, showarrow=False, font=dict(family="monospace", size=16, color="black"))
+            st.plotly_chart(fig4)
+        with col23:
+            caption4 = "The Air Quality Index tended to increase during the COVID-19 pandemic and started to declined again in 2023, reaching <span style='color:red;font-weight:bold;'>Unhealthy</span> levels."
+            st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption4}</p>", unsafe_allow_html=True)
     with tab5:
-        col9,col10,col11 = st.columns([1,3,1])
-        with col10:
+        col9,col10 = st.columns([2,1])
+        with col9:
             df = df[["date", "median"]]
             df.columns = ['ds', 'y']
             df['ds'] = pd.to_datetime(df['ds'])
 
             # Kontrol untuk jangka waktu prediksi
-            forecast_period = st.slider("Pilih Periode Prediksi (dalam hari):", min_value=1, max_value=730, value=365)  # 730 hari untuk 2 tahun
+            forecast_period = st.slider("Choose Prediction Period (in days):", min_value=1, max_value=730, value=365)  # 730 hari untuk 2 tahun
 
             # Buat DataFrame untuk hari libur
             new_holidays = holidays.ID(years=[2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025], language="id")
@@ -291,7 +319,7 @@ with st.container():
             holiday_df = pd.DataFrame({'ds': pd.to_datetime(holiday_dates), 'holiday': holiday_names})
 
             # Fit model
-            model = Prophet(holidays=holiday_df)
+            model = Prophet(holidays=holiday_df,changepoint_prior_scale=0.5)
             model.fit(df)
             
             future = model.make_future_dataframe(periods=forecast_period)
@@ -299,11 +327,20 @@ with st.container():
 
             # Menampilkan grafik menggunakan plotly_chart di Streamlit
             st.plotly_chart(plot_plotly(model, forecast))
-
+        with col10:
+            caption5 = "Based on forecast using Prophet, air quality index (AQI) in Indonesia is expected to fall in 2024, despite a steady increase in AQI in Dec 2023 and Jan 2024."
+            st.markdown(f"<p style='text-align: center; margin-top: 60%;'>{caption5}</p>", unsafe_allow_html=True)
+        col11,col12 = st.columns([2,1])
+        with col11:
+            st.subheader("Prophet Components")
             # Menampilkan komponen-komponen grafik menggunakan plotly_chart di Streamlit
-            st.plotly_chart(plot_components_plotly(model, forecast))
+            st.plotly_chart(plot_components_plotly(model, forecast),theme=None)
+        with col12:
+            caption6 = "In the holidays chart, we can observe that Waisak Day is a public holiday, during which the AQI actually decreases compared to other holidays"
+            st.markdown(f"<p style='text-align: center; margin-top: 70%;'>{caption6}</p>", unsafe_allow_html=True)
 
-
+st.divider()
+st.subheader("By Pollutant Composition")
 col5,col6 = st.columns(2)
 
 with col5:
@@ -319,10 +356,10 @@ with col5:
     total_concentration = df_selected_pollutants.sum()
 
     # Plotly bar chart
-    fig = px.bar(total_concentration, x=total_concentration.index, y=total_concentration.values, labels={'y':'Total Concentration (µg/m³)'})
-    fig.update_traces(marker_color=['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f'])
+    fig = px.bar(total_concentration, x=total_concentration.index, y=total_concentration.values, labels={'y':'Total Concentration (µg/m³)'},color_discrete_sequence=px.colors.qualitative.Set3)
+    fig.update_traces(marker_color=px.colors.qualitative.Set3)
     fig.update_layout(
-        title='Pollutant Composition',
+        title='Total Pollutant Composition (2020-2023)',
         xaxis_title='Pollutants',
         yaxis_title='Total Concentration (µg/m³)',
         paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
@@ -339,15 +376,15 @@ with col6 :
     df['Hour'] = df['DateTime'].dt.hour
 
     # Group data by hour and sum the concentrations
-    df_hourly = df.groupby('Hour')[selected_pollutants].sum()
+    df_hourly = df.groupby('Hour')[selected_pollutants].mean()
 
     # Convert the index (hour) to custom format
     df_hourly.index = df_hourly.index.map(lambda x: f'{x} AM' if x < 12 else '12 PM' if x == 12 else f'{x-12} PM')
 
     # Line chart for hourly pollution levels using Plotly
     fig = px.line(df_hourly, x=df_hourly.index, y=df_hourly.columns, labels={'value':'Concentration (µg/m³)'}, 
-                title='Hourly Pollution Levels',
-                line_shape='linear', render_mode='svg')
+                title='Average Hourly Pollution Composition',
+                line_shape='linear', render_mode='svg', color_discrete_sequence=px.colors.qualitative.Set3)
 
     # Update layout for a more appealing appearance
     fig.update_layout(
@@ -360,7 +397,7 @@ with col6 :
     # Display Plotly chart in Streamlit
     st.plotly_chart(fig)
 
-col7,col8 = st.columns(2)
+col7,col8 = st.columns(2,gap="small")
 with col7 : 
     df['DateTime'] = pd.to_datetime(df['DateTime'])
 
@@ -374,11 +411,11 @@ with col7 :
     df['DayOfWeek'] = pd.Categorical(df['DayOfWeek'], categories=day_order, ordered=True)
 
     # Group data by day of the week and sum the concentrations
-    df_daily = df.groupby('DayOfWeek')[selected_pollutants].sum()
+    df_daily = df.groupby('DayOfWeek')[selected_pollutants].mean()
 
     # Bar chart for daily pollution levels using Plotly
     fig = px.bar(df_daily, x=df_daily.index, y=df_daily.columns, labels={'value':'Concentration (µg/m³)'}, 
-                title='Daily Pollution Levels',
+                title='Average Daily Pollution Composition',
                 color_discrete_sequence=px.colors.qualitative.Set3)
 
     # Update layout for a more appealing appearance
@@ -404,11 +441,11 @@ with col8 :
     df['Month'] = pd.Categorical(df['Month'], categories=month_order, ordered=True)
 
     # Group data by month and sum the concentrations
-    df_monthly = df.groupby('Month')[selected_pollutants].sum()
+    df_monthly = df.groupby('Month')[selected_pollutants].mean()
 
     # Bar chart for monthly pollution levels using Plotly
     fig = px.bar(df_monthly, x=df_monthly.index, y=df_monthly.columns, labels={'value':'Concentration (µg/m³)'}, 
-                title='Monthly Pollution Levels',
+                title='Average Monthly Pollution Composition',
                 color_discrete_sequence=px.colors.qualitative.Set3)
 
     # Update layout for a more appealing appearance
@@ -421,24 +458,90 @@ with col8 :
 
     # Display Plotly chart in Streamlit
     st.plotly_chart(fig)
+col13,col14 = st.columns(2,gap="small")
+with col13:
+    df['Year'] = df['DateTime'].dt.year
 
-df['Year'] = df['DateTime'].dt.year
+    # Group data by year and sum the concentrations
+    df_yearly = df.groupby('Year')[selected_pollutants].sum()
 
-# Group data by year and sum the concentrations
-df_yearly = df.groupby('Year')[selected_pollutants].sum()
+    # Bar chart for yearly pollution levels using Plotly
+    fig = px.bar(df_yearly, x=df_yearly.index, y=df_yearly.columns, labels={'value':'Concentration (µg/m³)'}, 
+                title='Total Yearly Pollution Composition (Nov 2020 - Nov 2023)',
+                color_discrete_sequence=px.colors.qualitative.Set3)
 
-# Bar chart for yearly pollution levels using Plotly
-fig = px.bar(df_yearly, x=df_yearly.index, y=df_yearly.columns, labels={'value':'Concentration (µg/m³)'}, 
-            title='Yearly Pollution Levels',
-            color_discrete_sequence=px.colors.qualitative.Set3)
+    # Update layout for a more appealing appearance
+    fig.update_layout(
+        xaxis_title='Year',
+        yaxis_title='Concentration (µg/m³)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
+        plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
+    )
 
-# Update layout for a more appealing appearance
-fig.update_layout(
-    xaxis_title='Year',
-    yaxis_title='Concentration (µg/m³)',
-    paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
-    plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
-)
+    # Display Plotly chart in Streamlit
+    st.plotly_chart(fig)
+with col14:
+    st.markdown("""
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <style>
+                        table {
+                            width: 80%;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                        }
 
-# Display Plotly chart in Streamlit
-st.plotly_chart(fig)
+                        th, td {
+                            border: 1px solid #dddddd;
+                            text-align: center;
+                            padding: 12px;
+                            transition: background-color 0.3s ease, color 0.3s ease;
+                        }
+
+                        th {
+                            background-color: #f2f2f2;
+                        }
+
+                        .id {
+                            color: #FFFD8C;
+                            text-decoration: none;
+                            font-weight: bold;
+                            font-size: 14px;
+                            transition: color 0.3s ease;
+                        }
+
+                        .id:hover {
+                            text-decoration: underline;
+                            color: #ff4500;
+                        }
+
+                        tr:hover {
+                            background-color: #f5f5f5;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <table>
+                        <tr>
+                            <th style='color:#183D3D;'>Insights</th>
+                        </tr>
+                        <tr>
+                            <td><p class="id" >CO, or carbon monoxide, is the primary pollutant contributing to air pollution.</p></td>
+                        </tr>
+                        <tr>
+                            <td><p class="id">Between 4 am and 9 am, pollutant levels significantly decrease, only to peak again between 2 pm and 5 pm.</p></td>
+                        </tr>
+                        <tr>
+                            <td><p class="id">On Saturdays and Sundays, the overall pollutant levels tend to be lower compared to other days.</p></td>
+                        </tr>
+                        <tr>
+                            <td><p class="id">The highest pollutant levels occur in June, while the lowest levels are observed at the beginning and end of the year, namely in January and December</p></td>
+                        </tr>
+                    </table>
+                </body>
+                </html>""",unsafe_allow_html=True)
+
+st.divider()

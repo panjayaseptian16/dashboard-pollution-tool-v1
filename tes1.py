@@ -45,16 +45,16 @@ for dt, name in sorted(new_holidays.items()):
 holiday_df = pd.DataFrame({'ds': pd.to_datetime(holiday_dates), 'holiday': holiday_names})
 
 # Menambahkan hari libur ke model Prophet
-model = Prophet(holidays=holiday_df)
+model = Prophet(holidays=holiday_df,interval_width=0.95)
 model.fit(df)
-future = model.make_future_dataframe(periods=365)
+future = model.make_future_dataframe(periods = forecast_period)
 forecast = model.predict(future)
 
 # Menampilkan grafik menggunakan plotly_chart di Streamlit
-st.plotly_chart(plot_plotly(model, forecast))
+st.plotly_chart(plot_plotly(model, forecast),theme=None, use_container_width=True)
 
 # Menampilkan komponen-komponen grafik menggunakan plotly_chart di Streamlit
-st.plotly_chart(plot_components_plotly(model, forecast))
+st.plotly_chart(plot_components_plotly(model, forecast),theme=None, use_container_width=True)
 
 # Menghitung dan menampilkan RMSE di Streamlit
 train = df.iloc[:len(df)-forecast_period]
