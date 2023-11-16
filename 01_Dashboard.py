@@ -341,20 +341,22 @@ with st.container():
 
 st.divider()
 st.subheader("By Pollutant Composition")
-col5,col6 = st.columns(2, gap="medium")
-
-with col5:
+withoutCO = st.toggle('Show PM2.5 Data Only', value=True)
+if withoutCO:
     df = pd.read_csv("pollution_data.csv")
-
-    # Bar chart for pollutant composition using Plotly
+    selected_pollutants =["NO", "NO2", "O3", "SO2", "PM2.5", "PM10", "NH3"]
+    df = df.drop(columns=["CO"]).dropna()
+else:
+    df = pd.read_csv("pollution_data.csv")
     selected_pollutants = ["CO", "NO", "NO2", "O3", "SO2", "PM2.5", "PM10", "NH3"]
+
+col5,col6 = st.columns(2, gap="medium")
+with col5:
 
     # Create a new DataFrame for selected pollutants
     df_selected_pollutants = df[selected_pollutants]
-
     # Sum the selected pollutants
     total_concentration = df_selected_pollutants.sum()
-
     # Plotly bar chart
     fig = px.bar(total_concentration, x=total_concentration.index, y=total_concentration.values, labels={'y':'Total Concentration (µg/m³)'},color_discrete_sequence=px.colors.qualitative.Set3)
     fig.update_traces(marker_color=px.colors.qualitative.Set3)
@@ -482,69 +484,134 @@ with col13:
     # Display Plotly chart in Streamlit
     st.plotly_chart(fig,use_container_width=True)
 with col14:
-    st.markdown("""
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <style>
-                        table {
-                            width: 70%;
-                            border-collapse: collapse;
-                            margin-top: 20px;
-                            margin-left: 25px
-                        }
+    if withoutCO:
+        st.markdown("""
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <style>
+                            table {
+                                width: 70%;
+                                border-collapse: collapse;
+                                margin-top: 20px;
+                                margin-left: 25px
+                            }
 
-                        th, td {
-                            border: 1px solid #dddddd;
-                            text-align: center;
-                            padding: 12px;
-                            transition: background-color 0.3s ease, color 0.3s ease;
-                        }
+                            th, td {
+                                border: 1px solid #dddddd;
+                                text-align: center;
+                                padding: 12px;
+                                transition: background-color 0.3s ease, color 0.3s ease;
+                            }
 
-                        th {
-                            background-color: #f2f2f2;
-                        }
+                            th {
+                                background-color: #f2f2f2;
+                            }
 
-                        .id {
-                            color: #FFFD8C;
-                            text-decoration: none;
-                            font-weight: bold;
-                            font-size: 14px;
-                            transition: color 0.3s ease;
-                        }
+                            .id {
+                                color: #FFFD8C;
+                                text-decoration: none;
+                                font-weight: bold;
+                                font-size: 14px;
+                                transition: color 0.3s ease;
+                            }
 
-                        .id:hover {
-                            text-decoration: underline;
-                            color: #ff4500;
-                        }
+                            .id:hover {
+                                text-decoration: underline;
+                                color: #ff4500;
+                            }
 
-                        tr:hover {
-                            background-color: #f5f5f5;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <table>
-                        <tr>
-                            <th style='color:#183D3D;'>Insights</th>
-                        </tr>
-                        <tr>
-                            <td><p class="id" >CO, or carbon monoxide, is the primary pollutant contributing to air pollution.</p></td>
-                        </tr>
-                        <tr>
-                            <td><p class="id">Between 4 am and 9 am, pollutant levels significantly decrease, only to peak again between 2 pm and 5 pm.</p></td>
-                        </tr>
-                        <tr>
-                            <td><p class="id">On Saturdays and Sundays, the overall pollutant levels tend to be lower compared to other days.</p></td>
-                        </tr>
-                        <tr>
-                            <td><p class="id">The highest pollutant levels occur in June, while the lowest levels are observed at the beginning and end of the year, namely in January and December</p></td>
-                        </tr>
-                    </table>
-                </body>
-                </html>""",unsafe_allow_html=True)
+                            tr:hover {
+                                background-color: #f5f5f5;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <table>
+                            <tr>
+                                <th style='color:#183D3D;'>Insights</th>
+                            </tr>
+                            <tr>
+                                <td><p class="id" >PM2.5 & PM10 is the primary pollutant contributing to air pollution.</p></td>
+                            </tr>
+                            <tr>
+                                <td><p class="id">Between 4 am and 9 am, pollutant levels significantly decrease, only to peak again between 2 pm and 5 pm.</p></td>
+                            </tr>
+                            <tr>
+                                <td><p class="id">On Saturdays and Sundays, the overall pollutant levels tend to be lower compared to other days.</p></td>
+                            </tr>
+                            <tr>
+                                <td><p class="id">The highest pollutant levels occur in June, while the lowest levels are observed at the beginning and end of the year, namely in January and December</p></td>
+                            </tr>
+                        </table>
+                    </body>
+                    </html>""",unsafe_allow_html=True)
+    else:
+        st.markdown("""
+                    <!DOCTYPE html>
+                    <html lang="en">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <style>
+                            table {
+                                width: 70%;
+                                border-collapse: collapse;
+                                margin-top: 20px;
+                                margin-left: 25px
+                            }
+
+                            th, td {
+                                border: 1px solid #dddddd;
+                                text-align: center;
+                                padding: 12px;
+                                transition: background-color 0.3s ease, color 0.3s ease;
+                            }
+
+                            th {
+                                background-color: #f2f2f2;
+                            }
+
+                            .id {
+                                color: #FFFD8C;
+                                text-decoration: none;
+                                font-weight: bold;
+                                font-size: 14px;
+                                transition: color 0.3s ease;
+                            }
+
+                            .id:hover {
+                                text-decoration: underline;
+                                color: #ff4500;
+                            }
+
+                            tr:hover {
+                                background-color: #f5f5f5;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <table>
+                            <tr>
+                                <th style='color:#183D3D;'>Insights</th>
+                            </tr>
+                            <tr>
+                                <td><p class="id" >CO, or carbon monoxide, is the primary pollutant contributing to air pollution.</p></td>
+                            </tr>
+                            <tr>
+                                <td><p class="id">Between 4 am and 9 am, pollutant levels significantly decrease, only to peak again between 2 pm and 5 pm.</p></td>
+                            </tr>
+                            <tr>
+                                <td><p class="id">On Saturdays and Sundays, the overall pollutant levels tend to be lower compared to other days.</p></td>
+                            </tr>
+                            <tr>
+                                <td><p class="id">The highest pollutant levels occur in June, while the lowest levels are observed at the beginning and end of the year, namely in January and December</p></td>
+                            </tr>
+                        </table>
+                    </body>
+                    </html>""",unsafe_allow_html=True)
 
 st.divider()
 st.subheader("Correlation")
