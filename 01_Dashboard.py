@@ -746,4 +746,92 @@ with st.container():
         st.plotly_chart(fig, use_container_width=True)
         st.markdown("**Conclusion** : The analysis reveals :blue[positive correlations], with **NO2** showing the :blue[strongest association (0.60)]. **PM2.5 and PM10** also exhibit a notable correlation of 0.52. **O3** has a lower positive correlation at 0.14.")
 
+
+st.divider()
+st.subheader("Health Impacts")
+with st.container():
+    col29,col30 = st.columns(2)
+    with col29: 
+        data = {
+                'Disease Cause': ['Cardiovascular', 'Respiratory'],
+                'PM2.5': [3043, 455],
+                'O3': [1357, 182]
+                    }
+        df = pd.DataFrame(data)
+        # Plot
+        fig = px.bar(df, 
+                     x='Disease Cause', 
+                     y=['PM2.5', 'O3'], 
+                     barmode='group', 
+                     labels={'value': 'Number of Cases a Year', 'variable': 'Attributable Indicator'},
+                     title='Number Cases of Disease by Attributable Indicators (Short Term)',
+                     color_discrete_sequence=px.colors.qualitative.Set2)
+        fig.update_layout(
+            paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
+            plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
+        )
+
+        # Streamlit App
+        st.plotly_chart(fig, use_container_width=True)
+    with col30 :
+       data = {
+    'Health Outcome': ['Infant Deaths', 'Stunting', 'Low Birth Weight', 'Preterm Births', 'Mortality'],
+    'Number of Cases': [327, 6153, 680, 62, 9692],
+            }
+       df = pd.DataFrame(data)
+       fig = px.bar(df, x='Health Outcome', y='Number of Cases', barmode='group',
+                    labels={'value': 'Number of Cases', 'variable': 'Air Pollution Attributable Indicator'},
+                    title='Number of Cases by Health Outcomes (Long-Term)', color_discrete_sequence=px.colors.qualitative.Set2)
+       fig.update_layout(
+            paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
+            plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
+        )
+        # Streamlit App
+       st.plotly_chart(fig,use_container_width=True)
+       with st.expander("see details") :
+           st.markdown("Source: [Link to the article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9963985/pdf/ijerph-20-02916.pdf)")
+           rates_data = {
+                "Infant Deaths": "2 per 1000 births",
+                "Stunting": "7 per 1000 children under 5",
+                "Low Birth Weight": "5 per 1000 births",
+                "Preterm Births": "4 per 10,000 births",
+                "Mortality (2019)": "88 per 100,000 population"
+            }
+           st.subheader("Rates:")
+           for key, value in rates_data.items():
+                st.write(f"{key}: {value}") 
+st.subheader("Economic Impacts")
+with st.container():
+    col31,col32 = st.columns([1.5,1])
+    with col31:
+        categories = ['Infant Deaths', 'Stunting', 'Adverse Birth', 'Mortality', 'Hospitalizations']
+        economic_cost = [92.93, 0.79, 1.10, 2842.41, 6.19]
+
+        # Create DataFrame
+        data = pd.DataFrame({'Categories': categories, 'Economic Cost (Million USD)': economic_cost})
+
+        # Plotly bar chart
+        fig = px.bar(data, x='Categories', y='Economic Cost (Million USD)',
+                    title='Annual Economic Cost of Health Impact Due to Air Pollution',
+                    color_discrete_sequence=px.colors.qualitative.Set2,
+                    text='Economic Cost (Million USD)')
+        fig.update_layout(
+            paper_bgcolor='rgba(0, 0, 0, 0)',  # Set transparent background
+            plot_bgcolor='rgba(0, 0, 0, 0)',   # Set transparent background for the plot area
+        )
+        fig.update_yaxes(showgrid=False,showticklabels=False)
+        # Display the chart
+        st.plotly_chart(fig,use_container_width=True)
+    with col32:
+        st.markdown("""
+
+1. **Short-Term Health Impact:**
+   - Cardiovascular diseases show a higher number of cases than respiratory diseases due to PM2.5 and O3.
+
+2. **Long-Term Health Impact:**
+   - Stunting and mortality present notably high numbers of cases, emphasizing the chronic health burden of air pollution.
+
+3. **Economic Consequences:**
+   - The economic cost chart reveals substantial financial burdens, with notable contributions from infant deaths and mortality.
+""")    
 st.divider()
