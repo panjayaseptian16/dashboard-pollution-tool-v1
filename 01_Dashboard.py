@@ -835,3 +835,73 @@ with st.container():
    - The economic cost chart reveals substantial financial burdens, with notable contributions from infant deaths and mortality.
 """)    
 st.divider()
+with st.container():
+    st.subheader("Public Perception")
+    st.caption("Source : Breathing in Jakarta by @Internews - 2022")
+    col33,col34 = st.columns(2)
+    with col33:
+        # Data
+        categories = [
+            "Health Impact",
+            "Ecological Impact",
+            "Economic Impact",
+            "Air Pollution Data",
+            "High Pollution Notifications",
+            "Prevention and Decrease",
+            "Efforts to Improve Air Quality",
+            "Causes of Pollution",
+            "Others"
+        ]
+        percentages = [63.3, 28.1, 7.6, 33.3, 45.7, 35.7, 23.8, 19.5, 0.5]
+
+        # Create DataFrame
+        data = pd.DataFrame({'Categories': categories, 'Percentages': percentages})
+
+        # Plotly horizontal bar chart
+        fig = px.bar(data, x='Percentages', y='Categories', orientation='h',
+                    labels={'Percentages': 'Percentage (%)', 'Categories': 'Information Categories'},
+                    title='User Preferences on Air Pollution Information',
+                    color='Percentages', color_continuous_scale='Viridis',
+                    category_orders={"Categories": sorted(categories, key=lambda x: percentages[categories.index(x)], reverse=True)})
+
+        # Display the chart
+        st.plotly_chart(fig, use_container_width=True)
+    with col34:
+        challenges = [
+        "Have No Time to Access Information",
+        "Information is Difficult to Understand",
+        "Have No Access to TV/Radio",
+        "Have No Access to the Internet",
+        "Do Not Trust the Information",
+        "Have No Access to Local Authority",
+        "No Available Information",
+        "Lack of Knowledge of Information Sources",
+        "Not Interested",
+        "Others"
+        ]
+        percentages = [34.0, 19.1, 2.1, 0.0, 4.3, 20.2, 26.6, 57.4, 2.1, 7.4]
+
+        # Create DataFrame
+        data = pd.DataFrame({'Challenges': challenges, 'Percentages': percentages})
+
+        # Plotly horizontal bar chart
+        fig = px.bar(data, x='Percentages', y='Challenges', orientation='h',
+                    labels={'Percentages': 'Percentage (%)', 'Challenges': 'Challenges'},
+                    title='Challenges in Obtaining Information on Air Pollution',
+                    color='Percentages', color_continuous_scale='Viridis',
+                    category_orders={"Challenges": sorted(challenges, key=lambda x: percentages[challenges.index(x)], reverse=True)})
+
+        # Plotly horizontal bar chart with y-axis on the right
+        
+        st.plotly_chart(fig, use_container_width=True)
+    col35,col36 = st.columns(2)
+    with col35: 
+        st.markdown("**Conclusion 1: User Preferences on Air Pollution Information**\n\n"
+            "The majority prioritize 'Health Impact' (63.3%) and 'High Pollution Notifications' (45.7%), "
+            "indicating a strong concern for personal well-being and timely awareness of pollution levels. "
+            "This insight can guide tailored communication strategies.")
+    with col36:
+        st.markdown("**Conclusion 2: Challenges in Obtaining Information**\n\n"
+            "The top challenges include 'Lack of Knowledge of Information Sources' (57.4%) and "
+            "'Have No Time to Access Information' (34.0%). Addressing these issues can improve accessibility "
+            "and ensure that information is delivered in a way that fits into users' schedules.")
