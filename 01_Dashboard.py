@@ -856,7 +856,7 @@ with st.container():
         # Streamlit App
        st.plotly_chart(fig,use_container_width=True)
        with st.expander("see details") :
-           st.markdown("Source: [International Journal of Enviromental Research and Public Healtj](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9963985/pdf/ijerph-20-02916.pdf)")
+           st.markdown("Source: [International Journal of Enviromental Research and Public Health](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9963985/pdf/ijerph-20-02916.pdf)")
            rates_data = {
                 "Infant Deaths": "2 per 1000 births",
                 "Stunting": "7 per 1000 children under 5",
