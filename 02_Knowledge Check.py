@@ -604,8 +604,9 @@ with tab1:
                             """,
                             unsafe_allow_html=True,
                         )
-
-
+                    from PIL import Image
+                    image = Image.open('sources.png')
+                    st.image(image, caption='Sources of Air Pollution', use_column_width=True)
         else: 
                 st.error('Kamu belum mengisi semua form', icon="🚨")
 

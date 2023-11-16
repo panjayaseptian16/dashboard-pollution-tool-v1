@@ -789,7 +789,7 @@ with st.container():
         # Streamlit App
        st.plotly_chart(fig,use_container_width=True)
        with st.expander("see details") :
-           st.markdown("Source: [Link to the article](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9963985/pdf/ijerph-20-02916.pdf)")
+           st.markdown("Source: [International Journal of Enviromental Research and Public Healtj](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9963985/pdf/ijerph-20-02916.pdf)")
            rates_data = {
                 "Infant Deaths": "2 per 1000 births",
                 "Stunting": "7 per 1000 children under 5",
@@ -905,3 +905,4 @@ with st.container():
             "The top challenges include 'Lack of Knowledge of Information Sources' (57.4%) and "
             "'Have No Time to Access Information' (34.0%). Addressing these issues can improve accessibility "
             "and ensure that information is delivered in a way that fits into users' schedules.")
+st.divider()

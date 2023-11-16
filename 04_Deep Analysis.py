@@ -10,7 +10,7 @@ import scipy.stats as stats
 st.set_page_config(
     page_title="Deep Analysis",
     page_icon="🕵️‍♂️",
-    layout="centered",
+    layout="wide",
     initial_sidebar_state="auto"
     )
 
@@ -327,3 +327,222 @@ with tab1:
             "Dry Season (April-September)",
             "Rainy Season (October-March)"
         )
+
+with st.container():
+    with tab2: 
+        import streamlit as st
+
+        # Custom CSS styling for a more visually appealing presentation
+        custom_style = """
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f5f5f5;
+                margin: 0;
+                padding: 0;
+                text-align: center;
+            }
+
+            .card {
+                padding: 20px;
+                margin: 20px;
+                background-color: #183D3D;
+                border-radius: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                transition: box-shadow 0.3s ease;
+                text-align:left;
+            }
+
+            .card:hover {
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            }
+
+            .fade-in {
+                opacity: 0;
+                animation: fadeIn 1s forwards;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+        </style>
+        """
+
+        # Injecting custom CSS
+        st.markdown(custom_style, unsafe_allow_html=True)
+
+        # Layout
+        col1, col2 = st.columns(2)
+        col3, col4 = st.columns(2)
+
+        # Strengths
+        with col1:
+            st.markdown("<div class='card fade-in'>"
+                        "<h2>Strengths</h2>"
+                        "<ol>"
+                        "<li><b>Seasonal Patterns Awareness:</b> Understanding and leveraging knowledge of seasonal pollution patterns for targeted interventions.</li>"
+                        "<li><b>Identification of Critical Pollutants:</b> Pinpointing major pollutants (CO, NO2, PM2.5, PM10, O3) allows for precise mitigation strategies.</li>"
+                        "<li><b>Data-Driven Forecasting:</b> Utilizing forecasting models like Prophet for proactive measures and resource allocation.</li>"
+                        "<li><b>Public Awareness Preferences:</b> Recognizing user priorities (Health Impact, High Pollution Notifications) for effective communication.</li>"
+                        "</ol>"
+                        "</div>", unsafe_allow_html=True)
+
+        # Weaknesses
+        with col2:
+            st.markdown("<div class='card fade-in'>"
+                        "<h2>Weaknesses</h2>"
+                        "<ol>"
+                        "<li><b>Ineffective Policies:</b> Presence of unhealthy AQI levels suggests ineffective policies or enforcement.</li>"
+                        "<li><b>Weekend Variation:</b> Higher AQI on Sundays indicates a potential gap in pollution control measures during weekends.</li>"
+                        "<li><b>Limited Impact During WFH:</b> Despite WFH, overall AQI did not increase, suggesting potential weaknesses in remote work scenarios.</li>"
+                        "</ol>"
+                        "</div>", unsafe_allow_html=True)
+
+        # Opportunities
+        with col3:
+            st.markdown("<div class='card fade-in'>"
+                        "<h2>Opportunities</h2>"
+                        "<ol>"
+                        "<li><b>Targeted Intervention During Dry Season:</b> Focused interventions during the Dry Season, addressing the significant decrease in air quality.</li>"
+                        "<li><b>Public Health Emphasis:</b> Opportunities to implement health-focused policies and public health campaigns.</li>"
+                        "<li><b>User Preferences Guidance:</b> Development of user-centric apps, notification systems, and campaigns based on health priorities.</li>"
+                        "</ol>"
+                        "</div>", unsafe_allow_html=True)
+
+        # Threats
+        with col4:
+            st.markdown("<div class='card fade-in'>"
+                        "<h2>Threats</h2>"
+                        "<ol>"
+                        "<li><b>Economic Consequences:</b> Economic burden associated with pollution, emphasizing the need for effective pollution control.</li>"
+                        "<li><b>Unpredictable AQI Spikes:</b> Constant threat to public health due to unpredictable spikes in AQI values.</li>"
+                        "<li><b>Challenges in Information Accessibility:</b> Barriers like a lack of information sources knowledge and limited time can hinder effective communication.</li>"
+                        "</ol>"
+                        "</div>", unsafe_allow_html=True)
+        
+            
+    with tab3:
+        with st.container():
+                # Custom CSS styling for a more visually appealing presentation
+                custom_style = """
+                <style>
+                    body {
+                        font-family: 'Arial', sans-serif;
+                        background-color: #f5f5f5;
+                        margin: 0;
+                        padding: 0;
+                        text-align: center;
+                    }
+
+                    #header {
+                        background-color: #183D3D;
+                        padding: 20px;
+                        color: white;
+                        font-size: 24px;
+                        font-weight: bold;
+                        transition: background-color 0.3s ease;
+                        border-radius: 10px;
+                    }
+
+                    #header:hover {
+                        background-color: #2A5E5A;
+                    }
+
+                    .recommendation {
+                        margin: 20px;
+                        padding: 20px;
+                        background-color: #183D3D;
+                        border-radius: 10px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        transition: box-shadow 0.3s ease;
+                    }
+
+                    .recommendation:hover {
+                        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                    }
+
+                    .fade-in {
+                        opacity: 0;
+                        animation: fadeIn 1s forwards;
+                    }
+
+                    @keyframes fadeIn {
+                        from {
+                            opacity: 0;
+                        }
+                        to {
+                            opacity: 1;
+                        }
+                    }
+
+                    .card {
+                        padding: 10px;
+                        margin: 10px;
+                        border-radius: 8px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        transition: box-shadow 0.3s ease;
+                    }
+
+                    .card:hover {
+                        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                    }
+                </style>
+                """
+
+                # Injecting custom CSS
+                st.markdown(custom_style, unsafe_allow_html=True)
+
+                # Header
+                st.markdown("<div id='header'>Air Quality Improvement Recommendations</div>", unsafe_allow_html=True)
+
+                # Recommendation 1
+                st.markdown("<div class='recommendation fade-in'>"
+                            "<h2>Recommendation 1: Knowledge Check - Enhancing Awareness and Personalized Information</h2>"
+                            "<div class='card'>"
+                            "<b>Description:</b> Implementation of the Knowledge Check aims to assess public knowledge regarding air pollution in Jakarta. Upon completing the quiz, users will receive personalized video and article recommendations based on their understanding."
+                            "</div>"
+                            "<div class='card'>"
+                            "<h3>Benefits:</h3>"
+                            "<ul>"
+                            "<li>Increased Awareness: The Knowledge Check will elevate public awareness of air pollution issues by providing information tailored to their knowledge levels.</li>"
+                            "<li>Personalized Recommendations: Personalized video and article recommendations ensure users receive content relevant to their understanding.</li>"
+                            "<li>Real-time Statistics: Developers can offer real-time statistics to the government for in-depth analysis of public understanding and needs related to air pollution.</li>"
+                            "</ul>"
+                            "</div>"
+                            "<div class='card'>"
+                            "<h3>Action Plan:</h3>"
+                            "<ol>"
+                            "<li>Knowledge Check Development: Create an interactive quiz with tailored questions to measure public knowledge.</li>"
+                            "<li>Content Recommendation Implementation: Integrate a content recommendation system that provides videos and articles based on Knowledge Check results.</li>"
+                            "<li>Real-time Dashboard: Develop a real-time dashboard for developers and the government to monitor statistics on answers, age, gender, and user locations.</li>"
+                            "</ol>"
+                            "</div>"
+                            "</div>", unsafe_allow_html=True)
+
+                # Recommendation 2
+                st.markdown("<div class='recommendation fade-in'>"
+                            "<h2>Recommendation 2: Personal Pollution Tracker - Measuring and Reducing Personal Impact</h2>"
+                            "<div class='card'>"
+                            "<b>Description:</b> The Personal Pollution Tracker enables users to measure the pollution impact generated from their daily activities. Users can visualize the composition of their impact through a pie chart. For developers, real-time data collected can be used for further analysis and provide valuable information to the government to design programs that are more tailored to individual needs."
+                            "</div>"
+                            "<div class='card'>"
+                            "<h3>Benefits:</h3>"
+                            "<ul>"
+                            "<li>Personalized Awareness: Allows users to see their personal impact, enhancing awareness of individual contributions to air pollution.</li>"
+                            "<li>Basis for Policy: Real-time data can offer insights to the government on activities with significant impact, aiding in designing more effective policies.</li>"
+                            "<li>Reducing Personal Impact: By understanding their activity's impact, users can take actions to reduce their personal pollution impact.</li>"
+                            "</ul>"
+                            "</div>"
+                            "<div class='card'>"
+                            "<h3>Action Plan:</h3>"
+                            "<ol>"
+                            "<li>Personal Pollution Tracker Development: Create an interactive application or platform enabling users to record and view their personal pollution impact.</li>"
+                            "<li>Real-time Database: Build a real-time database to store user data, providing direct access to developers and the government.</li>"
+                            "</ol>"
+                            "</div>"
+                            "</div>", unsafe_allow_html=True)
