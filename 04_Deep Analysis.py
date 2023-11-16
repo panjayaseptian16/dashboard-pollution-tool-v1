@@ -383,7 +383,7 @@ with st.container():
 
         # Strengths
         with col1:
-            st.markdown("<div class='card fade-in'>"
+            st.markdown("<div class='card fade-in' style='background-color: #183D3D;'>"
                         "<h2 style='font-size:18px;'>Strengths</h2>"
                         "<ol>"
                         "<li><b>Seasonal Patterns Awareness:</b> Understanding and leveraging knowledge of seasonal pollution patterns for targeted interventions.</li>"
@@ -395,7 +395,7 @@ with st.container():
 
         # Weaknesses
         with col2:
-            st.markdown("<div class='card fade-in'>"
+            st.markdown("<div class='card fade-in' style='background-color: #183D3D;>"
                         "<h2 style='font-size:18px;'>Weaknesses</h2>"
                         "<ol>"
                         "<li><b>Ineffective Policies:</b> Presence of unhealthy AQI levels suggests ineffective policies or enforcement.</li>"
@@ -406,7 +406,7 @@ with st.container():
 
         # Opportunities
         with col3:
-            st.markdown("<div class='card fade-in'>"
+            st.markdown("<div class='card fade-in' style='background-color: #183D3D;>"
                         "<h2 style='font-size:18px;'>Opportunities</h2>"
                         "<ol>"
                         "<li><b>Targeted Intervention During Dry Season:</b> Focused interventions during the Dry Season, addressing the significant decrease in air quality.</li>"
@@ -417,7 +417,7 @@ with st.container():
 
         # Threats
         with col4:
-            st.markdown("<div class='card fade-in'>"
+            st.markdown("<div class='card fade-in' style='background-color: #183D3D;>"
                         "<h2 style='font-size:18px;'>Threats</h2>"
                         "<ol>"
                         "<li><b>Economic Consequences:</b> Economic burden associated with pollution, emphasizing the need for effective pollution control.</li>"

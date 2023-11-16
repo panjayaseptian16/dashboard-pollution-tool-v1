@@ -64,29 +64,30 @@ with tab3:
                                 <th style='color:#183D3D;'>Estimate Emission Factor Source-Data</th>
                             </tr>
                             <tr>
-                                <td><a href="https://indonesia.go.id/kategori/indonesia-dalam-angka/2533/membenahi-tata-kelola-sampah-nasional">Rata-rata sampah harian per individu</a></td>
+                                <td><a href="https://indonesia.go.id/kategori/indonesia-dalam-angka/2533/membenahi-tata-kelola-sampah-nasional">Average daily waste per individual</a></td>
                             </tr>
                             <tr>
-                                <td><a href="https://ppkl.menlhk.go.id/website/filebox/609/190710181542PEDOMAN%20TEKNIS%20PENYUSUNAN%20INVENTARISASI%20EMISI.pdf">LPG & Pesawat (Aviation)</a></td>
+                                <td><a href="https://ppkl.menlhk.go.id/website/filebox/609/190710181542PEDOMAN%20TEKNIS%20PENYUSUNAN%20INVENTARISASI%20EMISI.pdf">LPG & Aviation</a></td>
                             </tr>
                             <tr>
-                                <td><a href="https://js.bsn.go.id/index.php/standardisasi/article/view/792/pdf">KRL Emission</a></td>
+                                <td><a href="https://js.bsn.go.id/index.php/standardisasi/article/view/792/pdf">Train Emission</a></td>
                             </tr>
                             <tr>
                                 <td><a href="https://ppis.bsn.go.id/downloads/2021/Life%20Cycle%20Assessment%20Penggunaan%20Bahan%20Bakar,%20Refrigeran%20dan%20Energi%20Listrik%20pada%20Transjakarta.pdf">Transjakarta</a></td>
                             </tr>
                             <tr>
-                                <td><a href="https://jakartamrt.co.id/id/info-terkini/24-juta-lebih-orang-gunakan-mrt-jakarta-pada-desember-2022">MRT - Rata-rata perhari Desember 2022</a></td>
+                                <td><a href="https://jakartamrt.co.id/id/info-terkini/24-juta-lebih-orang-gunakan-mrt-jakarta-pada-desember-2022">MRT - Average daily ridership in December 2022</a></td>
                             </tr>
                             <tr>
-                                <td><a href="https://jakartamrt.co.id/sites/default/files/2023-07/Sustainability%20Report%20MRT%20Jakarta%202022.pdf">MRT - CO2 Ton Desember 2022</a></td>
+                                <td><a href="https://jakartamrt.co.id/sites/default/files/2023-07/Sustainability%20Report%20MRT%20Jakarta%202022.pdf">MRT - CO2 Tons in December 2022</a></td>
                             </tr>
                             <tr>
-                                <td><a href="http://komara.weebly.com/uploads/6/5/3/7/6537907/g_permen_lh_12_2010_pelaksanaan_pengendalian_pencemaran_udara_di_daerah.pdf">Motor & Mobil</a></td>
+                                <td><a href="http://komara.weebly.com/uploads/6/5/3/7/6537907/g_permen_lh_12_2010_pelaksanaan_pengendalian_pencemaran_udara_di_daerah.pdf">Motorcycles & Cars</a></td>
                             </tr>
                             <tr>
-                                <td><a href="https://www.tandfonline.com/doi/epdf/10.1080/02786826.2017.1300231?needAccess=true">Rokok</a></td>
+                                <td><a href="https://www.tandfonline.com/doi/epdf/10.1080/02786826.2017.1300231?needAccess=true">Cigarettes</a></td>
                             </tr>
+
                         </table>
                     </body>
                     </html>""",unsafe_allow_html=True)
