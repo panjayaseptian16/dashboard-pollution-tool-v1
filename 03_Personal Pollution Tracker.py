@@ -87,7 +87,6 @@ with tab3:
                             <tr>
                                 <td><a href="https://www.tandfonline.com/doi/epdf/10.1080/02786826.2017.1300231?needAccess=true">Cigarettes</a></td>
                             </tr>
-
                         </table>
                     </body>
                     </html>""",unsafe_allow_html=True)
