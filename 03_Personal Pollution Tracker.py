@@ -543,9 +543,13 @@ if tab2_access_granted:
             st.markdown(f"<h3 style='text-align: center;'>Transportation</h3>", unsafe_allow_html=True)
             col9,col10,col11 = st.columns(3)
             with col9: 
-                transportation_data = df[["Total KM Motor per hari", "Total KM Mobil per hari", "Total KM Angkot per hari"]].iloc[0]
+                transportation_data = df[["Total KM Motor per hari", "Total KM Mobil per hari", "Total KM Angkot per hari"]]
+                total_km_motor = transportation_data["Total KM Motor per hari"].sum()
+                total_km_mobil = transportation_data["Total KM Mobil per hari"].sum()
+                total_km_angkot = transportation_data["Total KM Angkot per hari"].sum()
+                values = [total_km_motor, total_km_mobil, total_km_angkot]
                 fig, ax = plt.subplots()
-                ax.pie(transportation_data, labels=['Daily Motorcycle Mileage (km)', 'Daily Car Mileage (km)', 'Daily Angkot Mileage (km)'], autopct='%1.1f%%', startangle=90,
+                ax.pie(values, labels=['Daily Motorcycle Mileage (km)', 'Daily Car Mileage (km)', 'Daily Angkot Mileage (km)'], autopct='%1.1f%%', startangle=90,
                     colors=['skyblue', 'lightcoral', 'lightgreen'])
                 ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular.
                 plt.title('Transportation Habits')
