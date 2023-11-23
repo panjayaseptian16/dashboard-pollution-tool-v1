@@ -554,7 +554,6 @@ if tab2_access_granted:
                 ax.axis('equal')  # Equal aspect ratio ensures the pie chart is circular.
                 plt.title('Transportation Habits')
                 plt.xlabel('Mode of Transportation')
-                plt.ylabel('Percentage')
                 st.pyplot(fig,use_container_width=True)
             with col10: 
                 # Menghitung total penerbangan domestik dan internasional
