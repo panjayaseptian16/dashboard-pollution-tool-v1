@@ -557,12 +557,24 @@ if tab2_access_granted:
                 plt.ylabel('Percentage')
                 st.pyplot(fig,use_container_width=True)
             with col10: 
+                # Menghitung total penerbangan domestik dan internasional
+                total_domestic_flights = df['Penerbangan Domestik'].sum()
+                total_international_flights = df['Penerbangan Internasional'].sum()
+
+                # Membuat DataFrame baru untuk digunakan pada seaborn
+                df_bar = pd.DataFrame({
+                    'Flight Type': ['Domestic', 'International'],
+                    'Total Flights': [total_domestic_flights, total_international_flights]
+                })
+                # Membuat bar plot horizontal menggunakan seaborn
                 fig, ax = plt.subplots()
-                ax.scatter(df['Penerbangan Domestik'], df['Penerbangan Internasional'], s=df['Penerbangan Internasional']*10, alpha=0.5)
-                ax.set_title("Domestic Flights vs International Flights")
-                ax.set_xlabel("Domestic Flights")
-                ax.set_ylabel("International Flights")
-                st.pyplot(fig,use_container_width=True)
+                sns.barplot(x='Total Flights', y='Flight Type', data=df_bar, palette=['skyblue', 'lightcoral'], orient='horizontal')
+                ax.set_xlabel('Number of Flights')
+                ax.set_ylabel('Flight Type')
+                ax.set_title('Domestic Flights vs International Flights')
+                # Hapus st.pyplot() jika menjalankan di lingkungan lokal
+                st.pyplot(fig)
+
             with col11:
                 transport_counts = df[['KRL', 'Transjakarta', 'MRT']].sum()
                 fig, ax = plt.subplots()
