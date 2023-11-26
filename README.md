@@ -1,5 +1,7 @@
 # AirWise Jakarta - Capstone Project
 
+![Screenshot 1](screenshot1.png)
+
 ## Overview
 
 AirWise Jakarta is a Data Analyst Capstone Project focusing on SDG 11.6, addressing air pollution in Jakarta.
