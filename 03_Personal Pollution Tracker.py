@@ -435,14 +435,20 @@ with tab1:
 expected_password = st.secrets["tab2_password"]
 tab2_access_granted = False
 
-with tab2:
+with st.form("password_form"):
     password = st.text_input("Enter Password (Developer Only)", type="password")
-    if password == expected_password:
-        st.success("Correct Password! You can access Tab 2.")
-        tab2_access_granted = True
-    else:
-        st.warning("Incorrect Password! Please try again.")
-        tab2_access_granted = False
+    submit_button = st.form_submit_button("Submit")
+
+    if submit_button:
+        if password == expected_password:
+            st.success("Correct Password! You can access Tab 2.")
+            tab2_access_granted = True
+        else:
+            if not password:
+                st.warning("Please enter a password.")
+            else:
+                st.warning("Incorrect Password! Please try again.")
+            tab2_access_granted = False
 
 if tab2_access_granted:
     tab2 = st.tabs(["Statistics"])
