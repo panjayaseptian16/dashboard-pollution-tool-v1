@@ -12,10 +12,14 @@ st.set_page_config(
     initial_sidebar_state="auto"
     )
 
-# Either this or add_indentation() MUST be called on each page in your
-# app to add indendation in the sidebar
 show_pages_from_config()
-
+hide_streamlit_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 st.markdown("""
           <!DOCTYPE html>
