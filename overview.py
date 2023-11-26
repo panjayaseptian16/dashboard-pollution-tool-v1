@@ -16,13 +16,6 @@ st.set_page_config(
 # app to add indendation in the sidebar
 show_pages_from_config()
 
-hide_streamlit_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 st.markdown("""
           <!DOCTYPE html>
