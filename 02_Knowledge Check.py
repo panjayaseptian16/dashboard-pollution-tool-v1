@@ -5,6 +5,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import math
 import seaborn as sns
+import warnings
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 st.set_page_config(
     page_title="Knowledge Check",
