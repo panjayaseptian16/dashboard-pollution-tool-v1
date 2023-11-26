@@ -43,16 +43,19 @@ with st.container():
         st.markdown("""
                     <h1 style="margin-bottom: 0x; color:#FFFD8C; font-family: monospace;"> Get in touch With Us </h1>""", unsafe_allow_html=True)
         
-name = st.text_input("Your name", value=None, max_chars=50, placeholder="Please insert your name")
-organization = st.text_input("Your organization (optional)", placeholder="Optional: Company, School, etc.")
-message = st.text_area("Your feedback or suggestions (please be as specific as possible)", value=None, placeholder="Share your thoughts...")
+with st.form("feedback_form"):
+    name = st.text_input("Your name", value=None, max_chars=50, placeholder="Please insert your name")
+    organization = st.text_input("Your organization (optional)", placeholder="Optional: Company, School, etc.")
+    message = st.text_area("Your feedback or suggestions (please be as specific as possible)", value=None, placeholder="Share your thoughts...")
 
-st.markdown("Rate Our Project:")
-rating = st.radio("Select your rating:", options=[1, 2, 3, 4, 5], horizontal=True, index=None)
+    st.markdown("Rate Our Project:")
+    rating = st.radio("Select your rating:", options=[1, 2, 3, 4, 5], index=None, horizontal=True)
 
-if st.button("Send") and name and message and rating:
-    on_submit(name, organization, message, rating)
-    st.success("Thanks for your support! 🔥")
-else:
-    st.error("Please fill out the form completely.")
+    submit_button = st.form_submit_button("Send")
 
+    if submit_button:
+        if not name or not message or not rating:
+            st.error("Please fill out the form completely.")
+        else:
+            on_submit(name, organization, message, rating)
+            st.success("Thanks for your support! 🔥")
