@@ -67,7 +67,7 @@ st.title('Knowledge Check on Pollution')
 
 tab1, tab2= st.tabs(["Knowledge Quiz", "Statistics"])
 
- tab1:
+with tab1:
         name = st.text_input('Nama:', placeholder='Masukkan nama Anda', help='Nama tidak boleh kosong')
         sex = st.selectbox('Jenis Kelamin:',('Laki-Laki', 'Perempuan'), index=None, help='Pilih jenis kelamin anda')
         age = st.number_input('Umur:',  min_value=17, max_value=50, step=1, help='Umur minimal 17 tahun dan maksimal 50 tahun', value=None, placeholder="Masukkan umur Anda")
