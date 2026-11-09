@@ -8,7 +8,7 @@ plotly-express==0.4.1
 datetime
 requests
 SQLAlchemy==1.4
-deta==1.2.0
+deta @ git+https://github.com/deta/deta-python.git@930b94358a1aaf2355f27522b326792f26f38d05
 matplotlib==3.8.1
 numpy==1.26.1
 prophet==1.1.5
