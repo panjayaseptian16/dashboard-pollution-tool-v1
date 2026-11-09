@@ -208,7 +208,7 @@ with st.container():
 
             
         with col2:
-           caption = "Air pollution in Jakarta is still a cause for concern, even though AQI has fluctuated from 2018 to 2023 and always decreased during the end and beginning of the year. The median of AQI in Jakarta is still predominantly in the <span style='color:red;font-weight:bold;'>Unhealthy</span> and <span style='color:yellow;font-weight:bold;'>Moderate</span> level, which means that air pollution in Jakarta can still have a negative impact on the public. This implies that there hasn't been any effective policy or program to address this issue significantly."
+           caption = "Air pollution in Jakarta is still a cause for concern, even though AQI has fluctuated from 2018 to 2023 and always decreased during the end and beginning of the year. The median of AQI in Jakarta is still predominantly in the <span style='color:red;font-weight:bold;'>Unhealthy</span> and <span style='color:yellow;font-weight:bold;'>Moderate</span> level, which means that air pollution in Jakarta can still have a negative impact on the public. AQI stayed in the moderate-to-unhealthy range for most of the period; this chart alone cannot establish whether any policy or programme caused the pattern."
            st.markdown(f"<p style='text-align: center; margin-top: 25%;'>{caption}</p>", unsafe_allow_html=True)
 
     # Buat tab kedua
