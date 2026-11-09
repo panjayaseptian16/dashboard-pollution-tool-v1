@@ -12,6 +12,7 @@ deta @ git+https://github.com/deta/deta-python.git@930b94358a1aaf2355f27522b3267
 matplotlib==3.8.1
 numpy==1.26.1
 prophet==1.1.5
+cmdstanpy==1.2.0
 scipy==1.11.3
 scikit-learn==1.3.2
 st-pages==0.4.5
