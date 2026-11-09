@@ -22,87 +22,39 @@ hide_streamlit_style = """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 st.markdown("""
-          <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome! Pollution Ranger</title>
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f3f3f3;
-            font-family: 'Arial', sans-serif;
-        }
-
-        .text-container {
+        .hero-text {
             text-align: center;
-            position: relative;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .text {
-            font-size: 3rem;
-            white-space: nowrap;
-            overflow: hidden;
+            font-size: clamp(1.6rem, 6vw, 3rem);
+            font-weight: bold;
+            white-space: normal;
+            overflow: visible;
             border-right: 0.15em solid;
-            animation: animate-text 5s infinite;
+            animation: hero-text-colors 5s infinite;
             transition: all 0.3s ease;
+            margin: 1.5rem 0;
         }
 
-        .text:hover {
+        .hero-text:hover {
             color: #ff9900;
-            transform: scale(1.2);
+            transform: scale(1.05);
         }
 
-        @keyframes animate-text {
-            0% {
-                color: #ff0000;
-            }
-            10% {
-                color: #ff7f00;
-            }
-            20% {
-                color: #ffff00;
-            }
-            30% {
-                color: #00ff00;
-            }
-            40% {
-                color: #00ff7f;
-            }
-            50% {
-                color: #00ffff;
-            }
-            60% {
-                color: #007fff;
-            }
-            70% {
-                color: #0000ff;
-            }
-            80% {
-                color: #7f00ff;
-            }
-            90% {
-                color: #ff00ff;
-            }
-            100% {
-                color: #ff0000;
-            }
+        @keyframes hero-text-colors {
+            0% { color: #ff0000; }
+            10% { color: #ff7f00; }
+            20% { color: #ffff00; }
+            30% { color: #00ff00; }
+            40% { color: #00ff7f; }
+            50% { color: #00ffff; }
+            60% { color: #007fff; }
+            70% { color: #0000ff; }
+            80% { color: #7f00ff; }
+            90% { color: #ff00ff; }
+            100% { color: #ff0000; }
         }
     </style>
-</head>
-<body>
-    <div class="text-container">
-        <h1 class="text">Welcome! Pollution Ranger</h1>
-    </div>
-</body>
-</html>
+    <h1 class="hero-text">Welcome! Pollution Ranger</h1>
 """, unsafe_allow_html=True
 )
 
@@ -123,7 +75,7 @@ with col1:
     st.markdown("<h3 style='text-align: center;color: #008080;'>About Our Project</h3>", unsafe_allow_html=True)
     st.markdown(
     """
-    <p style='text-align: center;'>Air pollution is a <span style='color: #008080; font-weight: bold;'>persistent threat</span> in Jakarta, with the air quality consistently at unhealthy levels for the past 5 years.</p>
+    <p style='text-align: center;'>Air pollution is a <span style='color: #008080; font-weight: bold;'>persistent threat</span> in Jakarta, with the air quality frequently at unhealthy or moderate levels across 2018–2023.</p>
     <p style='text-align: center;'>Our mission is to <span style='color: #008080; font-weight: bold;'>raise awareness</span> and prompt action. Through our website, we provide real-time air quality data and temperature monitoring, empowering individuals to track their contributions to pollution.</p>
     <p style='text-align: center;'>Recognizing the urgency, we foster a community-driven effort through the <span style='color: #008080; font-weight: bold;'>Pollution Ranger task force</span>. These dedicated individuals monitor and address air pollution within their communities, advocating for change and inspiring others to join the cause.</p>
     """, unsafe_allow_html=True)
