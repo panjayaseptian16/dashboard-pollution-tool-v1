@@ -200,7 +200,7 @@ with st.container():
             <h3 style='text-align:center;font-size:20px;'> Team Leader </h3>
             <div class="our-team">
                 <div class="profile">
-                    <img src="https://drive.google.com/uc?export=view&id=1S2YdHLmzTA-m6qCHvbsFeQSfNg1_S7Uc" alt="">
+                    <img src="https://drive.google.com/thumbnail?id=1S2YdHLmzTA-m6qCHvbsFeQSfNg1_S7Uc" alt="">
                     <h3 style='color:#183D3D;'>Septian Panjaya</h3>
                     <a href="https://www.linkedin.com/in/septian-panjaya"><button>LinkedIn</button></a>
                 </div>
@@ -262,7 +262,7 @@ with st.container():
             <h3 style='text-align:center;font-size:20px;'> Team Member </h3>
             <div class="our-team">
                 <div class="profile">
-                    <img src="https://drive.google.com/uc?export=view&id=1cP4zUoHT6XjW_imoDDFDvnLJn37OKr8o" alt="">
+                    <img src="https://drive.google.com/thumbnail?id=1cP4zUoHT6XjW_imoDDFDvnLJn37OKr8o" alt="">
                     <h3 style='color:#183D3D;'>Katon Bagaskara</h3>
                     <a href="https://www.linkedin.com/in/katonbk"><button>LinkedIn</button></a>
                 </div>
@@ -325,7 +325,7 @@ with st.container():
             <h3 style='text-align:center;font-size:20px;'> Team Coach </h3>
             <div class="our-team">
                 <div class="profile">
-                    <img src="https://drive.google.com/uc?export=view&id=151O1cYGzt7IavTX8j2r4XlB0Q-g-tkWV" alt="">
+                    <img src="https://drive.google.com/thumbnail?id=151O1cYGzt7IavTX8j2r4XlB0Q-g-tkWV" alt="">
                     <h3 style='color:#183D3D;'>I Wayan Nadiantara</h3>
                     <a href="https://www.linkedin.com/in/nadiantara"><button>LinkedIn</button></a>
                 </div>
